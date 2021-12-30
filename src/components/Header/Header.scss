@@ -1,0 +1,19 @@
+@import "/src/scss/variables.scss";
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  width: 100%;
+  background-color: $blue;
+  color: white;
+
+  &__bars,
+  &__logo {
+    font-size: 2rem;
+    padding: 0.5rem;
+    color: inherit;
+    cursor: pointer;
+  }
+}
