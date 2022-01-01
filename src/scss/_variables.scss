@@ -1,6 +1,7 @@
 // colors
 $blue: #2a6fd9;
 $blue-dark: #19283e;
+$blue-dark-accent: #273852;
 $white: white;
 $black: black;
 $gray: gray;
@@ -9,6 +10,6 @@ $gray: gray;
 
 $main-gradient: linear-gradient(
   150deg,
-  rgba(20, 25, 32, 1) 0%,
-  rgba(39, 56, 82, 1) 100%
+  rgb(13, 16, 20) 0%,
+  rgb(32, 47, 68) 100%
 );
