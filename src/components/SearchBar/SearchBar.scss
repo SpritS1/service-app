@@ -1,0 +1,30 @@
+@import "/src/scss/variables.scss";
+
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: $blue-dark-accent;
+  border-radius: 16px;
+  color: $white;
+
+  &__input {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    outline: none;
+    border: none;
+    color: inherit;
+    background: none;
+    font-size: 1rem;
+
+    &::placeholder {
+      color: inherit;
+      opacity: 1;
+    }
+  }
+
+  &__icon {
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+  }
+}
