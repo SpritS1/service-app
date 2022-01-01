@@ -10,12 +10,12 @@
 
   &__input {
     width: 100%;
-    padding: 0.75rem 1.5rem;
+    padding: 0.75rem 1rem;
     outline: none;
     border: none;
     color: inherit;
     background: none;
-    font-size: 1rem;
+    font-size: 0.9rem;
 
     &::placeholder {
       color: inherit;
@@ -24,7 +24,7 @@
   }
 
   &__icon {
-    padding: 0.75rem 1.5rem;
+    padding: 0.75rem 1rem;
     cursor: pointer;
   }
 }

@@ -10,6 +10,8 @@ $gray: gray;
 
 $main-gradient: linear-gradient(
   150deg,
-  rgb(13, 16, 20) 0%,
-  rgb(32, 47, 68) 100%
+  hsl(215, 23%, 10%) 0%,
+  hsl(216, 36%, 24%) 100%
 );
+
+// $main-gradient: linear-gradient(150deg, hsl(215, 23%, 10%) 0%, hsl(216, 36%, 24%) 100%);
