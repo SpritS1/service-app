@@ -4,6 +4,7 @@ import Header from "components/Header/Header";
 import TopSection from "components/TopSection/TopSection";
 import FilterSection from "./FilterSection/FilterSection";
 import SideBar from "./SideBar/SideBar";
+import Table from "./Table/Table";
 
 interface Props {}
 
@@ -11,9 +12,9 @@ const App = (props: Props) => {
   return (
     <div className="app">
       <Header />
-      {/* <SideBar /> */}
       <TopSection />
       <FilterSection />
+      <Table />
     </div>
   );
 };

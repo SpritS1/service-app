@@ -1,0 +1,37 @@
+@import "/src/scss/variables.scss";
+@import "/src/scss/main.scss";
+
+.action-button {
+  border-radius: $border-radius;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  transition: $transition-default;
+
+  &:hover {
+    opacity: 0.75;
+  }
+
+  &:nth-child(1) {
+    color: #ffc311;
+    background: rgba(#ffc311, 0.25);
+  }
+
+  &:nth-child(2) {
+    color: $blue;
+    background: rgba($blue, 0.25);
+    margin: 0 1rem;
+  }
+
+  &:nth-child(3) {
+    color: #eb5757;
+    background: rgba(#eb5757, 0.25);
+  }
+
+  &__icon {
+    font-size: 1.5rem;
+  }
+}

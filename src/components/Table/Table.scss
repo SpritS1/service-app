@@ -1,0 +1,45 @@
+@import "/src/scss/variables.scss";
+@import "/src/scss/main.scss";
+
+.devices-section {
+  overflow-x: auto;
+  padding: 1rem;
+
+  table {
+    border-collapse: separate;
+    border-spacing: 0 1rem;
+    color: $white;
+    width: 100%;
+
+    thead {
+      tr {
+        th {
+          text-align: center;
+          font-weight: normal;
+          padding: 0 1rem;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        background: $blue-dark-accent;
+
+        td {
+          text-align: center;
+          font-weight: normal;
+          padding: 1rem;
+          white-space: nowrap;
+
+          &:first-child {
+            border-radius: 16px 0 0 16px;
+          }
+          &:last-child {
+            border-radius: 0 16px 16px 0;
+          }
+        }
+      }
+    }
+  }
+}
