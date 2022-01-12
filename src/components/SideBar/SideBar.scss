@@ -8,7 +8,7 @@
   height: 100vh;
   color: $white;
   background: $blue-dark;
-  border-right: 1px solid rgba($blue, 0.25);
+  border-right: $border-primary;
   transition: 0.4s ease-in-out;
   transform: translateX(-100%);
 
@@ -23,7 +23,7 @@
     color: inherit;
     cursor: pointer;
     width: 100%;
-    border-bottom: 1px solid rgba($blue, 0.25);
+    border-bottom: $border-primary;
   }
 
   &__nav {
