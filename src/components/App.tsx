@@ -11,7 +11,7 @@ const App = (props: Props) => {
   return (
     <div className="app">
       <Header />
-      <SideBar />
+      {/* <SideBar /> */}
       <TopSection />
       <FilterSection />
     </div>

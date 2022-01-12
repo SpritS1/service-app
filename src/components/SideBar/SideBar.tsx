@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Account from "./Account";
 import "./SideBar.scss";
 
-interface Props {}
+interface Props {
+  isActive: boolean;
+}
 
-const SideBar = (props: Props) => {
+const SideBar = ({ isActive }: Props) => {
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${isActive && "active"}`}>
       <a href="*" className="sidebar__logo">
         Service X
       </a>
