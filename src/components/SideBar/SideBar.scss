@@ -17,9 +17,11 @@
   }
 
   &__logo {
-    display: inline-block;
+    display: flex;
+    align-items: center;
     font-size: 2rem;
-    padding: 1rem 1.5rem;
+    padding: 0 1.5rem;
+    height: 70px;
     color: inherit;
     cursor: pointer;
     width: 100%;
@@ -46,5 +48,12 @@
         color: $blue;
       }
     }
+  }
+}
+
+@media screen and (min-width: $breakpoint-desktop) {
+  .sidebar {
+    transform: translateX(0);
+    transition: unset;
   }
 }

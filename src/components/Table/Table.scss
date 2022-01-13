@@ -43,3 +43,9 @@
     }
   }
 }
+
+@media screen and (min-width: $breakpoint-desktop) {
+  .devices-section {
+    padding: 1rem 1.5rem;
+  }
+}

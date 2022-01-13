@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Header.scss";
 import SideBar from "components/SideBar/SideBar";
+import Logo from "components/Logo/Logo";
 interface Props {}
 
 const Header = (props: Props) => {
@@ -9,9 +10,7 @@ const Header = (props: Props) => {
   return (
     <>
       <header className="header">
-        <a href="*" className="header__logo">
-          YourService
-        </a>
+        <Logo />
         <i
           className="header__bars fas fa-bars"
           onClick={() => setIsActive(!isActive)}

@@ -10,11 +10,16 @@
   border-bottom: $border-primary;
   color: $white;
 
-  &__bars,
-  &__logo {
+  &__bars {
     font-size: 2rem;
     padding: 0.5rem;
     color: inherit;
     cursor: pointer;
+  }
+}
+
+@media screen and (min-width: $breakpoint-desktop) {
+  .header {
+    display: none;
   }
 }

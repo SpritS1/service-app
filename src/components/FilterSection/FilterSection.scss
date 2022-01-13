@@ -7,3 +7,9 @@
   padding: 1rem;
   border-bottom: $border-primary;
 }
+
+@media screen and (min-width: $breakpoint-tablet) {
+  .filter-section {
+    display: none;
+  }
+}

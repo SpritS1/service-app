@@ -3,8 +3,8 @@ import "./App.scss";
 import Header from "components/Header/Header";
 import TopSection from "components/TopSection/TopSection";
 import FilterSection from "./FilterSection/FilterSection";
-import SideBar from "./SideBar/SideBar";
 import Table from "./Table/Table";
+import HeaderDesktop from "./HeaderDesktop/HeaderDesktop";
 
 interface Props {}
 
@@ -12,6 +12,7 @@ const App = (props: Props) => {
   return (
     <div className="app">
       <Header />
+      <HeaderDesktop />
       <TopSection />
       <FilterSection />
       <Table />
