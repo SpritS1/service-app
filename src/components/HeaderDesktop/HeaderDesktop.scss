@@ -20,6 +20,11 @@
       font-size: 1.5rem;
     }
 
+    &__container-right {
+      display: flex;
+      gap: 2rem;
+    }
+
     &__button {
       padding: 0.75rem 1rem;
       background: $blue;
