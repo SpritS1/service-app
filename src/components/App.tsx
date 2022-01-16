@@ -1,10 +1,8 @@
 import React from "react";
 import "./App.scss";
 import Header from "components/Header/Header";
-import TopSection from "components/TopSection/TopSection";
-import FilterSection from "./FilterSection/FilterSection";
-import Table from "./Table/Table";
-import HeaderDesktop from "./HeaderDesktop/HeaderDesktop";
+import HeaderDesktop from "components/HeaderDesktop/HeaderDesktop";
+import DevicesPage from "components/DevicesPage/DevicesPage";
 
 interface Props {}
 
@@ -13,9 +11,7 @@ const App = (props: Props) => {
     <div className="app">
       <Header />
       <HeaderDesktop />
-      <TopSection />
-      <FilterSection />
-      <Table />
+      <DevicesPage />
     </div>
   );
 };

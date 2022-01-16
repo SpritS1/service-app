@@ -1,8 +1,8 @@
 import React from "react";
 import "./HeaderDesktop.scss";
-import SortBy from "components/SortBy/SortBy";
+import SortBy from "components/DevicesPage/FilterSection/SortBy/SortBy";
 import Logo from "components/Logo/Logo";
-import SearchBar from "components/SearchBar/SearchBar";
+import SearchBar from "components/DevicesPage/FilterSection/SearchBar/SearchBar";
 
 interface Props {}
 

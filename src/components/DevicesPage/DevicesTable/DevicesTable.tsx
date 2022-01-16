@@ -1,12 +1,12 @@
 import React from "react";
-import "./Table.scss";
-import ActionButton from "components/Table/ActionButton";
+import "./DevicesTable.scss";
+import ActionButton from "components/DevicesPage/DevicesTable/ActionButton/ActionButton";
 
 interface Props {}
 
 const Table = (props: Props) => {
   return (
-    <div className="devices-section">
+    <div className="devices-table">
       <table>
         <thead>
           <tr>
