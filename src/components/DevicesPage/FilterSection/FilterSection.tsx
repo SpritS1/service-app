@@ -1,7 +1,7 @@
 import React from "react";
 import "./FilterSection.scss";
-import SearchBar from "components/SearchBar/SearchBar";
-import SortBy from "components/SortBy/SortBy";
+import SearchBar from "components/DevicesPage/FilterSection/SearchBar/SearchBar";
+import SortBy from "components/DevicesPage/FilterSection/SortBy/SortBy";
 
 interface Props {}
 
