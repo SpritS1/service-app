@@ -1,0 +1,8 @@
+@import "/src/scss/variables.scss";
+@import "/src/scss/main.scss";
+
+@media screen and (min-width: $breakpoint-desktop) {
+  .devices-page {
+    padding-left: 250px;
+  }
+}
