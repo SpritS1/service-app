@@ -1,25 +1,25 @@
-@import '/src/scss/variables.scss';
-@import '/src/scss/main.scss';
+@import "/src/scss/variables.scss";
+@import "/src/scss/main.scss";
 
 .input {
-    border-bottom: 1px solid $white;
+  border-bottom: 1px solid $white;
 
-    &__input {
-        background: none;
-        border: none;
-        font-size: 1rem;
-        padding: 0.5rem;
-        color: $white;
-        outline: none;
-        transition: box-shadow ease-in-out 0.25s;
-        width: 100%;
+  &__input {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    padding: 0.5rem;
+    color: $white;
+    outline: none;
+    transition: box-shadow ease-in-out 0.25s;
+    width: 100%;
 
-        &:focus {
-            box-shadow: 0 0 5px rgba($white, 0.5);
-        }
-
-        &::placeholder {
-            color: inherit;
-        }
+    &:focus {
+      box-shadow: 0 0 5px rgba($white, 0.5);
     }
+
+    &::placeholder {
+      color: inherit;
+    }
+  }
 }
