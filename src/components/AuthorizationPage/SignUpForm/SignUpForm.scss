@@ -1,0 +1,30 @@
+@import "/src/scss/variables.scss";
+
+.sign-up-form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  &__title {
+    margin-bottom: 1rem;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 2rem;
+
+    &--inputs {
+      gap: 1rem;
+    }
+  }
+
+  &__login {
+    font-size: 0.9em;
+    margin-top: 2rem;
+    &-link {
+      color: $blue;
+    }
+  }
+}
