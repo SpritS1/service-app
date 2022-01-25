@@ -1,11 +1,7 @@
 @import "/src/scss/variables.scss";
+@import "/src/scss/mixins.scss";
 
-.action-button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  border-radius: $border-radius;
-  border: none;
-  width: 100%;
+.button {
+  @include button;
   color: $main-gradient;
-  cursor: pointer;
 }

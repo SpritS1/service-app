@@ -8,7 +8,7 @@
   border-bottom: $border-primary;
 }
 
-@media screen and (min-width: $breakpoint-tablet) {
+@media screen and (min-width: $breakpoint-desktop) {
   .filter-section {
     display: none;
   }

@@ -16,15 +16,11 @@
     transform: translateX(0);
   }
 
-  &__logo {
+  &__logo-container {
     display: flex;
     align-items: center;
-    font-size: 2rem;
-    padding: 0 1.5rem;
     height: 70px;
-    color: inherit;
-    cursor: pointer;
-    width: 100%;
+    padding: 1rem;
     border-bottom: $border-primary;
   }
 
