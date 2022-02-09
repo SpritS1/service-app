@@ -1,6 +1,4 @@
 import React, { HTMLInputTypeAttribute } from "react";
-import { StringLiteral } from "typescript";
-import { InputType } from "zlib";
 import "./Input.scss";
 
 interface Props {

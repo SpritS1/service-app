@@ -1,6 +1,6 @@
 import React from "react";
 import "./SignInForm.scss";
-import Input from "components/AuthorizationPage/Input/Input";
+import Input from "components/Input/Input";
 import Button from "../Button/Button";
 
 type Props = {};
@@ -19,7 +19,7 @@ const SignInForm = (props: Props) => {
           Click Here
         </a>
       </span>
-      <Button text="Login" />
+      <Button text="Login" backgroundColor="white" />
       <span className="sign-in-form__sign-up">
         No account yet? &nbsp;
         <a href="*" className="sign-in-form__sign-up-link">

@@ -1,6 +1,6 @@
 import React from "react";
 import "./DevicesTable.scss";
-import ActionButton from "components/DevicesPage/DevicesTable/ActionButton/ActionButton";
+import ActionButton from "./IconButton/IconButton";
 
 interface Props {}
 

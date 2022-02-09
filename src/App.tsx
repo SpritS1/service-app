@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.scss";
-import DevicesPage from "components/DevicesPage/DevicesPage";
-import AuthorizationPage from "./AuthorizationPage/AuthorizationPage";
+import DevicesPage from "pages/DevicesPage/DevicesPage";
+import AuthorizationPage from "pages/AuthorizationPage/AuthorizationPage";
 
 interface Props {}
 

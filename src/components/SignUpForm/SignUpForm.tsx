@@ -1,6 +1,6 @@
 import React from "react";
 import "./SignUpForm.scss";
-import Input from "components/AuthorizationPage/Input/Input";
+import Input from "components/Input/Input";
 import Button from "../Button/Button";
 
 type Props = {};
@@ -15,7 +15,7 @@ const SignUpForm = (props: Props) => {
         <Input placeholder="Confirm password" type="password" />
         <Input placeholder="Phone" type="text" />
       </div>
-      <Button text="Sign Up" />
+      <Button text="Sign Up" backgroundColor="white" />
       <span className="sign-up-form__login">
         Already have an account? &nbsp;
         <a href="*" className="sign-up-form__login-link">
