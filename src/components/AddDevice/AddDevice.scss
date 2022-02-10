@@ -1,0 +1,14 @@
+@import "/src/scss/variables.scss";
+@import "/src/scss/main.scss";
+
+.add-device {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: $border-radius;
+  background: $blue-dark;
+  color: $white;
+  width: 500px;
+  gap: 1rem;
+}

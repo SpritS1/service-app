@@ -4,6 +4,11 @@
 .button {
   @include button;
   color: $main-gradient;
+  transition: $transition-default;
+
+  &:hover {
+    opacity: 0.75;
+  }
 
   &--white {
     background-color: $white;

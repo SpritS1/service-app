@@ -10,8 +10,8 @@ const SignInForm = (props: Props) => {
     <div className="sign-in-form">
       <h1 className="sign-in-form__title">Sign In</h1>
       <div className="sign-in-form__group sign-in-form__group--inputs">
-        <Input placeholder="Email" type="text" />
-        <Input placeholder="Password" type="password" />
+        {/* <Input placeholder="Email" type="text" />
+        <Input placeholder="Password" type="password" /> */}
       </div>
       <span className="sign-in-form__forgot-password">
         Forgot password? &nbsp;

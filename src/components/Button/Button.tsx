@@ -4,11 +4,14 @@ import "./Button.scss";
 type Props = {
   text: string;
   backgroundColor?: "white" | "blue";
+  action?: () => void;
 };
 
-const Button = ({ text, backgroundColor }: Props) => {
+const Button = ({ text, backgroundColor, action }: Props) => {
   return (
-    <button className={`button button--${backgroundColor}`}>{text}</button>
+    <button className={`button button--${backgroundColor}`} onClick={action}>
+      {text}
+    </button>
   );
 };
 

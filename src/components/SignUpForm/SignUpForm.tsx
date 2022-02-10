@@ -10,10 +10,10 @@ const SignUpForm = (props: Props) => {
     <div className="sign-up-form">
       <h1 className="sign-up-form__title">Sign Up</h1>
       <div className="sign-up-form__group sign-up-form__group--inputs">
-        <Input placeholder="Email" type="text" />
+        {/* <Input placeholder="Email" type="text" />
         <Input placeholder="Password" type="password" />
         <Input placeholder="Confirm password" type="password" />
-        <Input placeholder="Phone" type="text" />
+        <Input placeholder="Phone" type="text" /> */}
       </div>
       <Button text="Sign Up" backgroundColor="white" />
       <span className="sign-up-form__login">
