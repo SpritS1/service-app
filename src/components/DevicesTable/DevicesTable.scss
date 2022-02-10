@@ -21,26 +21,6 @@
         }
       }
     }
-
-    tbody {
-      tr {
-        background: $blue-dark-accent;
-
-        td {
-          text-align: center;
-          font-weight: normal;
-          padding: 1rem;
-          white-space: nowrap;
-
-          &:first-child {
-            border-radius: 16px 0 0 16px;
-          }
-          &:last-child {
-            border-radius: 0 16px 16px 0;
-          }
-        }
-      }
-    }
   }
 }
 

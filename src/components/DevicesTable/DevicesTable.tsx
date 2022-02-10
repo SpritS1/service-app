@@ -1,10 +1,12 @@
 import React from "react";
+import TableItem from "./TableItem/TableItem";
 import "./DevicesTable.scss";
-import ActionButton from "./IconButton/IconButton";
 
-interface Props {}
+interface Props {
+  devices: any;
+}
 
-const Table = (props: Props) => {
+const DevicesTable = ({ devices }: Props) => {
   return (
     <div className="devices-table">
       <table>
@@ -19,44 +21,21 @@ const Table = (props: Props) => {
         </thead>
 
         <tbody>
-          <tr>
-            <td>Tais 365</td>
-            <td>Refraction</td>
-            <td>8C1260BAR</td>
-            <td>Akagi</td>
-            <td>
-              <ActionButton
-                icon={<i className="action-button__icon fas fa-wrench" />}
-              />
-              <ActionButton
-                icon={<i className="action-button__icon fas fa-info-circle" />}
-              />
-              <ActionButton
-                icon={<i className="action-button__icon far fa-trash-alt" />}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>Tais 365</td>
-            <td>Refraction</td>
-            <td>8C1260BAR</td>
-            <td>Akagi</td>
-            <td>
-              <ActionButton
-                icon={<i className="action-button__icon fas fa-wrench" />}
-              />
-              <ActionButton
-                icon={<i className="action-button__icon fas fa-info-circle" />}
-              />
-              <ActionButton
-                icon={<i className="action-button__icon far fa-trash-alt" />}
-              />
-            </td>
-          </tr>
+          {devices.map(
+            (device: {
+              model: string;
+              category: string;
+              serialNumber: string;
+              manufacturer: string;
+              id: string;
+            }) => {
+              return <TableItem device={device} key={device.id} />;
+            }
+          )}
         </tbody>
       </table>
     </div>
   );
 };
 
-export default Table;
+export default DevicesTable;
