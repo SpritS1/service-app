@@ -1,18 +1,17 @@
-import React from "react";
 import "./AuthorizationPage.scss";
 import SignInForm from "components/SignInForm/SignInForm";
 import SignUpForm from "components/SignUpForm/SignUpForm";
-import { useParams } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 interface Props {}
 
 const AuthorizationPage = (props: Props) => {
-  const { authType } = useParams();
-
   return (
     <div className="authorization-page">
-      {authType === "login" && <SignInForm />}
-      {authType === "signup" && <SignUpForm />}
+      <Routes>
+        <Route path="login" element={<SignInForm />} />
+        <Route path="signup" element={<SignUpForm />} />
+      </Routes>
     </div>
   );
 };

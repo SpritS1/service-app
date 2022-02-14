@@ -12,21 +12,21 @@ const AddDevice = (props: Props) => {
   const [serialNumber, setSerialNumber] = useState("");
   const [manufacturer, setManufacturer] = useState("");
 
-  const handleModelChange = (e: any) => {
-    setModel(e.target.value);
-  };
+  // const handleModelChange = (e: React.FormEvent<HTMLInputElement>) => {
+  //   setModel(e.currentTarget.value);
+  // };
 
-  const handleSerialNumberChange = (e: any) => {
-    setSerialNumber(e.target.value);
-  };
+  // const handleSerialNumberChange = (e: React.FormEvent<HTMLInputElement>) => {
+  //   setSerialNumber(e.currentTarget.value);
+  // };
 
-  const handleCategoryChange = (e: any) => {
-    setCategory(e.target.value);
-  };
+  // const handleCategoryChange = (e: React.FormEvent<HTMLInputElement>) => {
+  //   setCategory(e.currentTarget.value);
+  // };
 
-  const handleManufacturerChange = (e: any) => {
-    setManufacturer(e.target.value);
-  };
+  // const handleManufacturerChange = (e: React.FormEvent<HTMLInputElement>) => {
+  //   setManufacturer(e.currentTarget.value);
+  // };
 
   return (
     <div className="add-device">
@@ -34,28 +34,28 @@ const AddDevice = (props: Props) => {
       <Input
         placeholder="Model"
         value={model}
-        onChange={handleModelChange}
+        setState={setModel}
         type="text"
         required
       />
       <Input
         placeholder="Category"
         value={category}
-        onChange={handleCategoryChange}
+        setState={setCategory}
         type="text"
         required
       />
       <Input
         placeholder="Serial number"
         value={serialNumber}
-        onChange={handleSerialNumberChange}
+        setState={setSerialNumber}
         type="text"
         required
       />
       <Input
         placeholder="Manufacturer"
         value={manufacturer}
-        onChange={handleManufacturerChange}
+        setState={setManufacturer}
         type="text"
         required
       />

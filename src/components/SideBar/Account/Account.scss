@@ -7,11 +7,14 @@
   gap: 0.5rem;
   padding: 1rem 1.5rem;
   border-bottom: 1px solid rgba($blue, 0.25);
+  width: 100%;
 
   &__left {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    width: 100%;
+    min-width: 0;
   }
 
   &__icon {
@@ -21,6 +24,11 @@
     font-size: 1.5rem;
     border-radius: $border-radius;
     cursor: pointer;
+  }
+
+  &__user-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   &__logout {
