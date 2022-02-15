@@ -1,12 +1,12 @@
 import React from "react";
-import "./ActionButton.scss";
+import "./IconButton.scss";
 
 interface Props {
   icon: React.ReactNode;
 }
 
-const ActionButton = ({ icon }: Props) => {
+const IconButton = ({ icon }: Props) => {
   return <button className="action-button">{icon}</button>;
 };
 
-export default ActionButton;
+export default IconButton;

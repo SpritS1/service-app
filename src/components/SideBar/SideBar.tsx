@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Account from "./Account/Account";
+import Logo from "components/Logo/Logo";
 import "./SideBar.scss";
 
 interface Props {
@@ -9,23 +11,23 @@ interface Props {
 const SideBar = ({ isActive }: Props) => {
   return (
     <div className={`sidebar ${isActive && "active"}`}>
-      <a href="*" className="sidebar__logo">
-        Service X
-      </a>
+      <div className="sidebar__logo-container">
+        <Logo />
+      </div>
       <Account />
       <nav className="sidebar__nav">
-        <a href="*" className="sidebar__nav-link active">
+        <Link to="/" className="sidebar__nav-link active">
           Devices
-        </a>
-        <a href="*" className="sidebar__nav-link">
+        </Link>
+        <Link to="/" className="sidebar__nav-link">
           Service requests
-        </a>
-        <a href="*" className="sidebar__nav-link">
+        </Link>
+        <Link to="/" className="sidebar__nav-link">
           Contact
-        </a>
-        <a href="*" className="sidebar__nav-link">
+        </Link>
+        <Link to="/" className="sidebar__nav-link">
           Profile
-        </a>
+        </Link>
       </nav>
     </div>
   );

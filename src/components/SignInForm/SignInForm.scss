@@ -1,0 +1,40 @@
+@import "/src/scss/variables.scss";
+
+.sign-in-form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  &__title {
+    margin-bottom: 1rem;
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 1rem;
+
+    &--inputs {
+      gap: 0.5rem;
+    }
+  }
+
+  &__forgot-password,
+  &__sign-up {
+    font-size: 0.9em;
+    margin-bottom: 2rem;
+
+    &-link {
+      color: $blue;
+    }
+  }
+
+  &__forgot-password {
+    text-align: left;
+  }
+
+  &__sign-up {
+    margin-top: 2rem;
+  }
+}

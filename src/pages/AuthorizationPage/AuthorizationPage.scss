@@ -1,0 +1,10 @@
+@import "/src/scss/variables.scss";
+@import "/src/scss/main.scss";
+
+.authorization-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $white;
+}
