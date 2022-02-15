@@ -5,11 +5,18 @@ type Props = {
   text: string;
   backgroundColor?: "white" | "blue";
   action?: () => void;
+  disabled?: boolean;
 };
 
-const Button = ({ text, backgroundColor, action }: Props) => {
+const Button = ({ text, backgroundColor, action, disabled = false }: Props) => {
   return (
-    <button className={`button button--${backgroundColor}`} onClick={action}>
+    <button
+      className={`button button--${backgroundColor} ${
+        disabled ? "button--locked" : ""
+      }`}
+      onClick={action}
+      disabled={disabled}
+    >
       {text}
     </button>
   );

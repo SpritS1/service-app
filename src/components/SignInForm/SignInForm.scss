@@ -13,16 +13,19 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 1rem;
 
     &--inputs {
-      gap: 1rem;
+      gap: 0.5rem;
     }
   }
 
-  &__forgot-password,
+  &__forgot-password {
+    font-size: 0.8rem;
+    margin: 0.5rem 0 1rem 0;
+    color: $blue;
+  }
   &__sign-up {
-    font-size: 0.9em;
+    font-size: 0.9rem;
     margin-bottom: 2rem;
 
     &-link {

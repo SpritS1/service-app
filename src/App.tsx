@@ -5,9 +5,7 @@ import AuthorizationPage from "pages/AuthorizationPage/AuthorizationPage";
 import AuthContextProvider from "contexts/AuthContext";
 import RequireAuth from "components/RequireAuth/RequireAuth";
 
-interface Props {}
-
-const App = (props: Props) => {
+const App = () => {
   return (
     <AuthContextProvider>
       <div className="app">

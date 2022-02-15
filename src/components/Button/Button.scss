@@ -19,4 +19,13 @@
     background-color: $blue;
     color: $white;
   }
+
+  &--locked {
+    cursor: auto;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
 }

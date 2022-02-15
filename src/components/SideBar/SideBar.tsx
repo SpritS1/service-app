@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Account from "./Account/Account";
 import Logo from "components/Logo/Logo";
