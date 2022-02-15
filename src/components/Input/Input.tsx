@@ -8,6 +8,8 @@ interface Props {
   type: HTMLInputTypeAttribute;
   required?: boolean;
   icon?: string;
+  autofocus?: boolean;
+  error?: string | null;
 }
 
 const Input = ({
@@ -17,6 +19,8 @@ const Input = ({
   type,
   required,
   icon,
+  autofocus,
+  error,
 }: Props) => {
   const handleChange = (
     setState: (e: string) => void,
@@ -27,14 +31,17 @@ const Input = ({
 
   return (
     <div className="input">
-      <i className="input__icon" />
+      {icon && <i className={`input__icon ${icon}`} />}
       <input
+        className={`input__inputfield ${
+          error ? "input__inputfield--error" : ""
+        }`}
         type={type}
         value={value}
         onChange={(e) => handleChange(setState, e)}
-        className="input__input"
         placeholder={placeholder}
         required={required}
+        autoFocus={autofocus}
       />
     </div>
   );

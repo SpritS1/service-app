@@ -1,19 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./SignInForm.scss";
 import Input from "components/Input/Input";
 import Button from "../Button/Button";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "hooks/useAuth";
+import { spawn } from "child_process";
+import ValidationError from "components/ValidationError/ValidationError";
 
-type Props = {};
-
-const SignInForm = (props: Props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const SignInForm = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [isFormFilled, setIsFormFilled] = useState<boolean>(
+    email && password ? true : false
+  );
 
   const navigate = useNavigate();
 
-  const { signIn } = useAuth();
+  const { signIn, error, setError } = useAuth();
+
+  useEffect(() => {
+    if (email && password) setIsFormFilled(true);
+    else setIsFormFilled(false);
+  }, [email, password]);
+
+  // remove errors when change page
+  useEffect(() => {
+    setError(null);
+  }, []);
 
   return (
     <div className="sign-in-form">
@@ -24,13 +37,22 @@ const SignInForm = (props: Props) => {
           type="text"
           value={email}
           setState={setEmail}
+          error={error && error.field === "email" ? error.message : null}
+          autofocus
         />
+        {error && error.field === "email" && (
+          <ValidationError message={error.message} />
+        )}
         <Input
           placeholder="Password"
           type="password"
           value={password}
           setState={setPassword}
+          error={error && error.field === "password" ? error.message : null}
         />
+        {error && error.field === "password" && (
+          <ValidationError message={error.message} />
+        )}
       </div>
       <span className="sign-in-form__forgot-password">
         Forgot password? &nbsp;
@@ -42,6 +64,7 @@ const SignInForm = (props: Props) => {
         text="Login"
         backgroundColor="white"
         action={() => signIn(email, password, () => navigate("/"))}
+        isActive={isFormFilled}
       />
       <span className="sign-in-form__sign-up">
         No account yet? &nbsp;

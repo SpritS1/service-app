@@ -2,24 +2,36 @@
 @import "/src/scss/main.scss";
 
 .input {
-  border-bottom: 1px solid $white;
-
-  &__input {
+  &__inputfield {
     background: none;
     border: none;
+    border-bottom: 1px solid rgba($white, 0.5);
+    border-radius: inherit;
     font-size: 1rem;
     padding: 0.5rem;
     color: $white;
     outline: none;
-    transition: box-shadow ease-in-out 0.25s;
+    transition: all ease-in-out 0.25s;
     width: 100%;
 
     &:focus {
-      box-shadow: 0 0 5px rgba($white, 0.5);
+      border-bottom: 1px solid rgba($white, 1);
+
+      &::placeholder {
+        color: $white;
+      }
     }
 
     &::placeholder {
-      color: inherit;
+      color: rgba($white, 0.75);
+    }
+
+    &--error {
+      border-bottom: 1px solid rgba($red, 1);
+
+      &:focus {
+        border-bottom: 1px solid rgba($red, 1);
+      }
     }
   }
 }
