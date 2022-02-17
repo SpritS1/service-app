@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./AddDevice.scss";
 import Input from "components/Input/Input";
 import Button from "components/Button/Button";
-import { database } from "firebase";
 
 type Props = {};
 

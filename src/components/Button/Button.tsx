@@ -1,24 +1,25 @@
-import React from "react";
-import "./Button.scss";
+import React from 'react';
+import './Button.scss';
 
 type Props = {
-  text: string;
-  backgroundColor?: "white" | "blue";
-  action?: () => void;
-  isActive?: boolean;
+    text: string;
+    backgroundColor?: 'white' | 'blue';
+    action?: () => void;
+    disabled?: boolean;
 };
 
-const Button = ({ text, backgroundColor, action, isActive = true }: Props) => {
-  return (
-    <button
-      className={`button button--${backgroundColor} ${
-        isActive ? "" : "button--locked"
-      }`}
-      onClick={action}
-    >
-      {text}
-    </button>
-  );
+const Button = ({ text, backgroundColor, action, disabled = false }: Props) => {
+    return (
+        <button
+            className={`button button--${backgroundColor} ${
+                disabled ? 'button--locked' : ''
+            }`}
+            onClick={action}
+            disabled={disabled}
+        >
+            {text}
+        </button>
+    );
 };
 
 export default Button;

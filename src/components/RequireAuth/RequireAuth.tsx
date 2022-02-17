@@ -1,6 +1,6 @@
 import React from "react";
 import useAuth from "hooks/useAuth";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const { user, isUserStatusChecked } = useAuth();

@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 import {
   createUserWithEmailAndPassword,
   signOut,
@@ -7,11 +7,10 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "firebase.js";
-import { useLocation } from "react-router-dom";
 
 type errorType = {
   message: string;
-  field: string | null;
+  field: "email" | "password" | "confirmPassword" | "popup";
 } | null;
 
 interface IAuthContextType {
@@ -54,7 +53,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         message: "Password must be at least 6 characters",
         field: "password",
       });
-    else setError({ message: errorCode, field: null });
+    else setError({ message: errorCode, field: "popup" });
   };
 
   const logout = (callback: VoidFunction) => {
