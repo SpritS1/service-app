@@ -1,0 +1,36 @@
+@import "/src/scss/variables.scss";
+
+.popup {
+  position: absolute;
+  right: 4rem;
+  bottom: 2rem;
+  z-index: 100;
+  min-width: 100px;
+  padding: 1rem;
+  border-radius: $border-radius;
+  opacity: 0;
+  visibility: hidden;
+  animation: appear 1s forwards;
+
+  &--default {
+    background: $blue;
+  }
+
+  &--error {
+    background: $red;
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(2rem);
+  }
+
+  to {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0rem);
+  }
+}
