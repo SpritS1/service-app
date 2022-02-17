@@ -20,16 +20,23 @@
   }
 
   &__forgot-password {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     margin: 0.5rem 0 1rem 0;
     color: $blue;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
   &__sign-up {
-    font-size: 0.9rem;
     margin-bottom: 2rem;
 
     &-link {
       color: $blue;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
