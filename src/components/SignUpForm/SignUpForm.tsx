@@ -5,6 +5,7 @@ import Button from '../Button/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from 'hooks/useAuth';
 import ValidationError from 'components/ValidationError/ValidationError';
+import Popup from 'components/Popup/Popup';
 
 const SignUpForm = () => {
     const [email, setEmail] = useState('');
@@ -15,17 +16,31 @@ const SignUpForm = () => {
     );
 
     const navigate = useNavigate();
-    const { signUp, error, setError } = useAuth();
+    const {
+        signUp,
+        errorMessage,
+        errorField,
+        setErrorMessage,
+        setErrorField,
+        cleanError,
+    } = useAuth();
 
     const handleSignUp = useCallback(() => {
         if (password === confirmedPassword)
             signUp(email, password, () => navigate('/'));
-        else
-            setError({
-                message: 'Passwords must match',
-                field: 'confirmPassword',
-            });
-    }, [confirmedPassword, password]);
+        else {
+            setErrorMessage('Passwords must match');
+            setErrorField('confirmPassword');
+        }
+    }, [
+        confirmedPassword,
+        email,
+        navigate,
+        password,
+        setErrorField,
+        setErrorMessage,
+        signUp,
+    ]);
 
     // check if form has been filled
     useEffect(() => {
@@ -35,8 +50,8 @@ const SignUpForm = () => {
 
     // remove errors when change page
     useEffect(() => {
-        setError(null);
-    }, [setError]);
+        cleanError();
+    }, [cleanError]);
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (isFormFilled && e.key === 'Enter') {
@@ -58,41 +73,40 @@ const SignUpForm = () => {
                     type="text"
                     value={email}
                     setState={setEmail}
-                    error={
-                        error && error.field === 'email' ? error.message : null
-                    }
+                    error={errorField === 'email' ? errorMessage : null}
                     autofocus
                 />
-                {error && error.field === 'email' && (
-                    <ValidationError message={error.message} />
+                {errorField === 'email' && errorMessage && (
+                    <ValidationError message={errorMessage} />
                 )}
                 <Input
                     placeholder="Password"
                     type="password"
                     value={password}
-                    error={
-                        error && error.field === 'password'
-                            ? error.message
-                            : null
-                    }
+                    error={errorField === 'password' ? errorMessage : null}
                     setState={setPassword}
                 />
-                {error && error.field === 'password' && (
-                    <ValidationError message={error.message} />
+                {errorField === 'password' && errorMessage && (
+                    <ValidationError message={errorMessage} />
                 )}
                 <Input
                     placeholder="Confirm password"
                     type="password"
                     value={confirmedPassword}
                     error={
-                        error && error.field === 'confirmPassword'
-                            ? error.message
-                            : null
+                        errorField === 'confirmPassword' ? errorMessage : null
                     }
                     setState={setConfirmedPassword}
                 />
-                {error && error.field === 'confirmPassword' && (
-                    <ValidationError message={error.message} />
+                {errorField === 'confirmPassword' && errorMessage && (
+                    <ValidationError message={errorMessage} />
+                )}
+                {errorField === 'popup' && errorMessage && (
+                    <Popup
+                        content={errorMessage}
+                        duration={3000}
+                        type={'error'}
+                    />
                 )}
             </div>
             <Button

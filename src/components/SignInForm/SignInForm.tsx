@@ -5,6 +5,7 @@ import Button from '../Button/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from 'hooks/useAuth';
 import ValidationError from 'components/ValidationError/ValidationError';
+import Popup from 'components/Popup/Popup';
 
 const SignInForm = () => {
     const [email, setEmail] = useState<string>('');
@@ -14,8 +15,7 @@ const SignInForm = () => {
     );
 
     const navigate = useNavigate();
-
-    const { signIn, error, setError } = useAuth();
+    const { signIn, errorMessage, errorField, cleanError } = useAuth();
 
     useEffect(() => {
         if (email && password) setIsFormFilled(true);
@@ -24,8 +24,8 @@ const SignInForm = () => {
 
     // remove errors when change page
     useEffect(() => {
-        setError(null);
-    }, [setError]);
+        cleanError();
+    }, [cleanError]);
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (isFormFilled && e.key === 'Enter') {
@@ -47,27 +47,28 @@ const SignInForm = () => {
                     type="text"
                     value={email}
                     setState={setEmail}
-                    error={
-                        error && error.field === 'email' ? error.message : null
-                    }
+                    error={errorField === 'email' ? errorMessage : null}
                     autofocus
                 />
-                {error && error.field === 'email' && (
-                    <ValidationError message={error.message} />
+                {errorField === 'email' && errorMessage && (
+                    <ValidationError message={errorMessage} />
                 )}
                 <Input
                     placeholder="Password"
                     type="password"
                     value={password}
                     setState={setPassword}
-                    error={
-                        error && error.field === 'password'
-                            ? error.message
-                            : null
-                    }
+                    error={errorField === 'password' ? errorMessage : null}
                 />
-                {error && error.field === 'password' && (
-                    <ValidationError message={error.message} />
+                {errorField === 'password' && errorMessage && (
+                    <ValidationError message={errorMessage} />
+                )}
+                {errorField === 'popup' && errorMessage && (
+                    <Popup
+                        content={errorMessage}
+                        duration={3000}
+                        type={'error'}
+                    />
                 )}
             </form>
             <Link

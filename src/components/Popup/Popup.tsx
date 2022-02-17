@@ -1,14 +1,27 @@
-import "./Popup.scss";
+import { useEffect, useState } from 'react';
+import './Popup.scss';
 
 interface Props {
-  content: string;
-  type?: "default" | "error";
+    content: string;
+    duration: number;
+    type?: 'default' | 'error';
 }
 
-const Popup = ({ content, type = "default" }: Props) => {
-  return (
-    <div className={`popup ${type ? `popup--${type}` : ""}`}>{content}</div>
-  );
+const Popup = ({ content, duration, type = 'default' }: Props) => {
+    const [isActive, setIsActive] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => setIsActive(false), duration);
+    }, [duration]);
+
+    if (isActive)
+        return (
+            <div className={`popup ${type ? `popup--${type}` : ''}`}>
+                {content}
+            </div>
+        );
+
+    return null;
 };
 
 export default Popup;
