@@ -25,6 +25,17 @@ const SignUpForm = () => {
         cleanError,
     } = useAuth();
 
+    // check if form has been filled
+    useEffect(() => {
+        if (email && password && confirmedPassword) setIsFormFilled(true);
+        else setIsFormFilled(false);
+    }, [email, password, confirmedPassword]);
+
+    // remove errors when change page
+    useEffect(() => {
+        cleanError();
+    }, [cleanError]);
+
     const handleSignUp = useCallback(() => {
         if (password === confirmedPassword)
             signUp(email, password, () => navigate('/'));
@@ -41,17 +52,6 @@ const SignUpForm = () => {
         setErrorMessage,
         signUp,
     ]);
-
-    // check if form has been filled
-    useEffect(() => {
-        if (email && password && confirmedPassword) setIsFormFilled(true);
-        else setIsFormFilled(false);
-    }, [email, password, confirmedPassword]);
-
-    // remove errors when change page
-    useEffect(() => {
-        cleanError();
-    }, [cleanError]);
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (isFormFilled && e.key === 'Enter') {
