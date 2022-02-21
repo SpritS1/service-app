@@ -1,1 +1,0 @@
-Lista urządzeń w bazie. Przy dodawaniu urządzenia do konta szukamy po prostu swojego urządzenia z listy albo po parametrach.

@@ -1,50 +1,53 @@
-import React, { HTMLInputTypeAttribute } from "react";
-import "./Input.scss";
+import React, { HTMLInputTypeAttribute } from 'react';
+import './Input.scss';
 
 interface Props {
-  placeholder: string;
-  value: string | number;
-  setState: any;
-  type: HTMLInputTypeAttribute;
-  required?: boolean;
-  icon?: string;
-  autofocus?: boolean;
-  error?: string | null;
+    placeholder: string;
+    value: string | number;
+    setState: any;
+    type: HTMLInputTypeAttribute;
+    required?: boolean;
+    icon?: string;
+    autofocus?: boolean;
+    error?: string | null;
+    autoComplete?: string;
 }
 
 const Input = ({
-  placeholder,
-  value,
-  setState,
-  type,
-  required,
-  icon,
-  autofocus,
-  error,
+    placeholder,
+    value,
+    setState,
+    type,
+    required,
+    icon,
+    autofocus,
+    error,
+    autoComplete = 'on',
 }: Props) => {
-  const handleChange = (
-    setState: (e: string) => void,
-    e: React.FormEvent<HTMLInputElement>
-  ) => {
-    setState(e.currentTarget.value);
-  };
+    const handleChange = (
+        setState: (e: string) => void,
+        e: React.FormEvent<HTMLInputElement>,
+    ) => {
+        setState(e.currentTarget.value);
+    };
 
-  return (
-    <div className="input">
-      {icon && <i className={`input__icon ${icon}`} />}
-      <input
-        className={`input__inputfield ${
-          error ? "input__inputfield--error" : ""
-        }`}
-        type={type}
-        value={value}
-        onChange={(e) => handleChange(setState, e)}
-        placeholder={placeholder}
-        required={required}
-        autoFocus={autofocus}
-      />
-    </div>
-  );
+    return (
+        <div className="input">
+            {icon && <i className={`input__icon ${icon}`} />}
+            <input
+                className={`input__inputfield ${
+                    error ? 'input__inputfield--error' : ''
+                }`}
+                type={type}
+                value={value}
+                onChange={(e) => handleChange(setState, e)}
+                placeholder={placeholder}
+                required={required}
+                autoFocus={autofocus}
+                autoComplete={autoComplete}
+            />
+        </div>
+    );
 };
 
 export default Input;

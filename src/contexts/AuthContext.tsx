@@ -5,8 +5,10 @@ import {
     signInWithEmailAndPassword,
     User,
     onAuthStateChanged,
+    UserCredential,
 } from 'firebase/auth';
-import { auth } from 'firebase.js';
+import { auth, database } from 'firebase.js';
+import { addDoc, collection, doc, setDoc, updateDoc } from 'firebase/firestore';
 
 interface IAuthContextType {
     user: User | null;
@@ -47,6 +49,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     }, [setErrorField, setErrorMessage]);
 
     const validateError = (errorCode: string) => {
+        setErrorMessage(null);
         if (errorCode === 'auth/invalid-email') {
             setErrorMessage('Invalid email');
             setErrorField('email');
@@ -62,12 +65,13 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
         } else if (errorCode === 'auth/weak-password') {
             setErrorMessage('Password must be at least 6 characters');
             setErrorField('password');
+        } else if (errorCode === 'auth/too-many-requests') {
+            setErrorMessage('Too many requests, wait and try again');
+            setErrorField('popup');
         } else {
-            setErrorMessage(null);
             setErrorMessage(errorCode);
             setErrorField('popup');
         }
-        console.log(errorMessage);
     };
 
     const logout = (callback: VoidFunction) => {
@@ -86,13 +90,25 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
             .catch((error) => validateError(error.code));
     };
 
-    const signUp = (
+    const signUp = async (
         email: string,
         password: string,
-        callback: VoidFunction,
+        callback: () => void,
     ) => {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((credentials) => callback())
+        await createUserWithEmailAndPassword(auth, email, password)
+            .then(async (credentials) => {
+                try {
+                    setDoc(doc(database, 'users_data', credentials.user.uid), {
+                        devices: [],
+                        name: null,
+                        surname: null,
+                        phone: null,
+                    });
+                } catch (error) {
+                    console.error(error);
+                }
+                callback();
+            })
             .catch((error) => {
                 console.log(error);
                 validateError(error.code);

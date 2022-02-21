@@ -38,7 +38,7 @@ const SignUpForm = () => {
 
     const handleSignUp = useCallback(() => {
         if (password === confirmedPassword)
-            signUp(email, password, () => navigate('/'));
+            signUp(email, password, async () => navigate('/'));
         else {
             setErrorMessage('Passwords must match');
             setErrorField('confirmPassword');
@@ -75,6 +75,7 @@ const SignUpForm = () => {
                     setState={setEmail}
                     error={errorField === 'email' ? errorMessage : null}
                     autofocus
+                    autoComplete="off"
                 />
                 {errorField === 'email' && errorMessage && (
                     <ValidationError message={errorMessage} />
@@ -85,6 +86,7 @@ const SignUpForm = () => {
                     value={password}
                     error={errorField === 'password' ? errorMessage : null}
                     setState={setPassword}
+                    autoComplete="off"
                 />
                 {errorField === 'password' && errorMessage && (
                     <ValidationError message={errorMessage} />
@@ -97,6 +99,7 @@ const SignUpForm = () => {
                         errorField === 'confirmPassword' ? errorMessage : null
                     }
                     setState={setConfirmedPassword}
+                    autoComplete="off"
                 />
                 {errorField === 'confirmPassword' && errorMessage && (
                     <ValidationError message={errorMessage} />
