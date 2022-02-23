@@ -1,42 +1,73 @@
-import React, { useEffect, useState } from "react";
-import "./DevicesPage.scss";
-import TopSection from "components/TopSection/TopSection";
-import FilterSection from "components/FilterSection/FilterSection";
-import Table from "components/DevicesTable/DevicesTable";
-import Header from "components/Header/Header";
-import HeaderDesktop from "components/HeaderDesktop/HeaderDesktop";
-import { database } from "firebase.js";
-import { collection, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from 'react';
+import './DevicesPage.scss';
+import TopSection from 'components/TopSection/TopSection';
+import FilterSection from 'components/FilterSection/FilterSection';
+import DeviceTable from 'components/DevicesTable/DevicesTable';
+import Header from 'components/Header/Header';
+import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
+import IconButton from 'components/IconButton/IconButton';
+import { database } from 'firebase.js';
+import { doc, DocumentReference, getDoc } from 'firebase/firestore';
+import useAuth from 'hooks/useAuth';
 
 interface Props {}
 
 const DevicesPage = (props: Props) => {
-  const [devices, setDevices] = useState([]);
+    const [devices, setDevices] = useState([]);
+    const { user } = useAuth();
 
-  useEffect(() => {
-    const colRef = collection(database, "devices");
+    useEffect(() => {
+        if (user) {
+            const docRef: DocumentReference = doc(
+                database,
+                'users_data',
+                user.uid,
+            );
+            getDoc(docRef).then((doc) => {
+                const docSnap = doc.data();
+                if (docSnap) {
+                    setDevices(docSnap.devices);
+                }
+            });
+        }
+    }, [user]);
 
-    getDocs(colRef)
-      .then((snapshot) => {
-        let devices: any = [];
+    const tempDevices = [
+        {
+            model: 'Model',
+            category: 'Category',
+            serialNumber: 'SerialNumber',
+            manufacturer: 'Manufacturer',
+            id: '1',
+        },
+    ];
 
-        snapshot.docs.forEach((doc) => {
-          devices.push({ ...doc.data(), id: doc.id });
-        });
-        setDevices(devices);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    const tableActions = (
+        <>
+            <IconButton
+                icon={<i className="action-button__icon fas fa-wrench" />}
+                color={'yellow'}
+            />
+            <IconButton
+                icon={<i className="action-button__icon fas fa-info-circle" />}
+                color={'blue'}
+            />
+            <IconButton
+                icon={<i className="action-button__icon far fa-trash-alt" />}
+                color={'red'}
+            />
+        </>
+    );
 
-  return (
-    <div className="devices-page">
-      <Header />
-      <HeaderDesktop />
-      <TopSection />
-      <FilterSection />
-      <Table devices={devices} />
-    </div>
-  );
+    return (
+        <div className="devices-page">
+            <Header />
+            <HeaderDesktop />
+            <TopSection />
+            <FilterSection />
+            <DeviceTable devices={tempDevices} actions={tableActions} />
+        </div>
+    );
 };
 
 export default DevicesPage;

@@ -1,67 +1,62 @@
-import React, { useState } from "react";
-import "./AddDevice.scss";
-import Input from "components/Input/Input";
-import Button from "components/Button/Button";
+import React, { useState, useEffect } from 'react';
+import './AddDevice.scss';
+import SearchBar from 'components/SearchBar/SearchBar';
+import { collection, getDocs } from 'firebase/firestore';
+import { database } from 'firebase.js';
+import DevicesTable from 'components/DevicesTable/DevicesTable';
+import IconButton from 'components/IconButton/IconButton';
+import SelectButton from 'components/SelectButton/SelectButton';
 
-type Props = {};
+interface Device {
+    model: string;
+    category: string;
+    serialNumber: string;
+    manufacturer: string;
+    id: string;
+}
 
-const AddDevice = (props: Props) => {
-  const [model, setModel] = useState("");
-  const [category, setCategory] = useState("");
-  const [serialNumber, setSerialNumber] = useState("");
-  const [manufacturer, setManufacturer] = useState("");
+const AddDevice = () => {
+    const [devices, setDevices] = useState<Device[]>([]);
+    // const [model, setModel] = useState('');
+    // const [category, setCategory] = useState('');
+    // const [serialNumber, setSerialNumber] = useState('');
+    // const [manufacturer, setManufacturer] = useState('');
 
-  // const handleModelChange = (e: React.FormEvent<HTMLInputElement>) => {
-  //   setModel(e.currentTarget.value);
-  // };
+    useEffect(() => {
+        const collectionRef = collection(database, 'devices');
+        getDocs(collectionRef).then((snapshot) => {
+            const devicesArray: any = [];
+            snapshot.forEach((doc) => {
+                const device = { ...doc.data(), id: doc.id };
+                devicesArray.push(device);
+            });
+            setDevices(devicesArray);
+        });
+    }, []);
 
-  // const handleSerialNumberChange = (e: React.FormEvent<HTMLInputElement>) => {
-  //   setSerialNumber(e.currentTarget.value);
-  // };
+    const tableActions = (
+        <>
+            <IconButton
+                icon={<i className="action-button__icon fas fa-circle-plus" />}
+                color={'green'}
+            />
+            <IconButton
+                icon={<i className="action-button__icon fas fa-info-circle" />}
+                color={'blue'}
+            />
+        </>
+    );
 
-  // const handleCategoryChange = (e: React.FormEvent<HTMLInputElement>) => {
-  //   setCategory(e.currentTarget.value);
-  // };
-
-  // const handleManufacturerChange = (e: React.FormEvent<HTMLInputElement>) => {
-  //   setManufacturer(e.currentTarget.value);
-  // };
-
-  return (
-    <div className="add-device">
-      <h2 className="add-device__title">Add device</h2>
-      <Input
-        placeholder="Model"
-        value={model}
-        setState={setModel}
-        type="text"
-        required
-      />
-      <Input
-        placeholder="Category"
-        value={category}
-        setState={setCategory}
-        type="text"
-        required
-      />
-      <Input
-        placeholder="Serial number"
-        value={serialNumber}
-        setState={setSerialNumber}
-        type="text"
-        required
-      />
-      <Input
-        placeholder="Manufacturer"
-        value={manufacturer}
-        setState={setManufacturer}
-        type="text"
-        required
-      />
-
-      <Button text={"Add device"} />
-    </div>
-  );
+    return (
+        <div className="add-device">
+            <h2 className="add-device__title">Add new device</h2>
+            <SearchBar />
+            <SelectButton text={'Category'} />
+            <SelectButton text={'Category'} />
+            <DevicesTable devices={devices} actions={tableActions} />
+            {/* <Button text={'Add device'} /> */}
+        </div>
+    );
 };
 
 export default AddDevice;
