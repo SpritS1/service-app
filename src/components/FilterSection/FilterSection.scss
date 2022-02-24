@@ -1,15 +1,15 @@
-@import "/src/scss/variables.scss";
+@use 'scss/index' as *;
 
 .filter-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  color: $white;
-  padding: 1rem;
-  border-bottom: $border-primary;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    color: $white;
+    padding: 1rem;
+    border-bottom: $border-primary;
 }
 
 @media screen and (min-width: $breakpoint-desktop) {
-  .filter-section {
-    display: none;
-  }
+    .filter-section {
+        display: none;
+    }
 }

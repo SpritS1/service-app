@@ -1,50 +1,50 @@
-@import "/src/scss/variables.scss";
+@use 'scss/index' as *;
 
 .sign-in-form {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-
-  &__title {
-    margin-bottom: 1rem;
-  }
-
-  &__group {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    text-align: center;
 
-    &--inputs {
-      gap: 0.5rem;
+    &__title {
+        margin-bottom: 1rem;
     }
-  }
 
-  &__forgot-password {
-    font-size: 0.9rem;
-    margin: 0.5rem 0 1rem 0;
-    color: $blue;
+    &__group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
 
-    &:hover {
-      text-decoration: underline;
+        &--inputs {
+            gap: 0.5rem;
+        }
     }
-  }
-  &__sign-up {
-    margin-bottom: 2rem;
 
-    &-link {
-      color: $blue;
+    &__forgot-password {
+        font-size: 0.9rem;
+        margin: 0.5rem 0 1rem 0;
+        color: $blue;
 
-      &:hover {
-        text-decoration: underline;
-      }
+        &:hover {
+            text-decoration: underline;
+        }
     }
-  }
+    &__sign-up {
+        margin-bottom: 2rem;
 
-  &__forgot-password {
-    text-align: left;
-  }
+        &-link {
+            color: $blue;
 
-  &__sign-up {
-    margin-top: 2rem;
-  }
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__forgot-password {
+        text-align: left;
+    }
+
+    &__sign-up {
+        margin-top: 2rem;
+    }
 }

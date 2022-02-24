@@ -1,48 +1,48 @@
-@import "/src/scss/variables.scss";
+@use 'scss/index' as *;
 
 .account {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid rgba($blue, 0.25);
-  width: 100%;
-
-  &__left {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba($blue, 0.25);
     width: 100%;
-    min-width: 0;
-  }
 
-  &__icon {
-    background: $white;
-    color: $blue;
-    padding: 0.5rem;
-    font-size: 1.5rem;
-    border-radius: $border-radius;
-    cursor: pointer;
-  }
-
-  &__user-name {
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-
-  &__logout {
-    background: $blue-dark-accent;
-    color: $blue;
-    padding: 0.5rem;
-    font-size: 1.25rem;
-    border-radius: $border-radius;
-    cursor: pointer;
-    transition: $transition-default;
-
-    &:hover {
-      background: $white;
-      color: $black;
+    &__left {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        width: 100%;
+        min-width: 0;
     }
-  }
+
+    &__icon {
+        background: $white;
+        color: $blue;
+        padding: 0.5rem;
+        font-size: 1.5rem;
+        border-radius: $border-radius;
+        cursor: pointer;
+    }
+
+    &__user-name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    &__logout {
+        background: $blue-dark-accent;
+        color: $blue;
+        padding: 0.5rem;
+        font-size: 1.25rem;
+        border-radius: $border-radius;
+        cursor: pointer;
+        transition: $transition-default;
+
+        &:hover {
+            background: $white;
+            color: $black;
+        }
+    }
 }

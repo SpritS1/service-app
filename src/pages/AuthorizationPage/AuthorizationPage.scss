@@ -1,10 +1,9 @@
-@import "/src/scss/variables.scss";
-@import "/src/scss/main.scss";
+@import '/src/scss/variables.scss';
 
 .authorization-page {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: $white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $white;
 }

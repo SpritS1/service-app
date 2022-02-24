@@ -1,25 +1,25 @@
-@import "/src/scss/variables.scss";
+@use 'scss/index' as *;
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem;
-  width: 100%;
-  background-color: $blue-dark;
-  border-bottom: $border-primary;
-  color: $white;
-
-  &__bars {
-    font-size: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 0.5rem;
-    color: inherit;
-    cursor: pointer;
-  }
+    width: 100%;
+    background-color: $blue-dark;
+    border-bottom: $border-primary;
+    color: $white;
+
+    &__bars {
+        font-size: 2rem;
+        padding: 0.5rem;
+        color: inherit;
+        cursor: pointer;
+    }
 }
 
 @media screen and (min-width: $breakpoint-desktop) {
-  .header {
-    display: none;
-  }
+    .header {
+        display: none;
+    }
 }

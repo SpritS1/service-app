@@ -1,5 +1,4 @@
-@import '/src/scss/variables.scss';
-@import '/src/scss/main.scss';
+@use 'scss' as *;
 
 .add-device {
     display: flex;

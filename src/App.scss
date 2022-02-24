@@ -1,19 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
-@import "/src/scss/variables.scss";
-@import "/src/scss/main.scss";
+@use 'scss/index' as *;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  text-decoration: none;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
 }
 
 html {
-  font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .app {
-  background: $main-gradient;
-  min-height: 100vh;
+    background: $main-gradient;
+    min-height: 100vh;
 }

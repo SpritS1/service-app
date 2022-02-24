@@ -1,5 +1,4 @@
-@import '/src/scss/variables.scss';
-@import '/src/scss/main.scss';
+@use 'scss/index' as *;
 
 .action-button {
     border-radius: $border-radius;

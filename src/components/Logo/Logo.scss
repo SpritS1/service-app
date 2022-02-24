@@ -1,8 +1,8 @@
-@import "/src/scss/variables.scss";
+@use 'scss/index' as *;
 
 .logo {
-  font-size: 2rem;
-  padding: 0.5rem;
-  color: inherit;
-  cursor: pointer;
+    font-size: 2rem;
+    padding: 0.5rem;
+    color: inherit;
+    cursor: pointer;
 }

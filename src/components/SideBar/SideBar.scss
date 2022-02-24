@@ -1,58 +1,58 @@
-@import "/src/scss/variables.scss";
+@use 'scss/index' as *;
 
 .sidebar {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 250px;
-  height: 100vh;
-  color: $white;
-  background: $blue-dark;
-  border-right: $border-primary;
-  transition: 0.4s ease-in-out;
-  transform: translateX(-100%);
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    color: $white;
+    background: $blue-dark;
+    border-right: $border-primary;
+    transition: 0.4s ease-in-out;
+    transform: translateX(-100%);
 
-  &.active {
-    transform: translateX(0);
-  }
-
-  &__logo-container {
-    display: flex;
-    align-items: center;
-    height: 70px;
-    padding: 1rem;
-    border-bottom: $border-primary;
-  }
-
-  &__nav {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem 1.5rem;
-
-    &-link {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      color: $white;
-      font-size: 1.25rem;
-      padding: 0.5rem 0;
-      cursor: pointer;
-      transition: $transition-default;
-
-      &:hover {
-        color: $blue;
-      }
-
-      &.active {
-        color: $blue;
-      }
+    &.active {
+        transform: translateX(0);
     }
-  }
+
+    &__logo-container {
+        display: flex;
+        align-items: center;
+        height: 70px;
+        padding: 1rem;
+        border-bottom: $border-primary;
+    }
+
+    &__nav {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 1.5rem;
+
+        &-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: $white;
+            font-size: 1.25rem;
+            padding: 0.5rem 0;
+            cursor: pointer;
+            transition: $transition-default;
+
+            &:hover {
+                color: $blue;
+            }
+
+            &.active {
+                color: $blue;
+            }
+        }
+    }
 }
 
 @media screen and (min-width: $breakpoint-desktop) {
-  .sidebar {
-    transform: translateX(0);
-    transition: unset;
-  }
+    .sidebar {
+        transform: translateX(0);
+        transition: unset;
+    }
 }

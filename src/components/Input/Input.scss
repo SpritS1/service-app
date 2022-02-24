@@ -1,37 +1,36 @@
-@import "/src/scss/variables.scss";
-@import "/src/scss/main.scss";
+@use 'scss/index' as *;
 
 .input {
-  &__inputfield {
-    background: none;
-    border: none;
-    border-bottom: 1px solid rgba($white, 0.5);
-    border-radius: inherit;
-    font-size: 1rem;
-    padding: 0.5rem;
-    color: $white;
-    outline: none;
-    transition: all ease-in-out 0.25s;
-    width: 100%;
-
-    &:focus {
-      border-bottom: 1px solid rgba($white, 1);
-
-      &::placeholder {
+    &__inputfield {
+        background: none;
+        border: none;
+        border-bottom: 1px solid rgba($white, 0.5);
+        border-radius: inherit;
+        font-size: 1rem;
+        padding: 0.5rem;
         color: $white;
-      }
-    }
+        outline: none;
+        transition: all ease-in-out 0.25s;
+        width: 100%;
 
-    &::placeholder {
-      color: rgba($white, 0.75);
-    }
+        &:focus {
+            border-bottom: 1px solid rgba($white, 1);
 
-    &--error {
-      border-bottom: 1px solid rgba($red, 1);
+            &::placeholder {
+                color: $white;
+            }
+        }
 
-      &:focus {
-        border-bottom: 1px solid rgba($red, 1);
-      }
+        &::placeholder {
+            color: rgba($white, 0.75);
+        }
+
+        &--error {
+            border-bottom: 1px solid rgba($red, 1);
+
+            &:focus {
+                border-bottom: 1px solid rgba($red, 1);
+            }
+        }
     }
-  }
 }

@@ -1,7 +1,7 @@
-@import "/src/scss/variables.scss";
+@use 'scss/index' as *;
 
 .validation-error {
-  font-size: 0.9rem;
-  text-align: left;
-  color: $red;
+    font-size: 0.9rem;
+    text-align: left;
+    color: $red;
 }

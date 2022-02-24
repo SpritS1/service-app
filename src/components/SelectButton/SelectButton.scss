@@ -1,5 +1,6 @@
-@use '../../scss/variables' as *;
+@use 'scss/index' as *;
 
 .select-button {
+    @include button;
     background: $blue;
 }

@@ -1,29 +1,28 @@
-@import "/src/scss/variables.scss";
-@import "/src/scss/mixins.scss";
+@use 'scss' as *;
 
 .top-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: $white;
-  padding: 1rem;
-  border-bottom: 1px solid rgba($blue, 0.25);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $white;
+    padding: 1rem;
+    border-bottom: 1px solid rgba($blue, 0.25);
 
-  &__title {
-    font-weight: normal;
-    font-size: 1.5rem;
-  }
+    &__title {
+        font-weight: normal;
+        font-size: 1.5rem;
+    }
 
-  &__button {
-    @include button;
-    background-color: $blue;
-    color: inherit;
-    cursor: pointer;
-  }
+    &__button {
+        @include button;
+        background-color: $blue;
+        color: inherit;
+        cursor: pointer;
+    }
 }
 
 @media screen and (min-width: $breakpoint-desktop) {
-  .top-section {
-    display: none;
-  }
+    .top-section {
+        display: none;
+    }
 }
