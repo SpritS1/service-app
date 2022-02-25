@@ -17,10 +17,6 @@ interface Device {
 
 const AddDevice = () => {
     const [devices, setDevices] = useState<Device[]>([]);
-    // const [model, setModel] = useState('');
-    // const [category, setCategory] = useState('');
-    // const [serialNumber, setSerialNumber] = useState('');
-    // const [manufacturer, setManufacturer] = useState('');
 
     useEffect(() => {
         const collectionRef = collection(database, 'devices');
