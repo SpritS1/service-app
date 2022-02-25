@@ -10,4 +10,27 @@
     color: $white;
     gap: 1rem;
     max-width: 100%;
+    height: 75vh;
+
+    &__top {
+        display: flex;
+        flex-direction: column;
+        gap: inherit;
+    }
+
+    &__filters {
+        display: flex;
+        gap: 1rem;
+    }
+}
+
+@media screen and (min-width: $breakpoint-mobile) {
+    .add-device {
+        height: 70vh;
+        width: 900px;
+
+        &__top {
+            flex-direction: row;
+        }
+    }
 }

@@ -5,26 +5,26 @@
     color: $main-gradient;
     transition: $transition-default;
 
-    &:hover {
-        opacity: 0.75;
-    }
-
     &--white {
         background-color: $white;
         color: $black;
+
+        &:not(.button--locked):hover {
+            background: hsl(0, 0%, 75%);
+        }
     }
 
     &--blue {
         background-color: $blue;
         color: $white;
+
+        &:not(.button--locked):hover {
+            background: hsl(215, 100%, 52%);
+        }
     }
 
     &--locked {
         cursor: auto;
         opacity: 0.5;
-
-        &:hover {
-            opacity: 0.5;
-        }
     }
 }

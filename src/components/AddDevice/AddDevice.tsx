@@ -50,9 +50,25 @@ const AddDevice = () => {
     return (
         <div className="add-device">
             <h2 className="add-device__title">Add new device</h2>
-            <SearchBar />
-            <SelectButton text={'Category'} />
-            <SelectButton text={'Category'} />
+            <div className="add-device__top">
+                <SearchBar />
+                <div className="add-device__filters">
+                    <SelectButton
+                        text={'Category'}
+                        options={['Optics', 'Diagnostic', 'Refraction']}
+                    />
+                    <SelectButton
+                        text={'Manufacturer'}
+                        options={[
+                            'Optivix',
+                            'Akagi',
+                            'ManuZ',
+                            'AmerisourceBergen',
+                        ]}
+                    />
+                </div>
+            </div>
+
             <DevicesTable devices={devices} actions={tableActions} />
             {/* <Button text={'Add device'} /> */}
         </div>

@@ -7,6 +7,9 @@
     background: $blue-dark-accent;
     border-radius: 16px;
     color: $white;
+    width: 100%;
+    height: fit-content;
+    border: 1px solid $blue-dark-accent;
 
     &__input {
         width: 100%;
@@ -18,8 +21,7 @@
         font-size: 0.9rem;
 
         &::placeholder {
-            color: inherit;
-            opacity: 1;
+            color: rgba($white, 0.75);
         }
     }
 

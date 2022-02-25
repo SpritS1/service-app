@@ -65,7 +65,9 @@ const DevicesPage = (props: Props) => {
             <HeaderDesktop />
             <TopSection />
             <FilterSection />
-            <DeviceTable devices={tempDevices} actions={tableActions} />
+            <div className="devices-page__main">
+                <DeviceTable devices={tempDevices} actions={tableActions} />
+            </div>
         </div>
     );
 };
