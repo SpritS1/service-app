@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './AddDevice.scss';
 import SearchBar from 'components/SearchBar/SearchBar';
-import { collection, getDocs } from 'firebase/firestore';
+import {
+    collection,
+    getDocs,
+    doc,
+    arrayUnion,
+    updateDoc,
+} from 'firebase/firestore';
 import { database } from 'firebase.js';
 import DevicesTable from 'components/DevicesTable/DevicesTable';
-import IconButton from 'components/IconButton/IconButton';
 import SelectButton from 'components/SelectButton/SelectButton';
+import useAuth from 'hooks/useAuth';
 
 interface Device {
     model: string;
@@ -15,33 +21,43 @@ interface Device {
     id: string;
 }
 
-const AddDevice = () => {
+const AddDevice = ({
+    setIsAddDeviceOpen,
+}: {
+    setIsAddDeviceOpen: (arg: boolean) => void;
+}) => {
     const [devices, setDevices] = useState<Device[]>([]);
 
     useEffect(() => {
         const collectionRef = collection(database, 'devices');
+
         getDocs(collectionRef).then((snapshot) => {
             const devicesArray: any = [];
+
             snapshot.forEach((doc) => {
                 const device = { ...doc.data(), id: doc.id };
                 devicesArray.push(device);
             });
+
             setDevices(devicesArray);
         });
     }, []);
 
-    const tableActions = (
-        <>
-            <IconButton
-                icon={<i className="action-button__icon fas fa-circle-plus" />}
-                color={'green'}
-            />
-            <IconButton
-                icon={<i className="action-button__icon fas fa-info-circle" />}
-                color={'blue'}
-            />
-        </>
-    );
+    const { user } = useAuth();
+
+    const addDevice = (device: string) => {
+        if (user) {
+            updateDoc(doc(database, 'users_data', user.uid), {
+                devices: arrayUnion(device),
+            }).catch((error) => console.error(error));
+            setIsAddDeviceOpen(false);
+        }
+    };
+
+    const actions: any = [
+        { iconName: 'fas fa-circle-plus', color: 'green', callback: addDevice },
+        { iconName: 'fas fa-info-circle', color: 'blue' },
+    ];
 
     return (
         <div className="add-device">
@@ -65,8 +81,7 @@ const AddDevice = () => {
                 </div>
             </div>
 
-            <DevicesTable devices={devices} actions={tableActions} />
-            {/* <Button text={'Add device'} /> */}
+            <DevicesTable devices={devices} actions={actions} />
         </div>
     );
 };

@@ -7,7 +7,14 @@ import Header from 'components/Header/Header';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
 import IconButton from 'components/IconButton/IconButton';
 import { database } from 'firebase.js';
-import { doc, DocumentReference, getDoc } from 'firebase/firestore';
+import {
+    arrayRemove,
+    doc,
+    DocumentReference,
+    getDoc,
+    onSnapshot,
+    updateDoc,
+} from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
 
 interface Props {}
@@ -16,6 +23,20 @@ const DevicesPage = (props: Props) => {
     const [devices, setDevices] = useState([]);
     const { user } = useAuth();
 
+    // useEffect(() => {
+    //     if (user) {
+    //         const docRef: DocumentReference = doc(
+    //             database,
+    //             'users_data',
+    //             user.uid,
+    //         );
+    //         getDoc(docRef).then((doc) => {
+    //             const docSnap = doc.data();
+    //             if (docSnap) setDevices(docSnap.devices);
+    //         });
+    //     }
+    // }, [user]);
+
     useEffect(() => {
         if (user) {
             const docRef: DocumentReference = doc(
@@ -23,41 +44,26 @@ const DevicesPage = (props: Props) => {
                 'users_data',
                 user.uid,
             );
-            getDoc(docRef).then((doc) => {
+            onSnapshot(docRef, (doc) => {
                 const docSnap = doc.data();
-                if (docSnap) {
-                    setDevices(docSnap.devices);
-                }
+                if (docSnap) setDevices(docSnap.devices);
             });
         }
     }, [user]);
 
-    const tempDevices = [
-        {
-            model: 'Model',
-            category: 'Category',
-            serialNumber: 'SerialNumber',
-            manufacturer: 'Manufacturer',
-            id: '1',
-        },
-    ];
+    const removeDevice = (device: string) => {
+        if (user) {
+            updateDoc(doc(database, 'users_data', user.uid), {
+                devices: arrayRemove(device),
+            }).catch((error) => console.error(error));
+        }
+    };
 
-    const tableActions = (
-        <>
-            <IconButton
-                icon={<i className="action-button__icon fas fa-wrench" />}
-                color={'yellow'}
-            />
-            <IconButton
-                icon={<i className="action-button__icon fas fa-info-circle" />}
-                color={'blue'}
-            />
-            <IconButton
-                icon={<i className="action-button__icon far fa-trash-alt" />}
-                color={'red'}
-            />
-        </>
-    );
+    const actions: any = [
+        { iconName: 'fas fa-wrench', color: 'yellow' },
+        { iconName: 'fas fa-info-circle', color: 'blue' },
+        { iconName: 'far fa-trash-alt', color: 'red', callback: removeDevice },
+    ];
 
     return (
         <div className="devices-page">
@@ -66,7 +72,7 @@ const DevicesPage = (props: Props) => {
             <TopSection />
             <FilterSection />
             <div className="devices-page__main">
-                <DeviceTable devices={tempDevices} actions={tableActions} />
+                <DeviceTable devices={devices} actions={actions} />
             </div>
         </div>
     );
