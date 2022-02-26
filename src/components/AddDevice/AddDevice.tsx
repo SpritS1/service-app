@@ -27,6 +27,7 @@ const AddDevice = ({
     setIsAddDeviceOpen: (arg: boolean) => void;
 }) => {
     const [devices, setDevices] = useState<Device[]>([]);
+    const { user } = useAuth();
 
     useEffect(() => {
         const collectionRef = collection(database, 'devices');
@@ -42,8 +43,6 @@ const AddDevice = ({
             setDevices(devicesArray);
         });
     }, []);
-
-    const { user } = useAuth();
 
     const addDevice = (device: string) => {
         if (user) {
@@ -71,12 +70,7 @@ const AddDevice = ({
                     />
                     <SelectButton
                         text={'Manufacturer'}
-                        options={[
-                            'Optivix',
-                            'Akagi',
-                            'ManuZ',
-                            'AmerisourceBergen',
-                        ]}
+                        options={['Optivix', 'Akagi', 'Arctic']}
                     />
                 </div>
             </div>
