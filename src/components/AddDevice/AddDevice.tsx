@@ -4,6 +4,7 @@ import SearchBar from 'components/SearchBar/SearchBar';
 import {
     collection,
     getDocs,
+    getDoc,
     doc,
     arrayUnion,
     updateDoc,
@@ -30,18 +31,51 @@ const AddDevice = ({
     const { user } = useAuth();
 
     useEffect(() => {
-        const collectionRef = collection(database, 'devices');
+        const getUserDevices = async () => {
+            if (user) {
+                const userDataSnapshot = await getDoc(
+                    doc(database, 'users_data', user.uid),
+                );
+                const userData = userDataSnapshot.data();
+                if (userData) {
+                    const userDevices = userData.devices;
+                    return userDevices;
+                }
+            }
+            return null;
+        };
 
-        getDocs(collectionRef).then((snapshot) => {
-            const devicesArray: any = [];
+        const getAllDevices = async () => {
+            const devices: Device[] = [];
 
-            snapshot.forEach((doc) => {
+            const devicesSnap = await getDocs(collection(database, 'devices'));
+
+            devicesSnap.forEach((doc) => {
                 const device = { ...doc.data(), id: doc.id };
-                devicesArray.push(device);
+                devices.push(device as Device);
             });
 
-            setDevices(devicesArray);
-        });
+            return devices;
+        };
+
+        const filterDevices = async () => {
+            const userDevices = await getUserDevices();
+            const devices = await getAllDevices();
+
+            console.log(userDevices);
+            console.log(devices);
+
+            const filteredDevices = devices.filter((device) => {
+                for (const userDevice of userDevices) {
+                    if (userDevice.id === device.id) return false;
+                }
+                return true;
+            });
+
+            setDevices(filteredDevices);
+        };
+
+        if (user) filterDevices();
     }, []);
 
     const addDevice = (device: string) => {
