@@ -36,6 +36,7 @@ const AddDevice = ({
                 const userDataSnapshot = await getDoc(
                     doc(database, 'users_data', user.uid),
                 );
+<<<<<<< HEAD
 
                 const userData = userDataSnapshot.data();
 
@@ -50,6 +51,20 @@ const AddDevice = ({
         const getAllDevices = async () => {
             const devices: Device[] = [];
 
+=======
+                const userData = userDataSnapshot.data();
+                if (userData) {
+                    const userDevices = userData.devices;
+                    return userDevices;
+                }
+            }
+            return null;
+        };
+
+        const getAllDevices = async () => {
+            const devices: Device[] = [];
+
+>>>>>>> 46652fb05c88d18a8bfbe58f47706135280cd504
             const devicesSnap = await getDocs(collection(database, 'devices'));
 
             devicesSnap.forEach((doc) => {
@@ -61,6 +76,7 @@ const AddDevice = ({
         };
 
         const filterDevices = async () => {
+<<<<<<< HEAD
             try {
                 const userDevices = await getUserDevices();
                 const devices = await getAllDevices();
@@ -80,6 +96,26 @@ const AddDevice = ({
 
         if (user) filterDevices();
     }, [user]);
+=======
+            const userDevices = await getUserDevices();
+            const devices = await getAllDevices();
+
+            console.log(userDevices);
+            console.log(devices);
+
+            const filteredDevices = devices.filter((device) => {
+                for (const userDevice of userDevices) {
+                    if (userDevice.id === device.id) return false;
+                }
+                return true;
+            });
+
+            setDevices(filteredDevices);
+        };
+
+        if (user) filterDevices();
+    }, []);
+>>>>>>> 46652fb05c88d18a8bfbe58f47706135280cd504
 
     const addDevice = (device: string) => {
         if (user) {
