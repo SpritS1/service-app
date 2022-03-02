@@ -12,6 +12,11 @@
     max-width: 100%;
     height: 75vh;
 
+    &__title {
+        font-size: 2rem;
+        margin: 1rem 0;
+    }
+
     &__top {
         display: flex;
         flex-direction: column;
@@ -21,6 +26,21 @@
     &__filters {
         display: flex;
         gap: 1rem;
+    }
+
+    &__bottom {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    &__fetch-info {
+        font-size: 1.5rem;
     }
 }
 

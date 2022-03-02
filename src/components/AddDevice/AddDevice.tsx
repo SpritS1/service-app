@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './AddDevice.scss';
 import SearchBar from 'components/SearchBar/SearchBar';
 import {
@@ -13,6 +13,8 @@ import { database } from 'firebase.js';
 import DevicesTable from 'components/DevicesTable/DevicesTable';
 import SelectButton from 'components/SelectButton/SelectButton';
 import useAuth from 'hooks/useAuth';
+import Loader from 'components/Loader/Loader';
+import Button from 'components/Button/Button';
 
 interface Device {
     model: string;
@@ -28,21 +30,21 @@ const AddDevice = ({
     setIsAddDeviceOpen: (arg: boolean) => void;
 }) => {
     const [devices, setDevices] = useState<Device[]>([]);
+    const [isFetching, setIsFetching] = useState<boolean>(true);
+    const [fetchError, setFetchError] = useState<any | null>(null);
     const { user } = useAuth();
 
-    useEffect(() => {
+    const fetchDevices = useCallback(async () => {
         const getUserDevices = async () => {
-            if (user) {
-                const userDataSnapshot = await getDoc(
-                    doc(database, 'users_data', user.uid),
-                );
+            const userDataSnapshot = await getDoc(
+                doc(database, 'users_data', user!.uid),
+            );
 
-                const userData = userDataSnapshot.data();
+            const userData = userDataSnapshot.data();
 
-                if (userData) {
-                    const userDevices = userData.devices;
-                    return userDevices;
-                }
+            if (userData) {
+                const userDevices = userData.devices;
+                return userDevices;
             }
             return null;
         };
@@ -56,30 +58,41 @@ const AddDevice = ({
                 const device = { ...doc.data(), id: doc.id };
                 devices.push(device as Device);
             });
-
             return devices;
         };
 
-        const filterDevices = async () => {
-            try {
-                const userDevices = await getUserDevices();
-                const devices = await getAllDevices();
+        const filterDevices = async (
+            userDevices: Device[],
+            devices: Device[],
+        ) => {
+            const filteredDevices = devices.filter((device) => {
+                for (const userDevice of userDevices) {
+                    if (userDevice.id === device.id) return false;
+                }
+                return true;
+            });
 
-                const filteredDevices = devices.filter((device) => {
-                    for (const userDevice of userDevices) {
-                        if (userDevice.id === device.id) return false;
-                    }
-                    return true;
-                });
-
-                setDevices(filteredDevices);
-            } catch (error) {
-                console.error(error);
-            }
+            return filteredDevices;
         };
 
-        if (user) filterDevices();
+        try {
+            setIsFetching(true);
+            setFetchError(null);
+            const userDevices = await getUserDevices();
+            const devices = await getAllDevices();
+            const filteredDevices = await filterDevices(userDevices, devices);
+
+            if (filteredDevices) setDevices(filteredDevices);
+            setIsFetching(false);
+        } catch (error) {
+            setFetchError(error);
+            setIsFetching(false);
+        }
     }, [user]);
+
+    useEffect(() => {
+        if (user) fetchDevices();
+    }, [user, fetchDevices]);
 
     const addDevice = (device: string) => {
         if (user) {
@@ -91,9 +104,13 @@ const AddDevice = ({
         }
     };
 
-    const actions: any = [
+    const actions: {
+        iconName: string;
+        color: 'blue' | 'red' | 'yellow' | 'green';
+        callback: (...args: any[]) => void;
+    }[] = [
         { iconName: 'fas fa-circle-plus', color: 'green', callback: addDevice },
-        { iconName: 'fas fa-info-circle', color: 'blue' },
+        { iconName: 'fas fa-info-circle', color: 'blue', callback: () => null },
     ];
 
     return (
@@ -112,8 +129,42 @@ const AddDevice = ({
                     />
                 </div>
             </div>
+            {devices.length === 0 && (
+                <div className="add-device__bottom">
+                    {isFetching && <Loader />}
+                    {!isFetching && !fetchError && devices.length === 0 && (
+                        <>
+                            <h3 className="add-device__fetch-info">
+                                No devices aviable
+                            </h3>
+                            <Button
+                                text={'TRY AGAIN'}
+                                backgroundColor="blue"
+                                action={() => fetchDevices()}
+                            />
+                        </>
+                    )}
+                    {!isFetching && fetchError && (
+                        <>
+                            <h3 className="add-device__fetch-info">
+                                Failed to fetch devices
+                            </h3>
+                            <p className="add-device__fetch-error">
+                                {fetchError}
+                            </p>
+                            <Button
+                                text={'TRY AGAIN'}
+                                backgroundColor="blue"
+                                action={() => fetchDevices()}
+                            />
+                        </>
+                    )}
+                </div>
+            )}
 
-            <DevicesTable devices={devices} actions={actions} />
+            {devices.length !== 0 && (
+                <DevicesTable devices={devices} actions={actions} />
+            )}
         </div>
     );
 };

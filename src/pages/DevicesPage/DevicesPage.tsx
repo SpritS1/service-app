@@ -5,49 +5,49 @@ import FilterSection from 'components/FilterSection/FilterSection';
 import DeviceTable from 'components/DevicesTable/DevicesTable';
 import Header from 'components/Header/Header';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
-import IconButton from 'components/IconButton/IconButton';
 import { database } from 'firebase.js';
 import {
     arrayRemove,
     doc,
     DocumentReference,
-    getDoc,
     onSnapshot,
     updateDoc,
 } from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
+import Loader from 'components/Loader/Loader';
 
-interface Props {}
+interface Device {
+    model: string;
+    category: string;
+    serialNumber: string;
+    manufacturer: string;
+    id: string;
+}
 
-const DevicesPage = (props: Props) => {
-    const [devices, setDevices] = useState([]);
+const DevicesPage = () => {
+    const [devices, setDevices] = useState<Device[]>([]);
+    const [isFetching, setIsFetching] = useState<boolean>(true);
+    const [fetchError, setFetchError] = useState<any | null>(null);
     const { user } = useAuth();
 
-    // useEffect(() => {
-    //     if (user) {
-    //         const docRef: DocumentReference = doc(
-    //             database,
-    //             'users_data',
-    //             user.uid,
-    //         );
-    //         getDoc(docRef).then((doc) => {
-    //             const docSnap = doc.data();
-    //             if (docSnap) setDevices(docSnap.devices);
-    //         });
-    //     }
-    // }, [user]);
-
     useEffect(() => {
-        if (user) {
-            const docRef: DocumentReference = doc(
-                database,
-                'users_data',
-                user.uid,
-            );
-            onSnapshot(docRef, (doc) => {
-                const docSnap = doc.data();
-                if (docSnap) setDevices(docSnap.devices);
-            });
+        try {
+            if (user) {
+                const docRef: DocumentReference = doc(
+                    database,
+                    'users_data',
+                    user.uid,
+                );
+                // throw 'XD';
+                onSnapshot(docRef, (doc) => {
+                    const docSnap = doc.data();
+                    if (docSnap) setDevices(docSnap.devices);
+                    setIsFetching(false);
+                });
+            }
+        } catch (error) {
+            setFetchError(error);
+            setIsFetching(false);
         }
     }, [user]);
 
@@ -72,7 +72,20 @@ const DevicesPage = (props: Props) => {
             <TopSection />
             <FilterSection />
             <div className="devices-page__main">
-                <DeviceTable devices={devices} actions={actions} />
+                {isFetching && <Loader />}
+                {!isFetching && fetchError && (
+                    <>
+                        <h3 className="devices-page__fetch-info">
+                            Failed to fetch devices
+                        </h3>
+                        <p className="devices-page__fetch-error">
+                            {fetchError}
+                        </p>
+                    </>
+                )}
+                {!isFetching && !fetchError && (
+                    <DeviceTable devices={devices} actions={actions} />
+                )}
             </div>
         </div>
     );
