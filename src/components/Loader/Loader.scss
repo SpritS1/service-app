@@ -1,0 +1,22 @@
+@use 'scss/index' as *;
+
+.loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border: solid 3px $blue;
+    border-bottom-color: rgba($blue, 0.1);
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    animation: 1s linear infinite spinner;
+}
+
+@keyframes spinner {
+    from {
+        transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    }
+    to {
+        transform: translate3d(-50%, -50%, 0) rotate(360deg);
+    }
+}
