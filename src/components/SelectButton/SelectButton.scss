@@ -75,5 +75,9 @@
         &:hover {
             background: rgba($white, 0.25);
         }
+
+        &--unset {
+            font-weight: bold;
+        }
     }
 }

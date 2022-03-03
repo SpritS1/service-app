@@ -43,6 +43,7 @@
         ]
     },
     "devDependencies": {
+        "@testing-library/react-hooks": "^7.0.2",
         "sass": "^1.49.8",
         "sass-loader": "^12.6.0"
     }

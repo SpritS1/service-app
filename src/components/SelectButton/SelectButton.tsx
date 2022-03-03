@@ -1,14 +1,20 @@
-import { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './SelectButton.scss';
 
 type Props = {
     text: string;
     options: string[];
+    selectedOption: string | null;
+    setSelectedOption: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-const SelectButton = ({ text, options }: Props) => {
+const SelectButton = ({
+    text,
+    options,
+    selectedOption,
+    setSelectedOption,
+}: Props) => {
     const [isActive, setIsActive] = useState<boolean>(false);
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
     const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -47,6 +53,12 @@ const SelectButton = ({ text, options }: Props) => {
                     isActive ? 'active' : ''
                 }`}
             >
+                <li
+                    className="select-button__dropdown-item select-button__dropdown-item--unset"
+                    onClick={() => setSelectedOption(null)}
+                >
+                    All
+                </li>
                 {options.map((option) => (
                     <li
                         className="select-button__dropdown-item"

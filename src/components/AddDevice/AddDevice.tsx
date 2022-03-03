@@ -8,6 +8,9 @@ import {
     doc,
     arrayUnion,
     updateDoc,
+    query,
+    where,
+    orderBy,
 } from 'firebase/firestore';
 import { database } from 'firebase.js';
 import DevicesTable from 'components/DevicesTable/DevicesTable';
@@ -32,7 +35,44 @@ const AddDevice = ({
     const [devices, setDevices] = useState<Device[]>([]);
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [fetchError, setFetchError] = useState<any | null>(null);
+    // Set to filter the devices array
+    const [filterCategory, setFilterCategory] = useState<string | null>(null);
+    const [filterManufacturer, setFilterManufacturer] = useState<string | null>(
+        null,
+    );
+    // Unique values to be displayed in SelectButtons
+    const [categories, setCategories] = useState<string[]>([]);
+    const [manufacturers, setManufacturers] = useState<string[]>([]);
+
     const { user } = useAuth();
+
+    useEffect(() => {
+        const manufQuery = query(
+            collection(database, 'manufacturers'),
+            orderBy('name', 'asc'),
+        );
+
+        getDocs(manufQuery).then((snap) => {
+            const manufacturers: string[] = [];
+            for (const doc of snap.docs) {
+                manufacturers.push(doc.data().name);
+            }
+            setManufacturers(manufacturers);
+        });
+
+        const categoryQuery = query(
+            collection(database, 'deviceCategories'),
+            orderBy('name', 'asc'),
+        );
+
+        getDocs(categoryQuery).then((snap) => {
+            const categories: string[] = [];
+            for (const doc of snap.docs) {
+                categories.push(doc.data().name);
+            }
+            setCategories(categories);
+        });
+    }, []);
 
     const fetchDevices = useCallback(async () => {
         const getUserDevices = async () => {
@@ -52,7 +92,26 @@ const AddDevice = ({
         const getAllDevices = async () => {
             const devices: Device[] = [];
 
-            const devicesSnap = await getDocs(collection(database, 'devices'));
+            let devicesQuery = query(collection(database, 'devices'));
+
+            if (filterCategory && filterManufacturer) {
+                devicesQuery = query(
+                    collection(database, 'devices'),
+                    where('category', '==', filterCategory),
+                    where('manufacturer', '==', filterManufacturer),
+                );
+            } else if (filterCategory)
+                devicesQuery = query(
+                    (devicesQuery = collection(database, 'devices')),
+                    where('category', '==', filterCategory),
+                );
+            else if (filterManufacturer)
+                devicesQuery = query(
+                    collection(database, 'devices'),
+                    where('manufacturer', '==', filterManufacturer),
+                );
+
+            const devicesSnap = await getDocs(devicesQuery);
 
             devicesSnap.forEach((doc) => {
                 const device = { ...doc.data(), id: doc.id };
@@ -78,17 +137,19 @@ const AddDevice = ({
         try {
             setIsFetching(true);
             setFetchError(null);
+
             const userDevices = await getUserDevices();
             const devices = await getAllDevices();
             const filteredDevices = await filterDevices(userDevices, devices);
 
             if (filteredDevices) setDevices(filteredDevices);
+
             setIsFetching(false);
         } catch (error) {
             setFetchError(error);
             setIsFetching(false);
         }
-    }, [user]);
+    }, [user, filterCategory, filterManufacturer]);
 
     useEffect(() => {
         if (user) fetchDevices();
@@ -121,11 +182,15 @@ const AddDevice = ({
                 <div className="add-device__filters">
                     <SelectButton
                         text={'Category'}
-                        options={['Optics', 'Diagnostic', 'Refraction']}
+                        options={categories}
+                        selectedOption={filterCategory}
+                        setSelectedOption={setFilterCategory}
                     />
                     <SelectButton
                         text={'Manufacturer'}
-                        options={['Optivix', 'Akagi', 'Arctic']}
+                        options={manufacturers}
+                        selectedOption={filterManufacturer}
+                        setSelectedOption={setFilterManufacturer}
                     />
                 </div>
             </div>
@@ -135,13 +200,13 @@ const AddDevice = ({
                     {!isFetching && !fetchError && devices.length === 0 && (
                         <>
                             <h3 className="add-device__fetch-info">
-                                No devices aviable
+                                No devices found
                             </h3>
-                            <Button
+                            {/* <Button
                                 text={'TRY AGAIN'}
                                 backgroundColor="blue"
                                 action={() => fetchDevices()}
-                            />
+                            /> */}
                         </>
                     )}
                     {!isFetching && fetchError && (
