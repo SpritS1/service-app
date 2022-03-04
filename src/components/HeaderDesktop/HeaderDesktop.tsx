@@ -16,9 +16,11 @@ type Device = {
 
 interface Props {
     userDevices: Device[];
+    searchValue: string;
+    setSearchValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const HeaderDesktop = ({ userDevices }: Props) => {
+const HeaderDesktop = ({ userDevices, searchValue, setSearchValue }: Props) => {
     const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false);
 
     return (
@@ -26,7 +28,10 @@ const HeaderDesktop = ({ userDevices }: Props) => {
             <h5 className="header-desktop__title">Your devices</h5>
             <div className="header-desktop__container-right">
                 <SortBy />
-                {/* <SearchBar /> */}
+                <SearchBar
+                    searchValue={searchValue}
+                    setSearchValue={setSearchValue}
+                />
                 <Button
                     text="ADD DEVICE"
                     backgroundColor="blue"

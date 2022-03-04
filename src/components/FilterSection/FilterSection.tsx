@@ -3,13 +3,19 @@ import './FilterSection.scss';
 import SearchBar from 'components/SearchBar/SearchBar';
 import SortBy from 'components/SortBy/SortBy';
 
-interface Props {}
+interface Props {
+    searchValue: string;
+    setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+}
 
-const FilterSection = (props: Props) => {
+const FilterSection = ({ searchValue, setSearchValue }: Props) => {
     return (
         <div className="filter-section">
             <SortBy />
-            {/* <SearchBar /> */}
+            <SearchBar
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+            />
         </div>
     );
 };

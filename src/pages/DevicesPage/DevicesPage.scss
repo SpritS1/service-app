@@ -3,11 +3,26 @@
 .devices-page {
     &__main {
         padding: 1rem 1.5rem;
+        position: relative;
+        height: calc(100vh - 70px - 75px - 75px);
+    }
+
+    &__fetch-info {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        top: 50%;
+        font-size: 1.5rem;
+        color: $white;
     }
 }
 
 @media screen and (min-width: $breakpoint-desktop) {
     .devices-page {
         padding-left: 250px;
+
+        &__main {
+            height: calc(100vh - 70px);
+        }
     }
 }

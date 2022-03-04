@@ -26,8 +26,10 @@ type Device = {
 
 const DevicesPage = () => {
     const [userDevices, setUserDevices] = useState<Device[]>([]);
+    const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [fetchError, setFetchError] = useState<any | null>(null);
+    const [searchValue, setSearchValue] = useState<string>('');
     const { user } = useAuth();
 
     useEffect(() => {
@@ -38,7 +40,6 @@ const DevicesPage = () => {
                     'users_data',
                     user.uid,
                 );
-                // throw 'XD';
                 onSnapshot(docRef, (doc) => {
                     const docSnap = doc.data();
                     if (docSnap) setUserDevices(docSnap.devices);
@@ -59,6 +60,29 @@ const DevicesPage = () => {
         }
     };
 
+    useEffect(() => {
+        const filterDevices = (devices: Device[], searchValue: string) => {
+            const filteredDevices = devices.filter(
+                ({ model, serialNumber }) => {
+                    const regex = new RegExp(`^${searchValue}`, 'i');
+
+                    if (
+                        searchValue.length !== 0 &&
+                        !(regex.test(model) || regex.test(serialNumber))
+                    )
+                        return false;
+
+                    return true;
+                },
+            );
+
+            setFilteredDevices(filteredDevices);
+        };
+
+        if (searchValue.length === 0) setFilteredDevices(userDevices);
+        else filterDevices(userDevices, searchValue);
+    }, [searchValue, userDevices]);
+
     const actions: any = [
         { iconName: 'fas fa-wrench', color: 'yellow' },
         { iconName: 'fas fa-info-circle', color: 'blue' },
@@ -68,11 +92,27 @@ const DevicesPage = () => {
     return (
         <div className="devices-page">
             <Header />
-            <HeaderDesktop userDevices={userDevices} />
+            <HeaderDesktop
+                userDevices={userDevices}
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+            />
             <TopSection userDevices={userDevices} />
-            <FilterSection />
+            <FilterSection
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+            />
             <div className="devices-page__main">
                 {isFetching && <Loader />}
+                {!isFetching && !fetchError && filteredDevices.length === 0 && (
+                    <div className="devices-page__fetch-info-container">
+                        <h3 className="devices-page__fetch-info">
+                            {searchValue.length === 0
+                                ? "You don't have any devices"
+                                : 'No devices found'}
+                        </h3>
+                    </div>
+                )}
                 {!isFetching && fetchError && (
                     <>
                         <h3 className="devices-page__fetch-info">
@@ -83,8 +123,8 @@ const DevicesPage = () => {
                         </p>
                     </>
                 )}
-                {!isFetching && !fetchError && (
-                    <DeviceTable devices={userDevices} actions={actions} />
+                {!isFetching && !fetchError && filteredDevices.length !== 0 && (
+                    <DeviceTable devices={filteredDevices} actions={actions} />
                 )}
             </div>
         </div>

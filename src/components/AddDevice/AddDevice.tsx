@@ -56,26 +56,32 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
             orderBy('name', 'asc'),
         );
 
-        getDocs(manufQuery).then((snap) => {
-            const manufacturers: string[] = [];
-            for (const doc of snap.docs) {
-                manufacturers.push(doc.data().name);
-            }
-            setManufacturers(manufacturers);
-        });
+        getDocs(manufQuery)
+            .then((snap) => {
+                const manufacturers: string[] = [];
+                for (const doc of snap.docs) {
+                    manufacturers.push(doc.data().name);
+                }
+                setManufacturers(manufacturers);
+            })
+            .catch((error) => setManufacturers([]));
 
         const categoryQuery = query(
             collection(database, 'deviceCategories'),
             orderBy('name', 'asc'),
         );
 
-        getDocs(categoryQuery).then((snap) => {
-            const categories: string[] = [];
-            for (const doc of snap.docs) {
-                categories.push(doc.data().name);
-            }
-            setCategories(categories);
-        });
+        getDocs(categoryQuery)
+            .then((snap) => {
+                const categories: string[] = [];
+                for (const doc of snap.docs) {
+                    categories.push(doc.data().name);
+                }
+                setCategories(categories);
+            })
+            .catch((error) => {
+                setFetchError(error);
+            });
     }, []);
 
     const fetchDevices = useCallback(async () => {
