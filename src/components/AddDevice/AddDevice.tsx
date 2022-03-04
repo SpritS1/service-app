@@ -9,7 +9,6 @@ import {
     arrayUnion,
     updateDoc,
     query,
-    where,
     orderBy,
 } from 'firebase/firestore';
 import { database } from 'firebase.js';
@@ -19,19 +18,20 @@ import useAuth from 'hooks/useAuth';
 import Loader from 'components/Loader/Loader';
 import Button from 'components/Button/Button';
 
-interface Device {
+type Device = {
     model: string;
     category: string;
     serialNumber: string;
     manufacturer: string;
     id: string;
+};
+
+interface Props {
+    setIsAddDeviceOpen: (arg: boolean) => void;
+    userDevices: Device[];
 }
 
-const AddDevice = ({
-    setIsAddDeviceOpen,
-}: {
-    setIsAddDeviceOpen: (arg: boolean) => void;
-}) => {
+const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
     const [devices, setDevices] = useState<Device[]>([]);
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [fetchError, setFetchError] = useState<any | null>(null);
@@ -75,41 +75,13 @@ const AddDevice = ({
     }, []);
 
     const fetchDevices = useCallback(async () => {
-        const getUserDevices = async () => {
-            const userDataSnapshot = await getDoc(
-                doc(database, 'users_data', user!.uid),
-            );
-
-            const userData = userDataSnapshot.data();
-
-            if (userData) {
-                const userDevices = userData.devices;
-                return userDevices;
-            }
-            return null;
-        };
-
         const getAllDevices = async () => {
             const devices: Device[] = [];
 
-            let devicesQuery = query(collection(database, 'devices'));
-
-            if (filterCategory && filterManufacturer) {
-                devicesQuery = query(
-                    collection(database, 'devices'),
-                    where('category', '==', filterCategory),
-                    where('manufacturer', '==', filterManufacturer),
-                );
-            } else if (filterCategory)
-                devicesQuery = query(
-                    (devicesQuery = collection(database, 'devices')),
-                    where('category', '==', filterCategory),
-                );
-            else if (filterManufacturer)
-                devicesQuery = query(
-                    collection(database, 'devices'),
-                    where('manufacturer', '==', filterManufacturer),
-                );
+            let devicesQuery = query(
+                collection(database, 'devices'),
+                orderBy('model'),
+            );
 
             const devicesSnap = await getDocs(devicesQuery);
 
@@ -138,7 +110,6 @@ const AddDevice = ({
             setIsFetching(true);
             setFetchError(null);
 
-            const userDevices = await getUserDevices();
             const devices = await getAllDevices();
             const filteredDevices = await filterDevices(userDevices, devices);
 
@@ -149,7 +120,7 @@ const AddDevice = ({
             setFetchError(error);
             setIsFetching(false);
         }
-    }, [user, filterCategory, filterManufacturer]);
+    }, [userDevices]);
 
     useEffect(() => {
         if (user) fetchDevices();
@@ -202,11 +173,6 @@ const AddDevice = ({
                             <h3 className="add-device__fetch-info">
                                 No devices found
                             </h3>
-                            {/* <Button
-                                text={'TRY AGAIN'}
-                                backgroundColor="blue"
-                                action={() => fetchDevices()}
-                            /> */}
                         </>
                     )}
                     {!isFetching && fetchError && (

@@ -4,9 +4,19 @@ import Button from 'components/Button/Button';
 import Modal from 'components/Modal/Modal';
 import AddDevice from 'components/AddDevice/AddDevice';
 
-interface Props {}
+type Device = {
+    model: string;
+    category: string;
+    serialNumber: string;
+    manufacturer: string;
+    id: string;
+};
 
-const TopSection = (props: Props) => {
+interface Props {
+    userDevices: Device[];
+}
+
+const TopSection = ({ userDevices }: Props) => {
     const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false);
 
     return (
@@ -21,7 +31,10 @@ const TopSection = (props: Props) => {
                 isOpen={isAddDeviceOpen}
                 onClose={() => setIsAddDeviceOpen(false)}
             >
-                <AddDevice setIsAddDeviceOpen={setIsAddDeviceOpen} />
+                <AddDevice
+                    setIsAddDeviceOpen={setIsAddDeviceOpen}
+                    userDevices={userDevices}
+                />
             </Modal>
         </div>
     );

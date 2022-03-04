@@ -16,16 +16,16 @@ import {
 import useAuth from 'hooks/useAuth';
 import Loader from 'components/Loader/Loader';
 
-interface Device {
+type Device = {
     model: string;
     category: string;
     serialNumber: string;
     manufacturer: string;
     id: string;
-}
+};
 
 const DevicesPage = () => {
-    const [devices, setDevices] = useState<Device[]>([]);
+    const [userDevices, setUserDevices] = useState<Device[]>([]);
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [fetchError, setFetchError] = useState<any | null>(null);
     const { user } = useAuth();
@@ -41,7 +41,7 @@ const DevicesPage = () => {
                 // throw 'XD';
                 onSnapshot(docRef, (doc) => {
                     const docSnap = doc.data();
-                    if (docSnap) setDevices(docSnap.devices);
+                    if (docSnap) setUserDevices(docSnap.devices);
                     setIsFetching(false);
                 });
             }
@@ -68,8 +68,8 @@ const DevicesPage = () => {
     return (
         <div className="devices-page">
             <Header />
-            <HeaderDesktop />
-            <TopSection />
+            <HeaderDesktop userDevices={userDevices} />
+            <TopSection userDevices={userDevices} />
             <FilterSection />
             <div className="devices-page__main">
                 {isFetching && <Loader />}
@@ -84,7 +84,7 @@ const DevicesPage = () => {
                     </>
                 )}
                 {!isFetching && !fetchError && (
-                    <DeviceTable devices={devices} actions={actions} />
+                    <DeviceTable devices={userDevices} actions={actions} />
                 )}
             </div>
         </div>
