@@ -1,15 +1,23 @@
-import React from "react";
-import "./SearchBar.scss";
+import React from 'react';
+import './SearchBar.scss';
 
-interface Props {}
+interface Props {
+    searchValue: string;
+    setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+}
 
-const SearchBar = (props: Props) => {
-  return (
-    <div className="search-bar">
-      <input className="search-bar__input" placeholder="Find device..." />
-      <i className="search-bar__icon fas fa-search" />
-    </div>
-  );
+const SearchBar = ({ searchValue, setSearchValue }: Props) => {
+    return (
+        <div className="search-bar">
+            <input
+                className="search-bar__input"
+                placeholder="Find device..."
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+            />
+            <i className="search-bar__icon fas fa-search" />
+        </div>
+    );
 };
 
 export default SearchBar;

@@ -17,13 +17,13 @@ import useAuth from 'hooks/useAuth';
 import Loader from 'components/Loader/Loader';
 import Button from 'components/Button/Button';
 
-type Device = {
+interface Device {
     model: string;
     category: string;
     serialNumber: string;
     manufacturer: string;
     id: string;
-};
+}
 
 interface Props {
     setIsAddDeviceOpen: (arg: boolean) => void;
@@ -33,6 +33,7 @@ interface Props {
 const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
     const [notOwnedDevices, setNotOwnedDevices] = useState<Device[]>([]);
     const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
+    // Fetch
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [fetchError, setFetchError] = useState<any | null>(null);
     // Set to filter the devices array
@@ -42,6 +43,7 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
     const [filterManufacturerValue, setFilterManufacturerValue] = useState<
         string | null
     >(null);
+    const [searchValue, setSearchValue] = useState<string>('');
     // Unique values to be displayed in SelectButtons
     const [categories, setCategories] = useState<string[]>([]);
     const [manufacturers, setManufacturers] = useState<string[]>([]);
@@ -94,7 +96,7 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
             return devices;
         };
 
-        const filterDevices = async (
+        const removeOwnedDevices = async (
             userDevices: Device[],
             devices: Device[],
         ) => {
@@ -113,7 +115,10 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
             setFetchError(null);
 
             const devices = await getAllDevices();
-            const filteredDevices = await filterDevices(userDevices, devices);
+            const filteredDevices = await removeOwnedDevices(
+                userDevices,
+                devices,
+            );
 
             if (filteredDevices) setNotOwnedDevices(filteredDevices);
 
@@ -129,37 +134,46 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
     }, [user, fetchDevices]);
 
     useEffect(() => {
-        // const filterDevices = (
-        //     fieldName: 'category' | 'manufacturer',
-        //     value: string,
-        // ) => {
-        //     const devices = notOwnedDevices;
-        //     console.log(devices);
-        // };
+        const filterDevices = (devices: Device[], searchValue: string) => {
+            const filteredDevices = devices.filter(
+                ({ category, model, manufacturer, serialNumber }) => {
+                    const regex = new RegExp(`^${searchValue}`, 'i');
 
-        const filterDevices = () => {
-            // const devices = notOwnedDevices;
-            const filteredDevices = notOwnedDevices.filter((device) => {
-                if (
-                    filterCategoryValue &&
-                    device.category !== filterCategoryValue
-                )
-                    return false;
-                if (
-                    filterManufacturerValue &&
-                    device.manufacturer !== filterManufacturerValue
-                )
-                    return false;
-                return true;
-            });
+                    if (filterCategoryValue && category !== filterCategoryValue)
+                        return false;
+
+                    if (
+                        filterManufacturerValue &&
+                        manufacturer !== filterManufacturerValue
+                    )
+                        return false;
+
+                    if (
+                        searchValue.length !== 0 &&
+                        !(regex.test(model) || regex.test(serialNumber))
+                    )
+                        return false;
+
+                    return true;
+                },
+            );
 
             setFilteredDevices(filteredDevices);
         };
 
-        if (!filterCategoryValue && !filterManufacturerValue)
+        if (
+            !filterCategoryValue &&
+            !filterManufacturerValue &&
+            searchValue.length === 0
+        )
             setFilteredDevices(notOwnedDevices);
-        else filterDevices();
-    }, [notOwnedDevices, filterCategoryValue, filterManufacturerValue]);
+        else filterDevices(notOwnedDevices, searchValue);
+    }, [
+        notOwnedDevices,
+        filterCategoryValue,
+        filterManufacturerValue,
+        searchValue,
+    ]);
 
     const addDevice = (device: string) => {
         if (user) {
@@ -184,7 +198,10 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
         <div className="add-device">
             <h2 className="add-device__title">Add new device</h2>
             <div className="add-device__top">
-                <SearchBar />
+                <SearchBar
+                    searchValue={searchValue}
+                    setSearchValue={setSearchValue}
+                />
                 <div className="add-device__filters">
                     <SelectButton
                         text={'Category'}

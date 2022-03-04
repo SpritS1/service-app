@@ -26,7 +26,7 @@ const HeaderDesktop = ({ userDevices }: Props) => {
             <h5 className="header-desktop__title">Your devices</h5>
             <div className="header-desktop__container-right">
                 <SortBy />
-                <SearchBar />
+                {/* <SearchBar /> */}
                 <Button
                     text="ADD DEVICE"
                     backgroundColor="blue"
