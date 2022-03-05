@@ -15,6 +15,8 @@ import {
 } from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
 import Loader from 'components/Loader/Loader';
+import Pagination from 'components/Pagination/Pagination';
+import usePagination from 'hooks/usePagination';
 
 type Device = {
     model: string;
@@ -30,7 +32,16 @@ const DevicesPage = () => {
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [fetchError, setFetchError] = useState<any | null>(null);
     const [searchValue, setSearchValue] = useState<string>('');
+
     const { user } = useAuth();
+
+    const {
+        setPaginationLimit,
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        paginatedElements,
+    } = usePagination(filteredDevices, 10);
 
     useEffect(() => {
         try {
@@ -123,8 +134,20 @@ const DevicesPage = () => {
                         </p>
                     </>
                 )}
-                {!isFetching && !fetchError && filteredDevices.length !== 0 && (
-                    <DeviceTable devices={filteredDevices} actions={actions} />
+                {!isFetching && !fetchError && paginatedElements.length !== 0 && (
+                    <>
+                        <DeviceTable
+                            devices={paginatedElements}
+                            actions={actions}
+                        />
+                        <Pagination
+                            // paginationLimit={paginationLimit}
+                            setPaginationLimit={setPaginationLimit}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            totalPages={totalPages}
+                        />
+                    </>
                 )}
             </div>
         </div>

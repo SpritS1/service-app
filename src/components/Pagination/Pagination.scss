@@ -1,0 +1,63 @@
+@use 'scss/index' as *;
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $white;
+
+    &__page-info {
+        display: none;
+    }
+
+    &__navigation {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    &__button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.5rem;
+        width: 45px;
+        height: 45px;
+        background: $blue-dark-accent;
+        border-radius: $border-radius;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: $transition-default;
+
+        &:hover {
+            background: rgba($blue-dark-accent, 0.75);
+        }
+
+        &--active {
+            color: $blue;
+
+            cursor: default;
+            &:hover {
+                background: $blue-dark-accent;
+            }
+        }
+
+        &--disabled {
+            cursor: default;
+            opacity: 0.5;
+
+            &:hover {
+                background: $blue-dark-accent;
+            }
+        }
+    }
+}
+
+@media screen and (min-width: $breakpoint-mobile) {
+    .pagination {
+        justify-content: space-between;
+
+        &__page-info {
+            display: block;
+        }
+    }
+}
