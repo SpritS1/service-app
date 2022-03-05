@@ -238,50 +238,52 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
                     />
                 </div>
             </div>
-            {filteredDevices.length === 0 && (
-                <div className="add-device__bottom">
-                    {isFetching && <Loader />}
-                    {!isFetching &&
-                        !fetchError &&
-                        filteredDevices.length === 0 && (
+            <div className="add-device__bottom">
+                {filteredDevices.length === 0 && (
+                    <div className="add-device__bottom">
+                        {isFetching && <Loader />}
+                        {!isFetching &&
+                            !fetchError &&
+                            filteredDevices.length === 0 && (
+                                <>
+                                    <h3 className="add-device__fetch-info">
+                                        No devices found
+                                    </h3>
+                                </>
+                            )}
+                        {!isFetching && fetchError && (
                             <>
                                 <h3 className="add-device__fetch-info">
-                                    No devices found
+                                    Failed to fetch devices
                                 </h3>
+                                <p className="add-device__fetch-error">
+                                    {fetchError}
+                                </p>
+                                <Button
+                                    text={'TRY AGAIN'}
+                                    backgroundColor="blue"
+                                    action={() => fetchDevices()}
+                                />
                             </>
                         )}
-                    {!isFetching && fetchError && (
-                        <>
-                            <h3 className="add-device__fetch-info">
-                                Failed to fetch devices
-                            </h3>
-                            <p className="add-device__fetch-error">
-                                {fetchError}
-                            </p>
-                            <Button
-                                text={'TRY AGAIN'}
-                                backgroundColor="blue"
-                                action={() => fetchDevices()}
-                            />
-                        </>
-                    )}
-                </div>
-            )}
+                    </div>
+                )}
 
-            {filteredDevices.length !== 0 && (
-                <>
-                    <DevicesTable
-                        devices={paginatedDevices}
-                        actions={actions}
-                    />
-                    <Pagination
-                        setPaginationLimit={setPaginationLimit}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                        totalPages={totalPages}
-                    />
-                </>
-            )}
+                {filteredDevices.length !== 0 && (
+                    <>
+                        <DevicesTable
+                            devices={paginatedDevices}
+                            actions={actions}
+                        />
+                        <Pagination
+                            setPaginationLimit={setPaginationLimit}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            totalPages={totalPages}
+                        />
+                    </>
+                )}
+            </div>
         </div>
     );
 };

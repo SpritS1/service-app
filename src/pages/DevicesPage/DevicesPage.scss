@@ -6,6 +6,7 @@
     &__main {
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         padding: 1rem 1.5rem;
         position: relative;
         min-height: calc(100vh - 70px - 75px - 75px);
@@ -28,7 +29,6 @@
         padding-left: 250px;
 
         &__main {
-            justify-content: space-between;
             min-height: calc(100vh - 70px);
         }
     }

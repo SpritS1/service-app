@@ -12,3 +12,9 @@
     align-items: center;
     justify-content: center;
 }
+
+@media screen and (min-width: $breakpoint-tablet) {
+    .modal {
+        padding: 2rem;
+    }
+}
