@@ -2,6 +2,7 @@
 
 .sidebar {
     position: fixed;
+    z-index: $z-index-fixed;
     left: 0;
     top: 0;
     width: 250px;

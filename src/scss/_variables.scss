@@ -6,6 +6,7 @@ $white: hsl(0, 0%, 100%);
 $black: hsl(0, 0%, 0%);
 $gray: hsl(0, 0%, 50%);
 $red: #eb5757;
+$red-error: #cc0000;
 $green: #00b900;
 
 // gradients
@@ -23,13 +24,13 @@ $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1100px;
 
 // z-index
-$zindex-dropdown: 1000;
-$zindex-sticky: 1020;
-$zindex-fixed: 1030;
-$zindex-modal-backdrop: 1040;
-$zindex-modal: 1050;
-$zindex-popover: 1060;
-$zindex-tooltip: 1070;
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popup: 1060;
+$z-index-tooltip: 1070;
 
 // Other
 $transition-default: ease-in-out 0.25s;
