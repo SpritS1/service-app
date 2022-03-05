@@ -18,7 +18,6 @@ import Loader from 'components/Loader/Loader';
 import Button from 'components/Button/Button';
 import usePagination from 'hooks/usePagination';
 import Pagination from 'components/Pagination/Pagination';
-import IconButton from 'components/IconButton/IconButton';
 
 interface Device {
     model: string;
