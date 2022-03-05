@@ -54,29 +54,35 @@ const DevicesTable = ({ devices, actions }: Props) => {
                                         {manufacturer}
                                     </td>
                                     <td className="devices-table__td">
-                                        {actions.map(
-                                            ({ iconName, color, callback }) => {
-                                                return (
-                                                    <IconButton
-                                                        icon={
-                                                            <i
-                                                                className={`action-button__icon ${iconName}`}
-                                                            />
-                                                        }
-                                                        color={color}
-                                                        callback={callback}
-                                                        callbackArguments={{
-                                                            model,
-                                                            category,
-                                                            serialNumber,
-                                                            manufacturer,
-                                                            id,
-                                                        }}
-                                                        key={`${iconName} ${id}`}
-                                                    />
-                                                );
-                                            },
-                                        )}
+                                        <div className="devices-table__actions">
+                                            {actions.map(
+                                                ({
+                                                    iconName,
+                                                    color,
+                                                    callback,
+                                                }) => {
+                                                    return (
+                                                        <IconButton
+                                                            icon={
+                                                                <i
+                                                                    className={`icon-button__icon ${iconName}`}
+                                                                />
+                                                            }
+                                                            color={color}
+                                                            callback={callback}
+                                                            callbackArguments={{
+                                                                model,
+                                                                category,
+                                                                serialNumber,
+                                                                manufacturer,
+                                                                id,
+                                                            }}
+                                                            key={`${iconName} ${id}`}
+                                                        />
+                                                    );
+                                                },
+                                            )}
+                                        </div>
                                     </td>
                                 </tr>
                             );

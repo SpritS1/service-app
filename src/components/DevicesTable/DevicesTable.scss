@@ -30,9 +30,17 @@
         &:first-child {
             border-radius: 16px 0 0 16px;
         }
+
         &:last-child {
             border-radius: 0 16px 16px 0;
         }
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
     }
 }
 

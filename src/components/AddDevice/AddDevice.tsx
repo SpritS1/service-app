@@ -16,6 +16,9 @@ import SelectButton from 'components/SelectButton/SelectButton';
 import useAuth from 'hooks/useAuth';
 import Loader from 'components/Loader/Loader';
 import Button from 'components/Button/Button';
+import usePagination from 'hooks/usePagination';
+import Pagination from 'components/Pagination/Pagination';
+import IconButton from 'components/IconButton/IconButton';
 
 interface Device {
     model: string;
@@ -50,6 +53,14 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
 
     const { user } = useAuth();
 
+    const {
+        setPaginationLimit,
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        paginatedElements: paginatedDevices,
+    } = usePagination(filteredDevices);
+
     useEffect(() => {
         const manufQuery = query(
             collection(database, 'manufacturers'),
@@ -79,9 +90,7 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
                 }
                 setCategories(categories);
             })
-            .catch((error) => {
-                setFetchError(error);
-            });
+            .catch((error) => setCategories([]));
     }, []);
 
     const fetchDevices = useCallback(async () => {
@@ -202,7 +211,13 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
 
     return (
         <div className="add-device">
-            <h2 className="add-device__title">Add new device</h2>
+            <div className="add-device__header">
+                <h2 className="add-device__title">Add new device</h2>
+                <button
+                    className="add-device__exit-button fas fa-times"
+                    onClick={() => setIsAddDeviceOpen(false)}
+                />
+            </div>
             <div className="add-device__top">
                 <SearchBar
                     searchValue={searchValue}
@@ -254,7 +269,18 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
             )}
 
             {filteredDevices.length !== 0 && (
-                <DevicesTable devices={filteredDevices} actions={actions} />
+                <>
+                    <DevicesTable
+                        devices={paginatedDevices}
+                        actions={actions}
+                    />
+                    <Pagination
+                        setPaginationLimit={setPaginationLimit}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        totalPages={totalPages}
+                    />
+                </>
             )}
         </div>
     );

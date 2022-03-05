@@ -1,6 +1,6 @@
 @use 'scss/index' as *;
 
-.action-button {
+.icon-button {
     border-radius: $border-radius;
     border: none;
     padding: 0.5rem;
@@ -22,17 +22,16 @@
     &--blue {
         color: $blue;
         background: rgba($blue, 0.25);
-        margin: 0 1rem;
     }
 
     &--red {
-        color: #eb5757;
-        background: rgba(#eb5757, 0.25);
+        color: $red;
+        background: rgba($red, 0.25);
     }
 
     &--green {
-        color: #00b900;
-        background: rgba(#00b900, 0.25);
+        color: $green;
+        background: rgba($green, 0.25);
     }
 
     &__icon {

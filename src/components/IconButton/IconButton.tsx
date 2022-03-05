@@ -5,13 +5,13 @@ interface Props {
     icon: React.ReactNode;
     color: 'blue' | 'red' | 'yellow' | 'green';
     callback: (...args: any[]) => void;
-    callbackArguments: {};
+    callbackArguments?: {};
 }
 
 const IconButton = ({ icon, color, callback, callbackArguments }: Props) => {
     return (
         <button
-            className={`action-button action-button--${color}`}
+            className={`icon-button icon-button--${color}`}
             onClick={() => callback(callbackArguments)}
         >
             {icon}
