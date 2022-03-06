@@ -4,7 +4,7 @@ import SelectButton from 'components/SelectButton/SelectButton';
 
 interface Props {
     sortBy: string;
-    setSortBy: React.Dispatch<React.SetStateAction<string | null>>;
+    setSortBy: React.Dispatch<React.SetStateAction<any>>;
     sortingOptions: string[];
 }
 

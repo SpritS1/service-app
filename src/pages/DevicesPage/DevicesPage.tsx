@@ -5,6 +5,11 @@ import FilterSection from 'components/FilterSection/FilterSection';
 import DeviceTable from 'components/DevicesTable/DevicesTable';
 import Header from 'components/Header/Header';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
+import SortBy from 'components/SortBy/SortBy';
+import SearchBar from 'components/SearchBar/SearchBar';
+import Button from 'components/Button/Button';
+import Modal from 'components/Modal/Modal';
+import AddDevice from 'components/AddDevice/AddDevice';
 import { database } from 'firebase.js';
 import {
     arrayRemove,
@@ -35,6 +40,7 @@ const DevicesPage = () => {
     const [sortBy, setSortBy] = useState<
         'Model' | 'Category' | 'SerialNumber' | 'Manufacturer'
     >('Model');
+    const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false);
 
     const { user } = useAuth();
 
@@ -110,17 +116,38 @@ const DevicesPage = () => {
         'Manufacturer',
     ];
 
-    return (
-        <div className="devices-page">
-            <Header />
-            <HeaderDesktop
-                userDevices={userDevices}
-                searchValue={searchValue}
-                setSearchValue={setSearchValue}
+    const headerContent = (
+        <>
+            <SortBy
                 sortBy={sortBy}
                 setSortBy={setSortBy}
                 sortingOptions={sortingOptions}
             />
+            <SearchBar
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+            />
+            <Button
+                text="ADD DEVICE"
+                backgroundColor="blue"
+                action={() => setIsAddDeviceOpen(true)}
+            />
+            <Modal
+                isOpen={isAddDeviceOpen}
+                onClose={() => setIsAddDeviceOpen(false)}
+            >
+                <AddDevice
+                    setIsAddDeviceOpen={setIsAddDeviceOpen}
+                    userDevices={userDevices}
+                />
+            </Modal>
+        </>
+    );
+
+    return (
+        <div className="devices-page">
+            <Header />
+            <HeaderDesktop headerContent={headerContent} />
             <TopSection userDevices={userDevices} />
             <FilterSection
                 searchValue={searchValue}
