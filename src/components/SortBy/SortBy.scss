@@ -3,27 +3,9 @@
 .sort-by {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
 
     &__text {
-        font-size: 0.9rem;
         white-space: nowrap;
-    }
-
-    &__select {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        border: none;
-        background: none;
-        color: inherit;
-        width: fit-content;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: 0.2s ease-in-out;
-
-        &:hover {
-            color: $blue;
-        }
     }
 }

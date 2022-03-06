@@ -228,12 +228,14 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
                         options={categories}
                         selectedOption={filterCategoryValue}
                         setSelectedOption={setFilterCategoryValue}
+                        resetText="All"
                     />
                     <SelectButton
                         text={'Manufacturer'}
                         options={manufacturers}
                         selectedOption={filterManufacturerValue}
                         setSelectedOption={setFilterManufacturerValue}
+                        resetText="All"
                     />
                 </div>
             </div>

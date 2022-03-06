@@ -6,6 +6,7 @@ type Props = {
     options: string[];
     selectedOption: string | null;
     setSelectedOption: React.Dispatch<React.SetStateAction<string | null>>;
+    resetText?: string;
 };
 
 const SelectButton = ({
@@ -13,6 +14,7 @@ const SelectButton = ({
     options,
     selectedOption,
     setSelectedOption,
+    resetText,
 }: Props) => {
     const [isActive, setIsActive] = useState<boolean>(false);
 
@@ -53,12 +55,14 @@ const SelectButton = ({
                     isActive ? 'active' : ''
                 }`}
             >
-                <li
-                    className="select-button__dropdown-item select-button__dropdown-item--unset"
-                    onClick={() => setSelectedOption(null)}
-                >
-                    All
-                </li>
+                {resetText && (
+                    <li
+                        className="select-button__dropdown-item select-button__dropdown-item--unset"
+                        onClick={() => setSelectedOption(null)}
+                    >
+                        {resetText}
+                    </li>
+                )}
                 {options.map((option) => (
                     <li
                         className="select-button__dropdown-item"

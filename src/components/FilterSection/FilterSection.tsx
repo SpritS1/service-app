@@ -11,7 +11,7 @@ interface Props {
 const FilterSection = ({ searchValue, setSearchValue }: Props) => {
     return (
         <div className="filter-section">
-            <SortBy />
+            {/* <SortBy /> */}
             <SearchBar
                 searchValue={searchValue}
                 setSearchValue={setSearchValue}

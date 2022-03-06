@@ -1,15 +1,25 @@
-import React from "react";
-import "./SortBy.scss";
+import React from 'react';
+import './SortBy.scss';
+import SelectButton from 'components/SelectButton/SelectButton';
 
-interface Props {}
+interface Props {
+    sortBy: string;
+    setSortBy: React.Dispatch<React.SetStateAction<string | null>>;
+    sortingOptions: string[];
+}
 
-const SortBy = (props: Props) => {
-  return (
-    <div className="sort-by">
-      <span className="sort-by__text">Sort By:</span>
-      <button className="sort-by__select">Name</button>
-    </div>
-  );
+const SortBy = ({ sortBy, setSortBy, sortingOptions }: Props) => {
+    return (
+        <div className="sort-by">
+            <span className="sort-by__text">Sort By: </span>
+            <SelectButton
+                text={sortBy}
+                selectedOption={sortBy}
+                setSelectedOption={setSortBy}
+                options={sortingOptions}
+            />
+        </div>
+    );
 };
 
 export default SortBy;

@@ -32,6 +32,9 @@ const DevicesPage = () => {
     const [isFetching, setIsFetching] = useState<boolean>(true);
     const [fetchError, setFetchError] = useState<any | null>(null);
     const [searchValue, setSearchValue] = useState<string>('');
+    const [sortBy, setSortBy] = useState<
+        'Model' | 'Category' | 'SerialNumber' | 'Manufacturer'
+    >('Model');
 
     const { user } = useAuth();
 
@@ -100,6 +103,13 @@ const DevicesPage = () => {
         { iconName: 'far fa-trash-alt', color: 'red', callback: removeDevice },
     ];
 
+    const sortingOptions = [
+        'Model',
+        'Category',
+        'SerialNumber',
+        'Manufacturer',
+    ];
+
     return (
         <div className="devices-page">
             <Header />
@@ -107,6 +117,9 @@ const DevicesPage = () => {
                 userDevices={userDevices}
                 searchValue={searchValue}
                 setSearchValue={setSearchValue}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                sortingOptions={sortingOptions}
             />
             <TopSection userDevices={userDevices} />
             <FilterSection

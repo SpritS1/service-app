@@ -27,12 +27,5 @@
             justify-content: space-between;
             gap: 2rem;
         }
-
-        &__button {
-            @include button;
-            background: $blue;
-            color: inherit;
-            cursor: pointer;
-        }
     }
 }
