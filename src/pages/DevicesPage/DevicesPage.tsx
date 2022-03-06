@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './DevicesPage.scss';
-import TopSection from 'components/TopSection/TopSection';
-import FilterSection from 'components/FilterSection/FilterSection';
 import DeviceTable from 'components/DevicesTable/DevicesTable';
 import Header from 'components/Header/Header';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
@@ -22,6 +20,7 @@ import useAuth from 'hooks/useAuth';
 import Loader from 'components/Loader/Loader';
 import Pagination from 'components/Pagination/Pagination';
 import usePagination from 'hooks/usePagination';
+import SubHeader from 'components/SubHeader/SubHeader';
 
 type Device = {
     model: string;
@@ -170,11 +169,35 @@ const DevicesPage = () => {
         <div className="devices-page">
             <Header />
             <HeaderDesktop headerContent={headerContent} />
-            <TopSection userDevices={userDevices} />
-            <FilterSection
-                searchValue={searchValue}
-                setSearchValue={setSearchValue}
-            />
+            <SubHeader>
+                <h4 className="devices-page__page-title">Your devices</h4>
+                <Button
+                    text="ADD DEVICE"
+                    backgroundColor="blue"
+                    action={() => setIsAddDeviceOpen(true)}
+                />
+                <Modal
+                    isOpen={isAddDeviceOpen}
+                    onClose={() => setIsAddDeviceOpen(false)}
+                >
+                    <AddDevice
+                        setIsAddDeviceOpen={setIsAddDeviceOpen}
+                        userDevices={userDevices}
+                    />
+                </Modal>
+            </SubHeader>
+            <SubHeader>
+                <SearchBar
+                    searchValue={searchValue}
+                    setSearchValue={setSearchValue}
+                />
+                <SortBy
+                    sortBy={sortBy}
+                    setSortBy={setSortBy}
+                    sortingOptions={SORTING_OPTIONS}
+                />
+            </SubHeader>
+
             <div className="devices-page__main">
                 {isFetching && <Loader />}
                 {!isFetching && !fetchError && paginatedElements.length !== 0 && (

@@ -1,15 +1,18 @@
 @use 'scss/index' as *;
 
-.filter-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.sub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
     color: $white;
     padding: 1rem;
     border-bottom: $border-primary;
+    gap: 1rem;
 }
 
 @media screen and (min-width: $breakpoint-desktop) {
-    .filter-section {
+    .sub-header {
         display: none;
     }
 }

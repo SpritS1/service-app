@@ -3,6 +3,11 @@
 .devices-page {
     height: 100%;
 
+    &__page-title {
+        font-weight: normal;
+        font-size: 1.5rem;
+    }
+
     &__main {
         display: flex;
         flex-direction: column;
