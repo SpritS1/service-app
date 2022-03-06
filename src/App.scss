@@ -18,3 +18,31 @@ html {
     background: hsl(213, 36%, 13%) 100%;
     min-height: 100vh;
 }
+
+@media screen and (min-width: $breakpoint-mobile) {
+    // Scrollbar
+    *::-webkit-scrollbar {
+        -webkit-appearance: none;
+    }
+    *::-webkit-scrollbar:vertical {
+        width: 14px;
+    }
+    *::-webkit-scrollbar:horizontal {
+        height: 14px;
+    }
+    *::-webkit-scrollbar-thumb {
+        border-radius: 8px;
+        background-color: rgba($blue, 0.5);
+
+        &:hover {
+            background-color: rgba($blue, 0.7);
+        }
+
+        &:active {
+            background-color: rgba($blue, 1);
+        }
+    }
+    *::-webkit-scrollbar-track {
+        background-color: $blue-dark;
+    }
+}
