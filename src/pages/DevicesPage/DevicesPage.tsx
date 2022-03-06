@@ -34,13 +34,14 @@ type Device = {
 const DevicesPage = () => {
     const [userDevices, setUserDevices] = useState<Device[]>([]);
     const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
-    const [isFetching, setIsFetching] = useState<boolean>(true);
-    const [fetchError, setFetchError] = useState<any | null>(null);
     const [searchValue, setSearchValue] = useState<string>('');
     const [sortBy, setSortBy] = useState<
         'Model' | 'Category' | 'SerialNumber' | 'Manufacturer'
     >('Model');
     const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false);
+
+    const [isFetching, setIsFetching] = useState<boolean>(true);
+    const [fetchError, setFetchError] = useState<any | null>(null);
 
     const { user } = useAuth();
 
@@ -52,6 +53,7 @@ const DevicesPage = () => {
         paginatedElements,
     } = usePagination(filteredDevices, 10);
 
+    // Fetching userDevices from firestore
     useEffect(() => {
         try {
             if (user) {
@@ -80,6 +82,7 @@ const DevicesPage = () => {
         }
     };
 
+    // Sorting and filtering devicesArray
     useEffect(() => {
         const filterDevices = (devices: Device[], searchValue: string) => {
             const filteredDevices = devices.filter(
@@ -96,20 +99,39 @@ const DevicesPage = () => {
                 },
             );
 
-            setFilteredDevices(filteredDevices);
+            return filteredDevices;
         };
 
-        if (searchValue.length === 0) setFilteredDevices(userDevices);
-        else filterDevices(userDevices, searchValue);
-    }, [searchValue, userDevices]);
+        const sortDevices = (array: Device[]) => {
+            const sortedArray = [...array].sort((a: any, b: any) => {
+                if (a[sortBy.toLowerCase()] > b[sortBy.toLowerCase()]) return 1;
+                if (a[sortBy.toLowerCase()] < b[sortBy.toLowerCase()])
+                    return -1;
 
-    const actions: any = [
+                return 0;
+            });
+
+            return sortedArray;
+        };
+
+        if (searchValue.length === 0) {
+            const sortedDevices = sortDevices(userDevices);
+            setFilteredDevices(sortedDevices);
+        } else if (searchValue.length !== 0) {
+            const filteredDevices = filterDevices(userDevices, searchValue);
+            const sortedDevices = sortDevices(filteredDevices);
+            setFilteredDevices(sortedDevices);
+        }
+    }, [searchValue, userDevices, sortBy]);
+
+    // constants
+    const ACTIONS: any = [
         { iconName: 'fas fa-wrench', color: 'yellow' },
         { iconName: 'fas fa-info-circle', color: 'blue' },
         { iconName: 'far fa-trash-alt', color: 'red', callback: removeDevice },
     ];
 
-    const sortingOptions = [
+    const SORTING_OPTIONS = [
         'Model',
         'Category',
         'SerialNumber',
@@ -121,7 +143,7 @@ const DevicesPage = () => {
             <SortBy
                 sortBy={sortBy}
                 setSortBy={setSortBy}
-                sortingOptions={sortingOptions}
+                sortingOptions={SORTING_OPTIONS}
             />
             <SearchBar
                 searchValue={searchValue}
@@ -155,6 +177,20 @@ const DevicesPage = () => {
             />
             <div className="devices-page__main">
                 {isFetching && <Loader />}
+                {!isFetching && !fetchError && paginatedElements.length !== 0 && (
+                    <>
+                        <DeviceTable
+                            devices={paginatedElements}
+                            actions={ACTIONS}
+                        />
+                        <Pagination
+                            setPaginationLimit={setPaginationLimit}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            totalPages={totalPages}
+                        />
+                    </>
+                )}
                 {!isFetching && !fetchError && filteredDevices.length === 0 && (
                     <div className="devices-page__fetch-info-container">
                         <h3 className="devices-page__fetch-info">
@@ -172,21 +208,6 @@ const DevicesPage = () => {
                         <p className="devices-page__fetch-error">
                             {fetchError}
                         </p>
-                    </>
-                )}
-                {!isFetching && !fetchError && paginatedElements.length !== 0 && (
-                    <>
-                        <DeviceTable
-                            devices={paginatedElements}
-                            actions={actions}
-                        />
-                        <Pagination
-                            // paginationLimit={paginationLimit}
-                            setPaginationLimit={setPaginationLimit}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                            totalPages={totalPages}
-                        />
                     </>
                 )}
             </div>
