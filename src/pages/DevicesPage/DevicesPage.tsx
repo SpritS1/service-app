@@ -137,38 +137,36 @@ const DevicesPage = () => {
         'Manufacturer',
     ];
 
-    const headerContent = (
-        <>
-            <SortBy
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-                sortingOptions={SORTING_OPTIONS}
-            />
-            <SearchBar
-                searchValue={searchValue}
-                setSearchValue={setSearchValue}
-            />
-            <Button
-                text="ADD DEVICE"
-                backgroundColor="blue"
-                action={() => setIsAddDeviceOpen(true)}
-            />
-            <Modal
-                isOpen={isAddDeviceOpen}
-                onClose={() => setIsAddDeviceOpen(false)}
-            >
-                <AddDevice
-                    setIsAddDeviceOpen={setIsAddDeviceOpen}
-                    userDevices={userDevices}
-                />
-            </Modal>
-        </>
-    );
-
     return (
         <div className="devices-page">
             <Header />
-            <HeaderDesktop headerContent={headerContent} />
+            <HeaderDesktop>
+                <>
+                    <SortBy
+                        sortBy={sortBy}
+                        setSortBy={setSortBy}
+                        sortingOptions={SORTING_OPTIONS}
+                    />
+                    <SearchBar
+                        searchValue={searchValue}
+                        setSearchValue={setSearchValue}
+                    />
+                    <Button
+                        text="ADD DEVICE"
+                        backgroundColor="blue"
+                        action={() => setIsAddDeviceOpen(true)}
+                    />
+                    <Modal
+                        isOpen={isAddDeviceOpen}
+                        onClose={() => setIsAddDeviceOpen(false)}
+                    >
+                        <AddDevice
+                            setIsAddDeviceOpen={setIsAddDeviceOpen}
+                            userDevices={userDevices}
+                        />
+                    </Modal>
+                </>
+            </HeaderDesktop>
             <SubHeader>
                 <h4 className="devices-page__page-title">Your devices</h4>
                 <Button
