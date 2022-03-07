@@ -16,9 +16,11 @@ const App = () => {
                         <Route
                             index
                             element={
-                                <RequireAuth>
-                                    <DevicesPage />
-                                </RequireAuth>
+                                <Layout>
+                                    <RequireAuth>
+                                        <DevicesPage />
+                                    </RequireAuth>
+                                </Layout>
                             }
                         />
                         <Route path="/auth/*" element={<AuthorizationPage />} />
@@ -26,7 +28,9 @@ const App = () => {
                             path="/profile"
                             element={
                                 <Layout>
-                                    <ProfilePage />
+                                    <RequireAuth>
+                                        <ProfilePage />
+                                    </RequireAuth>
                                 </Layout>
                             }
                         />

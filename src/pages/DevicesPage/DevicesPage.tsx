@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './DevicesPage.scss';
 import DeviceTable from 'components/DevicesTable/DevicesTable';
-import Header from 'components/Header/Header';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
 import SortBy from 'components/SortBy/SortBy';
 import SearchBar from 'components/SearchBar/SearchBar';
@@ -139,7 +138,6 @@ const DevicesPage = () => {
 
     return (
         <div className="devices-page">
-            <Header />
             <HeaderDesktop>
                 <>
                     <SortBy
