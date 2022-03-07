@@ -2,7 +2,7 @@ import React from 'react';
 import './HeaderDesktop.scss';
 
 interface Props {
-    children: JSX.Element;
+    children?: JSX.Element;
 }
 
 const HeaderDesktop = ({ children }: Props) => {

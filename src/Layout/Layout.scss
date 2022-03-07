@@ -1,0 +1,11 @@
+@use 'scss/index' as *;
+
+@media screen and (min-width: $breakpoint-desktop) {
+    .layout {
+        padding-left: 250px;
+
+        &__main {
+            min-height: calc(100vh - 70px);
+        }
+    }
+}
