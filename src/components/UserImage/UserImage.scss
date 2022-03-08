@@ -1,0 +1,47 @@
+@use 'scss/index' as *;
+
+.user-image {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    height: 150px;
+    width: 150px;
+    border-radius: 100%;
+    overflow: hidden;
+
+    &__image {
+        height: inherit;
+        width: inherit;
+        border-radius: inherit;
+    }
+
+    &__label {
+        cursor: pointer;
+    }
+
+    &__image-input-container {
+        height: 40px;
+        width: 100%;
+        opacity: 0.63;
+        background-color: rgb(51, 51, 51);
+        position: absolute;
+        text-align: center;
+        cursor: pointer;
+        bottom: 0px;
+        left: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__image-input {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    &__edit-icon {
+        font-size: 1.1rem;
+    }
+}
