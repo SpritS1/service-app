@@ -138,7 +138,7 @@ const DevicesPage = () => {
 
     return (
         <div className="devices-page">
-            <HeaderDesktop>
+            <HeaderDesktop title="Your Devices">
                 <>
                     <SortBy
                         sortBy={sortBy}
