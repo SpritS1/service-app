@@ -31,8 +31,6 @@
 
 @media screen and (min-width: $breakpoint-desktop) {
     .devices-page {
-        padding-left: 250px;
-
         &__main {
             min-height: calc(100vh - 70px);
         }
