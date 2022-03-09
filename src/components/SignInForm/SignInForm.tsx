@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './SignInForm.scss';
-import Input from 'components/Input/Input';
+import InputBorderless from 'components/InputBorderless/InputBorderless';
 import Button from '../Button/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from 'hooks/useAuth';
@@ -42,7 +42,7 @@ const SignInForm = () => {
                 className="sign-in-form__group sign-in-form__group--inputs"
                 onKeyDown={(e) => handleKeyPress(e)}
             >
-                <Input
+                <InputBorderless
                     placeholder="Email"
                     type="text"
                     value={email}
@@ -53,7 +53,7 @@ const SignInForm = () => {
                 {errorField === 'email' && errorMessage && (
                     <ValidationError message={errorMessage} />
                 )}
-                <Input
+                <InputBorderless
                     placeholder="Password"
                     type="password"
                     value={password}

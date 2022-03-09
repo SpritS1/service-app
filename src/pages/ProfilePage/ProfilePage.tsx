@@ -1,12 +1,15 @@
 import Button from 'components/Button/Button';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
 import UserImage from 'components/UserImage/UserImage';
+import useAuth from 'hooks/useAuth';
 import React from 'react';
 import './ProfilePage.scss';
 
 type Props = {};
 
 const ProfilePage = (props: Props) => {
+    const { user } = useAuth();
+
     return (
         <div className="profile-page">
             <HeaderDesktop title={'Your Profile'} />
@@ -37,7 +40,14 @@ const ProfilePage = (props: Props) => {
                         <label htmlFor="" className="profile-page__label">
                             Email
                         </label>
-                        <input type="text" className="profile-page__input" />
+                        {user && (
+                            <input
+                                type="text"
+                                value={user.email as string}
+                                placeholder="email"
+                                className="profile-page__input"
+                            />
+                        )}
                     </div>
                     <div className="profile-page__input-container">
                         <label htmlFor="" className="profile-page__label">

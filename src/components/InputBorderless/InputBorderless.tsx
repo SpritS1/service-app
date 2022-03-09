@@ -1,5 +1,5 @@
 import React, { HTMLInputTypeAttribute } from 'react';
-import './Input.scss';
+import './InputBorderless.scss';
 
 interface Props {
     placeholder: string;
@@ -13,7 +13,7 @@ interface Props {
     autoComplete?: string;
 }
 
-const Input = ({
+const InputBorderless = ({
     placeholder,
     value,
     setState,
@@ -32,11 +32,11 @@ const Input = ({
     };
 
     return (
-        <div className="input">
-            {icon && <i className={`input__icon ${icon}`} />}
+        <div className="input-borderless">
+            {icon && <i className={`input-borderless__icon ${icon}`} />}
             <input
-                className={`input__inputfield ${
-                    error ? 'input__inputfield--error' : ''
+                className={`input-borderless__inputfield ${
+                    error ? 'input-borderless__inputfield--error' : ''
                 }`}
                 type={type}
                 value={value}
@@ -50,4 +50,4 @@ const Input = ({
     );
 };
 
-export default Input;
+export default InputBorderless;
