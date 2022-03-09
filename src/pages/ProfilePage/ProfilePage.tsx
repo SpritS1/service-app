@@ -16,8 +16,9 @@ const ProfilePage = (props: Props) => {
                         <h3 className="profile-page__profile-info-title">
                             USER DETAILS
                         </h3>
-
-                        <UserImage isEditable={true} />
+                        <div className="profile-page__image-container">
+                            <UserImage isEditable={true} />
+                        </div>
                     </div>
 
                     <div className="profile-page__input-container">

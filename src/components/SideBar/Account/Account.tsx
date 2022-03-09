@@ -1,24 +1,17 @@
 import './Account.scss';
-import { useNavigate } from 'react-router-dom';
-import useAuth from 'hooks/useAuth';
+import { Link } from 'react-router-dom';
+import UserImage from 'components/UserImage/UserImage';
 
 interface Props {}
 
 const Account = (props: Props) => {
-    const navigate = useNavigate();
-    const { user, logout } = useAuth();
-
     return (
         <div className="account">
-            <div className="account__left">
-                <i className="account__icon far fa-user" />
-                <span className="account__user-name">{user && user.email}</span>
-            </div>
+            <Link to="/profile" className="account__image-container">
+                <UserImage />
+            </Link>
 
-            <i
-                className="account__logout fas fa-sign-out-alt"
-                onClick={() => logout(() => navigate('/auth/login'))}
-            />
+            <span className="account__user-name">{'Philip Frank'}</span>
         </div>
     );
 };

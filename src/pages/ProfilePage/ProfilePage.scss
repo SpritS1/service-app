@@ -18,6 +18,12 @@
         border-radius: $border-radius;
     }
 
+    &__image-container {
+        width: 150px;
+        height: 150px;
+        margin: auto;
+    }
+
     &__profile-info-title {
         font-weight: normal;
         font-size: 1.2rem;

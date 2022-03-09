@@ -3,26 +3,14 @@
 .account {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
+    gap: 1rem;
     padding: 1rem 1.5rem;
     border-bottom: 1px solid rgba($blue, 0.25);
     width: 100%;
 
-    &__left {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        width: 100%;
-        min-width: 0;
-    }
-
-    &__icon {
-        background: $white;
-        color: $blue;
-        padding: 0.5rem;
-        font-size: 1.5rem;
-        border-radius: $border-radius;
+    &__image-container {
+        width: 60px;
+        height: 60px;
         cursor: pointer;
     }
 
@@ -36,7 +24,7 @@
         color: $blue;
         padding: 0.5rem;
         font-size: 1.25rem;
-        border-radius: $border-radius;
+        border-radius: $border-radius / 2;
         cursor: pointer;
         transition: $transition-default;
 

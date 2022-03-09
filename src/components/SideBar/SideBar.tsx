@@ -1,13 +1,16 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Account from './Account/Account';
 import Logo from 'components/Logo/Logo';
 import './SideBar.scss';
+import useAuth from 'hooks/useAuth';
 
 interface Props {
     isActive: boolean;
 }
 
 const SideBar = ({ isActive }: Props) => {
+    const navigate = useNavigate();
+    const { user, logout } = useAuth();
     const location = useLocation();
     return (
         <div className={`sidebar ${isActive && 'active'}`}>
@@ -52,6 +55,13 @@ const SideBar = ({ isActive }: Props) => {
                     <i className="sidebar__nav-icon fa-solid fa-user"></i>
                     Profile
                 </Link>
+                <div
+                    className="sidebar__nav-link"
+                    onClick={() => logout(() => navigate('/auth/login'))}
+                >
+                    <i className="sidebar__nav-icon fas fa-power-off" />
+                    Logout
+                </div>
             </nav>
         </div>
     );
