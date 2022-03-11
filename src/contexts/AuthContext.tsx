@@ -5,10 +5,9 @@ import {
     signInWithEmailAndPassword,
     User,
     onAuthStateChanged,
-    UserCredential,
 } from 'firebase/auth';
 import { auth, database } from 'firebase.js';
-import { addDoc, collection, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 
 interface IAuthContextType {
     user: User | null;
