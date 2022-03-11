@@ -22,6 +22,10 @@ const usePagination = (elements: any[], limit: number = 5) => {
         setPaginatedElements(paginatedElements);
     }, [currentPage, elements, paginationLimit]);
 
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [elements]);
+
     return {
         paginationLimit,
         setPaginationLimit,
