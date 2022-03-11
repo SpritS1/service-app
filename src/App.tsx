@@ -7,6 +7,7 @@ import RequireAuth from 'components/RequireAuth/RequireAuth';
 import Layout from 'Layout/Layout';
 import ProfilePage from 'pages/ProfilePage/ProfilePage';
 import UserDataContextProvider from 'contexts/UserDataContext';
+import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
 
 const App = () => {
     return (
@@ -39,6 +40,7 @@ const App = () => {
                                     </Layout>
                                 }
                             />
+                            <Route path="*" element={<NotFoundPage />} />
                         </Routes>
                     </BrowserRouter>
                 </div>

@@ -1,0 +1,31 @@
+@use 'scss/index' as *;
+
+.not-found-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    color: $white;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    gap: 2rem;
+
+    &__title {
+        font-size: 4rem;
+    }
+
+    &__text {
+        font-size: 1.25rem;
+    }
+
+    &__button {
+        @include button;
+        padding: 1rem;
+        font-size: 2rem;
+        color: $white;
+        background-color: $blue;
+    }
+}
