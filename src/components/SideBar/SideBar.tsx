@@ -10,7 +10,7 @@ interface Props {
 
 const SideBar = ({ isActive }: Props) => {
     const navigate = useNavigate();
-    const { user, logout } = useAuth();
+    const { logout } = useAuth();
     const location = useLocation();
     return (
         <div className={`sidebar ${isActive && 'active'}`}>

@@ -28,35 +28,4 @@
         font-weight: normal;
         font-size: 1.2rem;
     }
-
-    &__input-container {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    &__label {
-        font-size: 0.9rem;
-    }
-
-    &__input {
-        border: rgba($white, 0.5) 1px solid;
-        border-radius: 8px;
-        outline: none;
-        font-size: 1rem;
-        padding: 0.75rem 1rem;
-        color: inherit;
-        background: $blue-dark;
-        transition: background-color $transition-default;
-        box-sizing: content-box;
-
-        &:focus,
-        &:hover {
-            background: $blue-dark-accent;
-        }
-
-        &:focus {
-            border: rgba($white, 0.75) 1px solid;
-        }
-    }
 }

@@ -1,14 +1,53 @@
 import Button from 'components/Button/Button';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
+import InputBasic from 'components/InputBasic/InputBasic';
 import UserImage from 'components/UserImage/UserImage';
+import { UserDataContext } from 'contexts/UserDataContext';
+import { database } from 'firebase.js';
+import { doc, updateDoc } from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './ProfilePage.scss';
 
 type Props = {};
 
 const ProfilePage = (props: Props) => {
     const { user } = useAuth();
+    const { userData, isFetching } = useContext(UserDataContext);
+
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
+    const [email, setEmail] = useState(user!.email);
+    const [phone, setPhone] = useState('');
+    const [city, setCity] = useState('');
+    const [postCode, setPostCode] = useState('');
+    const [companyName, setCompanyName] = useState('');
+
+    const handleProfileUpdate = async () => {
+        const USER_DATA_REF = doc(database, 'users_data', user!.uid);
+
+        if (user) {
+            await updateDoc(USER_DATA_REF, {
+                name: name,
+                surname: surname,
+                phone: phone,
+                city: city,
+                postCode: postCode,
+                companyName: companyName,
+            });
+        }
+    };
+
+    useEffect(() => {
+        if (userData) {
+            setName(userData.name);
+            setSurname(userData.surname);
+            setPhone(userData.phone);
+            setCity(userData.city);
+            setPostCode(userData.postCode);
+            setCompanyName(userData.companyName);
+        }
+    }, [userData]);
 
     return (
         <div className="profile-page">
@@ -24,59 +63,55 @@ const ProfilePage = (props: Props) => {
                         </div>
                     </div>
 
-                    <div className="profile-page__input-container">
-                        <label htmlFor="" className="profile-page__label">
-                            Name
-                        </label>
-                        <input type="text" className="profile-page__input" />
-                    </div>
-                    <div className="profile-page__input-container">
-                        <label htmlFor="" className="profile-page__label">
-                            Surname
-                        </label>
-                        <input type="text" className="profile-page__input" />
-                    </div>
-                    <div className="profile-page__input-container">
-                        <label htmlFor="" className="profile-page__label">
-                            Email
-                        </label>
-                        {user && (
-                            <input
-                                type="text"
-                                value={user.email as string}
-                                placeholder="email"
-                                className="profile-page__input"
-                            />
-                        )}
-                    </div>
-                    <div className="profile-page__input-container">
-                        <label htmlFor="" className="profile-page__label">
-                            Phone
-                        </label>
-                        <input type="text" className="profile-page__input" />
-                    </div>
-                    <div className="profile-page__input-container">
-                        <label htmlFor="" className="profile-page__label">
-                            City
-                        </label>
-                        <input type="text" className="profile-page__input" />
-                    </div>
-                    <div className="profile-page__input-container">
-                        <label htmlFor="" className="profile-page__label">
-                            Post Code
-                        </label>
-                        <input type="text" className="profile-page__input" />
-                    </div>
-                    <div className="profile-page__input-container">
-                        <label htmlFor="" className="profile-page__label">
-                            Company
-                        </label>
-                        <input type="text" className="profile-page__input" />
-                    </div>
+                    <InputBasic
+                        placeholder="Name"
+                        value={name}
+                        setState={setName}
+                        type={'text'}
+                    />
+                    <InputBasic
+                        placeholder="Surname"
+                        value={surname}
+                        setState={setSurname}
+                        type={'text'}
+                    />
+                    <InputBasic
+                        placeholder="Email"
+                        value={email as string}
+                        setState={setEmail}
+                        type={'email'}
+                        disabled={true}
+                    />
+                    <InputBasic
+                        placeholder="Phone"
+                        value={phone}
+                        setState={setPhone}
+                        type={'tel'}
+                    />
+                    <InputBasic
+                        placeholder="City"
+                        value={city}
+                        setState={setCity}
+                        type={'text'}
+                    />
+                    <InputBasic
+                        placeholder="Post Code"
+                        value={postCode}
+                        setState={setPostCode}
+                        type={'text'}
+                    />
+                    <InputBasic
+                        placeholder="Company name"
+                        value={companyName}
+                        setState={setCompanyName}
+                        type={'text'}
+                    />
+
                     <div className="profile-page__buttons-container">
                         <Button
                             text={'Update profile'}
                             backgroundColor="blue"
+                            action={handleProfileUpdate}
                         />
                     </div>
                 </div>
