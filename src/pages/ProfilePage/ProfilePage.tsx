@@ -1,6 +1,7 @@
 import Button from 'components/Button/Button';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
 import InputBasic from 'components/InputBasic/InputBasic';
+import Loader from 'components/Loader/Loader';
 import UserImage from 'components/UserImage/UserImage';
 import { UserDataContext } from 'contexts/UserDataContext';
 import { database } from 'firebase.js';
@@ -68,6 +69,7 @@ const ProfilePage = (props: Props) => {
     return (
         <div className="profile-page">
             <HeaderDesktop title={'Your Profile'} />
+            {isFetching && <Loader />}
             {!isFetching && (
                 <div className="profile-page__main">
                     <div className="profile-page__profile-info">
