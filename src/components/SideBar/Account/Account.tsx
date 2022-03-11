@@ -17,7 +17,9 @@ const Account = (props: Props) => {
 
             {userData && (
                 <span className="account__user-name">
-                    {userData.name + ' ' + userData.surname}
+                    {userData.name && userData.surname
+                        ? userData.name + ' ' + userData.surname
+                        : 'Welcome User'}
                 </span>
             )}
         </div>

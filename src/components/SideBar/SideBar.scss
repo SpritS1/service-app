@@ -28,7 +28,6 @@
     &__nav {
         display: flex;
         flex-direction: column;
-        // padding: 1rem 1.5rem;
         padding: 1rem 0;
 
         &-link {
@@ -46,7 +45,6 @@
             }
 
             &:active {
-                // color: rgba($white, 0.5);
                 color: $blue;
                 background: rgba($gray, 0.2);
             }
