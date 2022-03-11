@@ -20,6 +20,7 @@ const InputBasic = ({
     setState,
     type,
     disabled = false,
+    required,
 }: Props) => {
     const handleChange = (
         setState: (e: string) => void,
@@ -44,6 +45,11 @@ const InputBasic = ({
                     disabled ? 'input-basic__input--read-only' : ''
                 }`}
             />
+            {required && !value && (
+                <div className="input-basic__required-warning">
+                    Field required
+                </div>
+            )}
         </div>
     );
 };

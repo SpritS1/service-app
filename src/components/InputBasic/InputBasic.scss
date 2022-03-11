@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    position: relative;
 
     &__label {
         font-size: 0.9rem;
@@ -41,5 +42,14 @@
                 background: rgba($white, 0.3);
             }
         }
+    }
+
+    &__required-warning {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        background: $blue-dark;
+        color: $red;
+        padding: 0 0.5rem;
     }
 }

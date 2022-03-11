@@ -24,17 +24,33 @@ const ProfilePage = (props: Props) => {
     const [companyName, setCompanyName] = useState('');
 
     const handleProfileUpdate = async () => {
-        const USER_DATA_REF = doc(database, 'users_data', user!.uid);
+        const areInputsFilled = () => {
+            if (
+                name &&
+                surname &&
+                email &&
+                phone &&
+                city &&
+                postCode &&
+                companyName
+            )
+                return true;
+            return false;
+        };
 
-        if (user) {
-            await updateDoc(USER_DATA_REF, {
-                name: name,
-                surname: surname,
-                phone: phone,
-                city: city,
-                postCode: postCode,
-                companyName: companyName,
-            });
+        try {
+            if (user && areInputsFilled()) {
+                await updateDoc(doc(database, 'users_data', user.uid), {
+                    name: name,
+                    surname: surname,
+                    phone: phone,
+                    city: city,
+                    postCode: postCode,
+                    companyName: companyName,
+                });
+            } else console.log('no no');
+        } catch (error) {
+            console.error(error);
         }
     };
 
@@ -52,70 +68,77 @@ const ProfilePage = (props: Props) => {
     return (
         <div className="profile-page">
             <HeaderDesktop title={'Your Profile'} />
-            <div className="profile-page__main">
-                <div className="profile-page__profile-info">
-                    <div className="profile-page__top">
-                        <h3 className="profile-page__profile-info-title">
-                            USER DETAILS
-                        </h3>
-                        <div className="profile-page__image-container">
-                            <UserImage isEditable={true} />
+            {!isFetching && (
+                <div className="profile-page__main">
+                    <div className="profile-page__profile-info">
+                        <div className="profile-page__top">
+                            <h3 className="profile-page__profile-info-title">
+                                USER DETAILS
+                            </h3>
+                            <div className="profile-page__image-container">
+                                <UserImage isEditable={true} />
+                            </div>
+                        </div>
+
+                        <InputBasic
+                            placeholder="Name"
+                            value={name}
+                            setState={setName}
+                            type={'text'}
+                            required
+                        />
+                        <InputBasic
+                            placeholder="Surname"
+                            value={surname}
+                            setState={setSurname}
+                            type={'text'}
+                            required
+                        />
+                        <InputBasic
+                            placeholder="Email"
+                            value={email as string}
+                            setState={setEmail}
+                            type={'email'}
+                            disabled={true}
+                        />
+                        <InputBasic
+                            placeholder="Phone"
+                            value={phone}
+                            setState={setPhone}
+                            type={'tel'}
+                            required
+                        />
+                        <InputBasic
+                            placeholder="City"
+                            value={city}
+                            setState={setCity}
+                            type={'text'}
+                            required
+                        />
+                        <InputBasic
+                            placeholder="Post Code"
+                            value={postCode}
+                            setState={setPostCode}
+                            type={'text'}
+                            required
+                        />
+                        <InputBasic
+                            placeholder="Company name"
+                            value={companyName}
+                            setState={setCompanyName}
+                            type={'text'}
+                        />
+
+                        <div className="profile-page__buttons-container">
+                            <Button
+                                text={'Update profile'}
+                                backgroundColor="blue"
+                                action={handleProfileUpdate}
+                            />
                         </div>
                     </div>
-
-                    <InputBasic
-                        placeholder="Name"
-                        value={name}
-                        setState={setName}
-                        type={'text'}
-                    />
-                    <InputBasic
-                        placeholder="Surname"
-                        value={surname}
-                        setState={setSurname}
-                        type={'text'}
-                    />
-                    <InputBasic
-                        placeholder="Email"
-                        value={email as string}
-                        setState={setEmail}
-                        type={'email'}
-                        disabled={true}
-                    />
-                    <InputBasic
-                        placeholder="Phone"
-                        value={phone}
-                        setState={setPhone}
-                        type={'tel'}
-                    />
-                    <InputBasic
-                        placeholder="City"
-                        value={city}
-                        setState={setCity}
-                        type={'text'}
-                    />
-                    <InputBasic
-                        placeholder="Post Code"
-                        value={postCode}
-                        setState={setPostCode}
-                        type={'text'}
-                    />
-                    <InputBasic
-                        placeholder="Company name"
-                        value={companyName}
-                        setState={setCompanyName}
-                        type={'text'}
-                    />
-
-                    <div className="profile-page__buttons-container">
-                        <Button
-                            text={'Update profile'}
-                            backgroundColor="blue"
-                            action={handleProfileUpdate}
-                        />
-                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './DevicesPage.scss';
 import DeviceTable from 'components/DevicesTable/DevicesTable';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
@@ -8,18 +8,13 @@ import Button from 'components/Button/Button';
 import Modal from 'components/Modal/Modal';
 import AddDevice from 'components/AddDevice/AddDevice';
 import { database } from 'firebase.js';
-import {
-    arrayRemove,
-    doc,
-    DocumentReference,
-    onSnapshot,
-    updateDoc,
-} from 'firebase/firestore';
+import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
 import Loader from 'components/Loader/Loader';
 import Pagination from 'components/Pagination/Pagination';
 import usePagination from 'hooks/usePagination';
 import SubHeader from 'components/SubHeader/SubHeader';
+import { UserDataContext } from 'contexts/UserDataContext';
 
 type Device = {
     model: string;
@@ -30,7 +25,7 @@ type Device = {
 };
 
 const DevicesPage = () => {
-    const [userDevices, setUserDevices] = useState<Device[]>([]);
+    // const [userDevices, setUserDevices] = useState<Device[]>([]);
     const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
     const [searchValue, setSearchValue] = useState<string>('');
     const [sortBy, setSortBy] = useState<
@@ -38,9 +33,10 @@ const DevicesPage = () => {
     >('Model');
     const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false);
 
-    const [isFetching, setIsFetching] = useState<boolean>(true);
-    const [fetchError, setFetchError] = useState<any | null>(null);
+    // const [isFetching, setIsFetching] = useState<boolean>(true);
+    const [fetchError, setFetchError] = useState<any>(null);
 
+    const { userData, isFetching, error } = useContext(UserDataContext);
     const { user } = useAuth();
 
     const {
@@ -50,27 +46,6 @@ const DevicesPage = () => {
         totalPages,
         paginatedElements,
     } = usePagination(filteredDevices, 10);
-
-    // Fetching userDevices from firestore
-    useEffect(() => {
-        try {
-            if (user) {
-                const docRef: DocumentReference = doc(
-                    database,
-                    'users_data',
-                    user.uid,
-                );
-                onSnapshot(docRef, (doc) => {
-                    const docSnap = doc.data();
-                    if (docSnap) setUserDevices(docSnap.devices);
-                    setIsFetching(false);
-                });
-            }
-        } catch (error) {
-            setFetchError(error);
-            setIsFetching(false);
-        }
-    }, [user]);
 
     const removeDevice = (device: string) => {
         if (user) {
@@ -112,15 +87,20 @@ const DevicesPage = () => {
             return sortedArray;
         };
 
-        if (searchValue.length === 0) {
-            const sortedDevices = sortDevices(userDevices);
-            setFilteredDevices(sortedDevices);
-        } else if (searchValue.length !== 0) {
-            const filteredDevices = filterDevices(userDevices, searchValue);
-            const sortedDevices = sortDevices(filteredDevices);
-            setFilteredDevices(sortedDevices);
+        if (userData) {
+            if (searchValue.length === 0) {
+                const sortedDevices = sortDevices(userData.devices);
+                setFilteredDevices(sortedDevices);
+            } else if (searchValue.length !== 0) {
+                const filteredDevices = filterDevices(
+                    userData.devices,
+                    searchValue,
+                );
+                const sortedDevices = sortDevices(filteredDevices);
+                setFilteredDevices(sortedDevices);
+            }
         }
-    }, [searchValue, userDevices, sortBy]);
+    }, [searchValue, userData, sortBy]);
 
     // constants
     const ACTIONS: any = [
@@ -154,15 +134,17 @@ const DevicesPage = () => {
                         backgroundColor="blue"
                         action={() => setIsAddDeviceOpen(true)}
                     />
-                    <Modal
-                        isOpen={isAddDeviceOpen}
-                        onClose={() => setIsAddDeviceOpen(false)}
-                    >
-                        <AddDevice
-                            setIsAddDeviceOpen={setIsAddDeviceOpen}
-                            userDevices={userDevices}
-                        />
-                    </Modal>
+                    {userData && (
+                        <Modal
+                            isOpen={isAddDeviceOpen}
+                            onClose={() => setIsAddDeviceOpen(false)}
+                        >
+                            <AddDevice
+                                setIsAddDeviceOpen={setIsAddDeviceOpen}
+                                userDevices={userData.devices}
+                            />
+                        </Modal>
+                    )}
                 </>
             </HeaderDesktop>
             <SubHeader>
@@ -172,15 +154,6 @@ const DevicesPage = () => {
                     backgroundColor="blue"
                     action={() => setIsAddDeviceOpen(true)}
                 />
-                <Modal
-                    isOpen={isAddDeviceOpen}
-                    onClose={() => setIsAddDeviceOpen(false)}
-                >
-                    <AddDevice
-                        setIsAddDeviceOpen={setIsAddDeviceOpen}
-                        userDevices={userDevices}
-                    />
-                </Modal>
             </SubHeader>
             <SubHeader>
                 <SearchBar

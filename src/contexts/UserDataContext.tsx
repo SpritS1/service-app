@@ -6,11 +6,13 @@ import React, { createContext, useEffect, useState } from 'react';
 interface IUserDataContext {
     userData: DocumentData | null;
     isFetching: boolean;
+    error: any;
 }
 
 const defaultState = {
     userData: null,
     isFetching: true,
+    error: null,
 };
 
 export const UserDataContext = createContext<IUserDataContext>(defaultState);
@@ -18,30 +20,34 @@ export const UserDataContext = createContext<IUserDataContext>(defaultState);
 const UserDataContextProvider = ({ children }: { children: JSX.Element }) => {
     const [userData, setUserData] = useState<DocumentData | null>(null);
     const [isFetching, setIsFetching] = useState(true);
+    const [error, setError] = useState<any>(null);
 
     const { user } = useAuth();
 
     useEffect(() => {
         const fetchUserData = () => {
+            setIsFetching(true);
             if (user)
                 onSnapshot(doc(database, 'users_data', user.uid), (snap) => {
                     const userData = snap.data();
 
                     if (userData) {
                         setUserData(userData);
-                        setIsFetching(false);
                     }
+                    if (!userData) setUserData(null);
+
+                    setIsFetching(false);
                 });
         };
 
         try {
             fetchUserData();
         } catch (error) {
-            console.error(error);
+            setError(error);
         }
     }, [user]);
 
-    const value = { userData, isFetching };
+    const value = { userData, isFetching, error };
 
     return (
         <UserDataContext.Provider value={value}>
