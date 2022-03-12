@@ -30,6 +30,7 @@ const Pagination = ({
                         currentPage === 1 && 'pagination__button--disabled'
                     }`}
                     onClick={() => handleCurrentPageChange(1)}
+                    data-testid="arrow-double-left"
                 >
                     <i className="fas fa-angle-double-left" />
                 </div>
@@ -42,29 +43,20 @@ const Pagination = ({
                     <i className="fas fa-angle-left" />
                 </div>
 
-                <div className="pagination__button pagination__button pagination__button--active">
+                <div
+                    className="pagination__button pagination__button pagination__button--active"
+                    data-testid="current-page"
+                >
                     {currentPage}
                 </div>
 
-                {/* {totalPages > 3 && (
-                    <>
-                        <div className="pagination__button pagination__button pagination__button">
-                            {currentPage + 1}
-                        </div>
-                        <div className="pagination__button pagination__button pagination__button">
-                            {currentPage + 2}
-                        </div>
-                    </>
-                )} */}
-                {/* <div className="pagination__button pagination__button">
-                    {totalPages}
-                </div> */}
                 <div
                     className={`pagination__button ${
                         currentPage === totalPages &&
                         'pagination__button--disabled'
                     }`}
                     onClick={() => handleCurrentPageChange(currentPage + 1)}
+                    data-testid="arrow-right"
                 >
                     <i className="fas fas fa-angle-right" />
                 </div>
@@ -74,6 +66,7 @@ const Pagination = ({
                         'pagination__button--disabled'
                     }`}
                     onClick={() => handleCurrentPageChange(totalPages)}
+                    data-testid="arrow-double-right"
                 >
                     <i className="fas fa-angle-double-right" />
                 </div>
