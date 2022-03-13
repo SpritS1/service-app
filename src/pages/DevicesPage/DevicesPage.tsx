@@ -15,6 +15,7 @@ import Pagination from 'components/Pagination/Pagination';
 import usePagination from 'hooks/usePagination';
 import SubHeader from 'components/SubHeader/SubHeader';
 import { UserDataContext } from 'contexts/UserDataContext';
+import IconButton from 'components/IconButton/IconButton';
 
 type Device = {
     model: string;
@@ -25,7 +26,6 @@ type Device = {
 };
 
 const DevicesPage = () => {
-    // const [userDevices, setUserDevices] = useState<Device[]>([]);
     const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
     const [searchValue, setSearchValue] = useState<string>('');
     const [sortBy, setSortBy] = useState<
@@ -33,7 +33,6 @@ const DevicesPage = () => {
     >('Model');
     const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false);
 
-    // const [isFetching, setIsFetching] = useState<boolean>(true);
     const [fetchError, setFetchError] = useState<any>(null);
 
     const { userData, isFetching, error } = useContext(UserDataContext);
@@ -103,7 +102,7 @@ const DevicesPage = () => {
     }, [searchValue, userData, sortBy]);
 
     // constants
-    const ACTIONS: any = [
+    const ACTIONS: any[] = [
         { iconName: 'fas fa-wrench', color: 'yellow' },
         { iconName: 'fas fa-info-circle', color: 'blue' },
         { iconName: 'far fa-trash-alt', color: 'red', callback: removeDevice },
@@ -173,7 +172,7 @@ const DevicesPage = () => {
                     <>
                         <DeviceTable
                             devices={paginatedElements}
-                            actions={ACTIONS}
+                            actionButtons={ACTIONS}
                         />
                         <Pagination
                             setPaginationLimit={setPaginationLimit}

@@ -3,7 +3,7 @@ import IconButton from 'components/IconButton/IconButton';
 
 interface Props {
     devices: Device[];
-    actions: {
+    actionButtons: {
         iconName: string;
         color: 'blue' | 'red' | 'yellow' | 'green';
         callback: (...args: any[]) => void;
@@ -17,7 +17,7 @@ interface Device {
     manufacturer: string;
     id: string;
 }
-const DevicesTable = ({ devices, actions }: Props) => {
+const DevicesTable = ({ devices, actionButtons }: Props) => {
     return (
         <div className="devices-table">
             <table className="devices-table__table">
@@ -55,7 +55,7 @@ const DevicesTable = ({ devices, actions }: Props) => {
                                     </td>
                                     <td className="devices-table__td">
                                         <div className="devices-table__actions">
-                                            {actions.map(
+                                            {actionButtons.map(
                                                 ({
                                                     iconName,
                                                     color,
@@ -63,21 +63,18 @@ const DevicesTable = ({ devices, actions }: Props) => {
                                                 }) => {
                                                     return (
                                                         <IconButton
-                                                            icon={
-                                                                <i
-                                                                    className={`icon-button__icon ${iconName}`}
-                                                                />
-                                                            }
+                                                            iconName={iconName}
                                                             color={color}
-                                                            callback={callback}
-                                                            callbackArguments={{
-                                                                model,
-                                                                category,
-                                                                serialNumber,
-                                                                manufacturer,
-                                                                id,
-                                                            }}
-                                                            key={`${iconName} ${id}`}
+                                                            onClick={() =>
+                                                                callback({
+                                                                    model,
+                                                                    category,
+                                                                    serialNumber,
+                                                                    manufacturer,
+                                                                    id,
+                                                                })
+                                                            }
+                                                            key={`${iconName}-${id}`}
                                                         />
                                                     );
                                                 },

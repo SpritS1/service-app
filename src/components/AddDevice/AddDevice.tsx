@@ -189,8 +189,8 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
         searchValue,
     ]);
 
-    const addDevice = (device: string) => {
-        if (user) {
+    const addDevice = (device: Device) => {
+        if (user && device) {
             updateDoc(doc(database, 'users_data', user.uid), {
                 devices: arrayUnion(device),
             }).catch((error) => console.error(error));
@@ -199,11 +199,7 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
         }
     };
 
-    const actions: {
-        iconName: string;
-        color: 'blue' | 'red' | 'yellow' | 'green';
-        callback: (...args: any[]) => void;
-    }[] = [
+    const ACTIONS: any[] = [
         { iconName: 'fas fa-circle-plus', color: 'green', callback: addDevice },
         { iconName: 'fas fa-info-circle', color: 'blue', callback: () => null },
     ];
@@ -274,7 +270,7 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
                     <>
                         <DevicesTable
                             devices={paginatedDevices}
-                            actions={actions}
+                            actionButtons={ACTIONS}
                         />
                         <Pagination
                             setPaginationLimit={setPaginationLimit}

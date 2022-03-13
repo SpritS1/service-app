@@ -2,19 +2,18 @@ import React from 'react';
 import './IconButton.scss';
 
 interface Props {
-    icon: React.ReactNode;
+    iconName: string;
     color: 'blue' | 'red' | 'yellow' | 'green';
-    callback: (...args: any[]) => void;
-    callbackArguments?: {};
+    onClick: (...args: any[]) => void;
 }
 
-const IconButton = ({ icon, color, callback, callbackArguments }: Props) => {
+const IconButton = ({ iconName, color, onClick }: Props) => {
     return (
         <button
             className={`icon-button icon-button--${color}`}
-            onClick={() => callback(callbackArguments)}
+            onClick={() => onClick()}
         >
-            {icon}
+            <i className={`icon-button__icon ${iconName}`}></i>
         </button>
     );
 };
