@@ -29,16 +29,18 @@ const SideBar = ({ isActive }: Props) => {
                     Devices
                 </Link>
                 <Link
-                    to="/"
+                    to="/service-requests"
                     className={`sidebar__nav-link ${
-                        location.pathname === '/service' ? 'active' : ''
+                        location.pathname === '/service-requests'
+                            ? 'active'
+                            : ''
                     }`}
                 >
                     <i className="sidebar__nav-icon fa-solid fa-wrench"></i>
                     Service requests
                 </Link>
                 <Link
-                    to="/"
+                    to="/contact"
                     className={`sidebar__nav-link ${
                         location.pathname === '/contact' ? 'active' : ''
                     }`}

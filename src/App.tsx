@@ -8,6 +8,7 @@ import Layout from 'Layout/Layout';
 import ProfilePage from 'pages/ProfilePage/ProfilePage';
 import UserDataContextProvider from 'contexts/UserDataContext';
 import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
+import ServiceRequestsPage from 'pages/ServiceRequestsPage/ServiceRequestsPage';
 
 const App = () => {
     return (
@@ -22,6 +23,16 @@ const App = () => {
                                     <Layout>
                                         <RequireAuth>
                                             <DevicesPage />
+                                        </RequireAuth>
+                                    </Layout>
+                                }
+                            />
+                            <Route
+                                path="/service-requests"
+                                element={
+                                    <Layout>
+                                        <RequireAuth>
+                                            <ServiceRequestsPage />
                                         </RequireAuth>
                                     </Layout>
                                 }
