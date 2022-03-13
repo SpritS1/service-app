@@ -16,6 +16,8 @@ import usePagination from 'hooks/usePagination';
 import SubHeader from 'components/SubHeader/SubHeader';
 import { UserDataContext } from 'contexts/UserDataContext';
 import IconButton from 'components/IconButton/IconButton';
+import ServiceRequets from 'components/ServiceRequest/ServiceRequest';
+import ModalWindow from 'components/ModalWindow/ModalWindow';
 
 type Device = {
     model: string;
@@ -32,6 +34,7 @@ const DevicesPage = () => {
         'Model' | 'Category' | 'SerialNumber' | 'Manufacturer'
     >('Model');
     const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false);
+    const [isServiceRequestOpen, setIsServiceRequestOpen] = useState(false);
 
     const [fetchError, setFetchError] = useState<any>(null);
 
@@ -101,9 +104,23 @@ const DevicesPage = () => {
         }
     }, [searchValue, userData, sortBy]);
 
+    const [
+        serviceRequestDevice,
+        setServiceRequestDevice,
+    ] = useState<Device | null>(null);
+
+    const handleServiceClick = (device: Device) => {
+        setServiceRequestDevice(device);
+        setIsServiceRequestOpen(true);
+    };
+
     // constants
     const ACTIONS: any[] = [
-        { iconName: 'fas fa-wrench', color: 'yellow' },
+        {
+            iconName: 'fas fa-wrench',
+            color: 'yellow',
+            callback: handleServiceClick,
+        },
         { iconName: 'fas fa-info-circle', color: 'blue' },
         { iconName: 'far fa-trash-alt', color: 'red', callback: removeDevice },
     ];
@@ -133,17 +150,6 @@ const DevicesPage = () => {
                         backgroundColor="blue"
                         action={() => setIsAddDeviceOpen(true)}
                     />
-                    {userData && (
-                        <Modal
-                            isOpen={isAddDeviceOpen}
-                            onClose={() => setIsAddDeviceOpen(false)}
-                        >
-                            <AddDevice
-                                setIsAddDeviceOpen={setIsAddDeviceOpen}
-                                userDevices={userData.devices}
-                            />
-                        </Modal>
-                    )}
                 </>
             </HeaderDesktop>
             <SubHeader>
@@ -199,6 +205,45 @@ const DevicesPage = () => {
                         <p className="devices-page__fetch-error">
                             {fetchError}
                         </p>
+                    </>
+                )}
+
+                {userData && (
+                    <>
+                        <Modal
+                            isOpen={isAddDeviceOpen}
+                            onClose={() => setIsAddDeviceOpen(false)}
+                        >
+                            <ModalWindow
+                                title="Add new device"
+                                onClose={() => setIsAddDeviceOpen(false)}
+                            >
+                                <AddDevice
+                                    setIsAddDeviceOpen={setIsAddDeviceOpen}
+                                    userDevices={userData.devices}
+                                />
+                            </ModalWindow>
+                        </Modal>
+                        {serviceRequestDevice && (
+                            <Modal
+                                isOpen={isServiceRequestOpen}
+                                onClose={() => setIsServiceRequestOpen(false)}
+                            >
+                                <ModalWindow
+                                    title="New service request"
+                                    onClose={() =>
+                                        setIsServiceRequestOpen(false)
+                                    }
+                                >
+                                    <ServiceRequets
+                                        device={serviceRequestDevice}
+                                        setIsServiceRequestOpen={() =>
+                                            setIsServiceRequestOpen(false)
+                                        }
+                                    />
+                                </ModalWindow>
+                            </Modal>
+                        )}
                     </>
                 )}
             </div>

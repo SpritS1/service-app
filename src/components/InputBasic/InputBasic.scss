@@ -11,36 +11,33 @@
     }
 
     &__input {
-        border: rgba($white, 0.5) 1px solid;
+        border: 1px solid $blue-dark-accent;
         border-radius: 8px;
         outline: none;
         font-size: 1rem;
         padding: 0.75rem 1rem;
         color: inherit;
-        background: $blue-dark;
-        transition: background-color $transition-default;
+        background: $blue-dark-accent;
+        transition: $transition-default;
         box-sizing: content-box;
 
         &::placeholder {
             color: rgba($white, 0.5);
         }
 
-        &:focus,
-        &:hover {
-            background: $blue-dark-accent;
-        }
+        // &:focus,
+        // &:hover {
+        //     background: $blue-dark-accent;
+        // }
 
         &:focus {
-            border: rgba($white, 0.75) 1px solid;
+            // border: rgba($white, 0.75) 1px solid;
+            border: $blue 1px solid;
         }
 
         &--read-only {
-            background: rgba($white, 0.3);
+            // background: rgba($blue-dark, 1);
             cursor: default;
-
-            &:hover {
-                background: rgba($white, 0.3);
-            }
         }
     }
 

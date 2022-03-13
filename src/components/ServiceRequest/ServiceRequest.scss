@@ -1,0 +1,47 @@
+@use 'scss/index' as *;
+
+.service-request {
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: auto;
+    padding: 0.5rem;
+
+    &__input-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    &__input {
+        border: 1px solid $blue-dark-accent;
+        border-radius: 8px;
+        outline: none;
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+        color: inherit;
+        background: $blue-dark-accent;
+        transition: background-color $transition-default;
+        box-sizing: content-box;
+    }
+
+    &__textarea {
+        resize: none;
+        border: 1px solid $blue-dark-accent;
+        border-radius: 8px;
+        outline: none;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        padding: 0.75rem 1rem;
+        color: inherit;
+        min-height: 150px;
+        background: $blue-dark-accent;
+        transition: $transition-default;
+        font-family: 'Roboto', sans-serif;
+
+        &:focus {
+            border: rgba($blue, 1) 1px solid;
+        }
+    }
+}
