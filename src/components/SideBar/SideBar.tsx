@@ -3,17 +3,39 @@ import Account from './Account/Account';
 import Logo from 'components/Logo/Logo';
 import './SideBar.scss';
 import useAuth from 'hooks/useAuth';
+import React, { useEffect, useRef } from 'react';
 
 interface Props {
     isActive: boolean;
+    setIsActive: (value: boolean) => void;
 }
 
-const SideBar = ({ isActive }: Props) => {
+const SideBar = ({ isActive, setIsActive }: Props) => {
     const navigate = useNavigate();
     const { logout } = useAuth();
     const location = useLocation();
+
+    const sidebarRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            console.log('xd');
+            if (
+                isActive &&
+                sidebarRef.current &&
+                !sidebarRef.current.contains(e.target as Node)
+            )
+                setIsActive(false);
+        };
+        window.addEventListener('click', handleClickOutside);
+
+        return () => {
+            window.removeEventListener('click', handleClickOutside);
+        };
+    }, [setIsActive, isActive]);
+
     return (
-        <div className={`sidebar ${isActive && 'active'}`}>
+        <div ref={sidebarRef} className={`sidebar ${isActive && 'active'}`}>
             <div className="sidebar__logo-container">
                 <Logo />
             </div>

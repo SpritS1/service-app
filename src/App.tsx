@@ -4,7 +4,7 @@ import DevicesPage from 'pages/DevicesPage/DevicesPage';
 import AuthorizationPage from 'pages/AuthorizationPage/AuthorizationPage';
 import AuthContextProvider from 'contexts/AuthContext';
 import RequireAuth from 'components/RequireAuth/RequireAuth';
-import Layout from 'Layout/Layout';
+import Layout from 'layouts/Layout/Layout';
 import ProfilePage from 'pages/ProfilePage/ProfilePage';
 import UserDataContextProvider from 'contexts/UserDataContext';
 import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
