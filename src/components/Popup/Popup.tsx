@@ -26,6 +26,13 @@ const Popup = ({
     if (isActive)
         return (
             <div className={`popup ${type ? `popup--${type}` : ''}`}>
+                {type === 'default' && (
+                    <i className="popup__icon fa-solid fa-circle-info" />
+                )}
+                {type === 'error' && (
+                    <i className="popup__icon fa-solid fa-circle-exclamation" />
+                )}
+
                 {content}
             </div>
         );

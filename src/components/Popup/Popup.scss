@@ -6,11 +6,14 @@
     bottom: 2rem;
     z-index: $z-index-popup;
     min-width: 100px;
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: $border-radius;
     opacity: 0;
     visibility: hidden;
     animation: appear 1s forwards;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 
     &--default {
         background: $blue;
@@ -19,6 +22,10 @@
 
     &--error {
         background: $red-error;
+    }
+
+    &__icon {
+        font-size: 1.5rem;
     }
 }
 
