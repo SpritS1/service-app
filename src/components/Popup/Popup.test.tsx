@@ -1,23 +1,41 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Popup from './Popup';
+import { useState } from 'react';
+import { act } from 'react-dom/test-utils';
 
-// test('should render popup with content', async () => {
-//     const popupContent = "I'm popup";
+const popupContent = "I'm popup";
 
-//     render(<Popup content={popupContent} duration={5000} />);
-//     const popupElement = screen.getByText(popupContent);
+const TestContainer = () => {
+    const [isActive, setIsActive] = useState(true);
+    return (
+        <>
+            <Popup
+                content={popupContent}
+                duration={1000}
+                isActive={isActive}
+                setIsActive={setIsActive}
+            />
+        </>
+    );
+};
 
-//     expect(popupElement).toBeInTheDocument();
-// });
+test('should render popup with content', async () => {
+    render(<TestContainer />);
+    const popupElement = screen.getByText(popupContent);
 
-// test('should not be rendered after duration time', async () => {
-//     jest.useFakeTimers();
-//     const popupContent = "I'm popup";
+    expect(popupElement).toHaveTextContent(popupContent);
+});
 
-//     render(<Popup content={popupContent} duration={1000} />);
-//     const popupElement = screen.getByText(popupContent);
+test('should not be rendered after duration time', async () => {
+    jest.useFakeTimers();
+    const popupContent = "I'm popup";
 
-//     setTimeout(() => expect(popupElement).not.toBeInTheDocument(), 1005);
-//     jest.runAllTimers();
-// });
+    render(<TestContainer />);
+    const popupElement = screen.getByText(popupContent);
+
+    act(() => {
+        jest.runAllTimers();
+        setTimeout(() => expect(popupElement).not.toBeInTheDocument(), 1005);
+    });
+});
