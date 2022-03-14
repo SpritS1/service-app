@@ -1,7 +1,7 @@
 import Button from 'components/Button/Button';
 import SelectButton from 'components/SelectButton/SelectButton';
 import { database } from 'firebase.js';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
 import React, { useEffect, useState } from 'react';
 import './ServiceRequest.scss';
@@ -47,6 +47,7 @@ const ServiceRequets = ({ setIsServiceRequestOpen, device, popup }: Props) => {
             category: selectedCategory,
             problemDescription: problemDescription,
             status: 'in-progress',
+            createdAt: serverTimestamp(),
         };
 
         try {
