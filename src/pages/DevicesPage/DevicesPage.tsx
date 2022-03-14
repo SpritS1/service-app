@@ -15,9 +15,10 @@ import Pagination from 'components/Pagination/Pagination';
 import usePagination from 'hooks/usePagination';
 import SubHeader from 'components/SubHeader/SubHeader';
 import { UserDataContext } from 'contexts/UserDataContext';
-import IconButton from 'components/IconButton/IconButton';
 import ServiceRequets from 'components/ServiceRequest/ServiceRequest';
 import ModalWindow from 'components/ModalWindow/ModalWindow';
+import Popup from 'components/Popup/Popup';
+import usePopup from 'hooks/usePopup';
 
 type Device = {
     model: string;
@@ -39,7 +40,10 @@ const DevicesPage = () => {
     const [fetchError, setFetchError] = useState<any>(null);
 
     const { userData, isFetching, error } = useContext(UserDataContext);
+
     const { user } = useAuth();
+
+    const popup = usePopup();
 
     const {
         setPaginationLimit,
@@ -104,10 +108,8 @@ const DevicesPage = () => {
         }
     }, [searchValue, userData, sortBy]);
 
-    const [
-        serviceRequestDevice,
-        setServiceRequestDevice,
-    ] = useState<Device | null>(null);
+    const [serviceRequestDevice, setServiceRequestDevice] =
+        useState<Device | null>(null);
 
     const handleServiceClick = (device: Device) => {
         setServiceRequestDevice(device);
@@ -240,6 +242,7 @@ const DevicesPage = () => {
                                         setIsServiceRequestOpen={() =>
                                             setIsServiceRequestOpen(false)
                                         }
+                                        popup={popup}
                                     />
                                 </ModalWindow>
                             </Modal>
@@ -247,6 +250,14 @@ const DevicesPage = () => {
                     </>
                 )}
             </div>
+
+            <Popup
+                content={popup.popupContent}
+                duration={3000}
+                type={popup.popupType}
+                isActive={popup.isPopupActive}
+                setIsActive={popup.setIsPopupActive}
+            />
         </div>
     );
 };

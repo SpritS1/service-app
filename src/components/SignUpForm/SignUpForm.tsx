@@ -5,7 +5,6 @@ import Button from '../Button/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from 'hooks/useAuth';
 import ValidationError from 'components/ValidationError/ValidationError';
-import Popup from 'components/Popup/Popup';
 
 const SignUpForm = () => {
     const [email, setEmail] = useState('');
@@ -103,13 +102,6 @@ const SignUpForm = () => {
                 />
                 {errorField === 'confirmPassword' && errorMessage && (
                     <ValidationError message={errorMessage} />
-                )}
-                {errorField === 'popup' && errorMessage && (
-                    <Popup
-                        content={errorMessage}
-                        duration={3000}
-                        type={'error'}
-                    />
                 )}
             </div>
             <Button

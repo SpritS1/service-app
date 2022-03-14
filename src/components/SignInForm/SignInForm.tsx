@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useAuth from 'hooks/useAuth';
 import ValidationError from 'components/ValidationError/ValidationError';
 import Popup from 'components/Popup/Popup';
+import usePopup from 'hooks/usePopup';
 
 const SignInForm = () => {
     const [email, setEmail] = useState<string>('');
@@ -15,7 +16,10 @@ const SignInForm = () => {
     );
 
     const navigate = useNavigate();
+
     const { signIn, errorMessage, errorField, cleanError } = useAuth();
+
+    const popup = usePopup();
 
     useEffect(() => {
         if (email && password) setIsFormFilled(true);
@@ -27,11 +31,23 @@ const SignInForm = () => {
         cleanError();
     }, [cleanError]);
 
+    const handleSignIn = () => {
+        popup.resetPopup();
+
+        signIn(email, password, () => navigate('/'));
+
+        if (errorMessage && errorField === 'popup') {
+            popup.setPopupContent(errorMessage);
+            popup.setPopupType('error');
+            popup.setIsPopupActive(true);
+        }
+    };
+
     const handleKeyPress = (e: React.KeyboardEvent) => {
         if (isFormFilled && e.key === 'Enter') {
             e.preventDefault();
 
-            signIn(email, password, () => navigate('/'));
+            handleSignIn();
         }
     };
 
@@ -63,13 +79,6 @@ const SignInForm = () => {
                 {errorField === 'password' && errorMessage && (
                     <ValidationError message={errorMessage} />
                 )}
-                {errorField === 'popup' && errorMessage && (
-                    <Popup
-                        content={errorMessage}
-                        duration={3000}
-                        type={'error'}
-                    />
-                )}
             </form>
             <Link
                 to="/forgot-password"
@@ -80,7 +89,7 @@ const SignInForm = () => {
             <Button
                 text="Login"
                 backgroundColor="white"
-                action={() => signIn(email, password, () => navigate('/'))}
+                action={handleSignIn}
                 disabled={!isFormFilled}
             />
             <span className="sign-in-form__sign-up">
@@ -89,6 +98,13 @@ const SignInForm = () => {
                     Sign Up
                 </Link>
             </span>
+            <Popup
+                content={popup.popupContent}
+                duration={3000}
+                type={popup.popupType}
+                isActive={popup.isPopupActive}
+                setIsActive={popup.setIsPopupActive}
+            />
         </div>
     );
 };

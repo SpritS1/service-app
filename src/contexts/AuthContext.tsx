@@ -76,7 +76,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     const logout = (callback: VoidFunction) => {
         signOut(auth)
             .then(() => callback())
-            .catch((error) => console.log(error.code));
+            .catch((error) => console.error(error.code));
     };
 
     const signIn = (
@@ -96,20 +96,16 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     ) => {
         await createUserWithEmailAndPassword(auth, email, password)
             .then(async (credentials) => {
-                try {
-                    setDoc(doc(database, 'users_data', credentials.user.uid), {
-                        devices: [],
-                        name: null,
-                        surname: null,
-                        phone: null,
-                    });
-                } catch (error) {
-                    console.error(error);
-                }
+                setDoc(doc(database, 'users_data', credentials.user.uid), {
+                    devices: [],
+                    name: null,
+                    surname: null,
+                    phone: null,
+                });
+
                 callback();
             })
             .catch((error) => {
-                console.log(error);
                 validateError(error.code);
             });
     };

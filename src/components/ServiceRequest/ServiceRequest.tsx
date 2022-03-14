@@ -17,9 +17,10 @@ interface Device {
 interface Props {
     setIsServiceRequestOpen: (value: boolean) => void;
     device: Device;
+    popup: any;
 }
 
-const ServiceRequets = ({ setIsServiceRequestOpen, device }: Props) => {
+const ServiceRequets = ({ setIsServiceRequestOpen, device, popup }: Props) => {
     const [selectedCategory, setSelectedCategory] = useState<string | null>(
         null,
     );
@@ -53,10 +54,17 @@ const ServiceRequets = ({ setIsServiceRequestOpen, device }: Props) => {
                 collection(database, 'serviceRequests'),
                 serviceRequest,
             );
+
+            setIsServiceRequestOpen(false);
+
+            popup.setPopupContent('Request sent succesfuly');
+            popup.setPopupType('default');
+            popup.setIsPopupActive(true);
         } catch (error) {
-            console.error(error);
+            popup.setPopupContent(error as string);
+            popup.setPopupType('error');
+            popup.setIsPopupActive(true);
         }
-        setIsServiceRequestOpen(false);
     };
 
     return (
