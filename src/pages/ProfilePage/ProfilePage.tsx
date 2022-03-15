@@ -2,11 +2,13 @@ import Button from 'components/Button/Button';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
 import InputBasic from 'components/InputBasic/InputBasic';
 import Loader from 'components/Loader/Loader';
+import Popup from 'components/Popup/Popup';
 import UserImage from 'components/UserImage/UserImage';
 import { UserDataContext } from 'contexts/UserDataContext';
 import { database } from 'firebase.js';
 import { doc, updateDoc } from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
+import usePopup from 'hooks/usePopup';
 import React, { useContext, useEffect, useState } from 'react';
 import './ProfilePage.scss';
 
@@ -26,8 +28,19 @@ const ProfilePage = (props: Props) => {
 
     const [areInputsFilled, setAreInputsFilled] = useState(false);
 
+    const {
+        popupContent,
+        setPopupContent,
+        popupType,
+        setPopupType,
+        isPopupActive,
+        setIsPopupActive,
+        resetPopup,
+    } = usePopup();
+
     const handleProfileUpdate = async () => {
         try {
+            resetPopup();
             if (user && areInputsFilled) {
                 await updateDoc(doc(database, 'users_data', user.uid), {
                     name: name,
@@ -38,8 +51,14 @@ const ProfilePage = (props: Props) => {
                     companyName: companyName,
                 });
             }
+
+            setPopupType('default');
+            setPopupContent('Profile updated');
+            setIsPopupActive(true);
         } catch (error) {
-            console.error(error);
+            setPopupType('error');
+            setPopupContent(error as string);
+            setIsPopupActive(true);
         }
     };
 
@@ -148,6 +167,13 @@ const ProfilePage = (props: Props) => {
                     </div>
                 </div>
             )}
+            <Popup
+                content={popupContent}
+                duration={5000}
+                type={popupType}
+                isActive={isPopupActive}
+                setIsActive={setIsPopupActive}
+            />
         </div>
     );
 };

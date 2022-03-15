@@ -1,19 +1,18 @@
 @use 'scss/index' as *;
 
 .popup {
-    position: absolute;
-    right: 4rem;
+    position: fixed;
+    right: 50%;
     bottom: 2rem;
     z-index: $z-index-popup;
     min-width: 100px;
     padding: 1.5rem;
     border-radius: $border-radius;
-    opacity: 0;
-    visibility: hidden;
-    animation: appear 1s forwards;
+    animation: showPopup 1s forwards;
     display: flex;
     align-items: center;
     gap: 1rem;
+    white-space: nowrap;
 
     &--default {
         background: $blue;
@@ -27,18 +26,18 @@
     &__icon {
         font-size: 1.5rem;
     }
-}
 
-@keyframes appear {
-    from {
-        opacity: 0;
-        visibility: hidden;
-        transform: translateX(2rem);
-    }
+    @keyframes showPopup {
+        from {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(50%) translateY(5rem);
+        }
 
-    to {
-        opacity: 1;
-        visibility: visible;
-        transform: translateX(0rem);
+        to {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(50%) translateY(0);
+        }
     }
 }
