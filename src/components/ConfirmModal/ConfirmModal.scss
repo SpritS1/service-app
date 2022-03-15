@@ -1,0 +1,50 @@
+@use 'scss' as *;
+
+.confirm-modal {
+    background-color: $blue-dark;
+    color: $white;
+    padding: 2rem;
+    border-radius: $border-radius;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    animation: appear 0.4s;
+
+    &__title {
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    &__text {
+        text-align: center;
+    }
+
+    &__buttons {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-around;
+        gap: 1rem;
+    }
+}
+
+@media screen and (min-width: $breakpoint-tablet) {
+    .confirm-modal {
+        &__buttons {
+            gap: 2rem;
+        }
+    }
+}
+
+@keyframes appear {
+    from {
+        visibility: hidden;
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    to {
+        visibility: visible;
+        opacity: 1;
+        transform: scale(1);
+    }
+}

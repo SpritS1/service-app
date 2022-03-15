@@ -8,7 +8,12 @@ type Props = {
     disabled?: boolean;
 };
 
-const Button = ({ text, backgroundColor, action, disabled = false }: Props) => {
+const Button = ({
+    text,
+    backgroundColor = 'white',
+    action,
+    disabled = false,
+}: Props) => {
     return (
         <button
             className={`button button--${backgroundColor} ${

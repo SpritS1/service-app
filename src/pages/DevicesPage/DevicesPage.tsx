@@ -19,6 +19,7 @@ import ServiceRequets from 'components/ServiceRequest/ServiceRequest';
 import ModalWindow from 'components/ModalWindow/ModalWindow';
 import Popup from 'components/Popup/Popup';
 import usePopup from 'hooks/usePopup';
+import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
 
 type Device = {
     model: string;
@@ -39,6 +40,7 @@ const DevicesPage = () => {
     const [serviceRequestDevice, setServiceRequestDevice] =
         useState<Device | null>(null);
     const [fetchError, setFetchError] = useState<any>(null);
+    const [actionDevice, setActionDevice] = useState<Device | null>(null);
 
     const { userData, isFetching, error } = useContext(UserDataContext);
     const { user } = useAuth();
@@ -51,10 +53,13 @@ const DevicesPage = () => {
         paginatedElements,
     } = usePagination(filteredDevices, 10);
 
-    const removeDevice = (device: string) => {
+    // let actionDevice: Device | null = null;
+
+    const removeDevice = () => {
+        console.log(actionDevice);
         if (user) {
             updateDoc(doc(database, 'users_data', user.uid), {
-                devices: arrayRemove(device),
+                devices: arrayRemove(actionDevice),
             }).catch((error) => console.error(error));
         }
     };
@@ -119,7 +124,13 @@ const DevicesPage = () => {
             callback: handleServiceClick,
         },
         { iconName: 'fas fa-info-circle', color: 'blue' },
-        { iconName: 'far fa-trash-alt', color: 'red', callback: removeDevice },
+        {
+            iconName: 'far fa-trash-alt',
+            color: 'red',
+            callback: (device: Device) => {
+                setActionDevice(device);
+            },
+        },
     ];
 
     const SORTING_OPTIONS = [
@@ -245,6 +256,20 @@ const DevicesPage = () => {
                     </>
                 )}
             </div>
+
+            {actionDevice && (
+                <Modal
+                    isOpen={actionDevice !== null}
+                    onClose={() => setActionDevice(null)}
+                >
+                    <ConfirmModal
+                        title="Device delete"
+                        text="Are you sure to delete this device?"
+                        callback={removeDevice}
+                        closeModal={() => setActionDevice(null)}
+                    />
+                </Modal>
+            )}
 
             <Popup
                 content={popup.popupContent}
