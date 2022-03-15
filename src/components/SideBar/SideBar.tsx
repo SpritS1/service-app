@@ -19,7 +19,6 @@ const SideBar = ({ isActive, setIsActive }: Props) => {
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
-            console.log('xd');
             if (
                 isActive &&
                 sidebarRef.current &&

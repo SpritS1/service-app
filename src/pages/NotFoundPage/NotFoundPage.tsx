@@ -8,7 +8,6 @@ type Props = {};
 const NotFoundPage = (props: Props) => {
     return (
         <div className="not-found-page">
-            {/* <div className="not-found-page__container"> */}
             <h1 className="not-found-page__title">Page Not Found 🔎</h1>
             <p className="not-found-page__text">
                 The page you were looking for could not be found. It might have
@@ -17,7 +16,6 @@ const NotFoundPage = (props: Props) => {
             <Link className="not-found-page__button" to="/">
                 Home
             </Link>
-            {/* </div> */}
         </div>
     );
 };

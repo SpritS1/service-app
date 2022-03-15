@@ -1,13 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const usePopup = () => {
     const [isPopupActive, setIsPopupActive] = useState(false);
     const [popupContent, setPopupContent] = useState('');
     const [popupType, setPopupType] = useState<'default' | 'error'>('default');
-
-    useEffect(() => {
-        console.log(isPopupActive);
-    }, [isPopupActive]);
 
     const resetPopup = () => {
         setPopupContent('');

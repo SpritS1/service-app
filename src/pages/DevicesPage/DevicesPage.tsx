@@ -36,15 +36,13 @@ const DevicesPage = () => {
     >('Model');
     const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false);
     const [isServiceRequestOpen, setIsServiceRequestOpen] = useState(false);
-
+    const [serviceRequestDevice, setServiceRequestDevice] =
+        useState<Device | null>(null);
     const [fetchError, setFetchError] = useState<any>(null);
 
     const { userData, isFetching, error } = useContext(UserDataContext);
-
     const { user } = useAuth();
-
     const popup = usePopup();
-
     const {
         setPaginationLimit,
         currentPage,
@@ -59,6 +57,11 @@ const DevicesPage = () => {
                 devices: arrayRemove(device),
             }).catch((error) => console.error(error));
         }
+    };
+
+    const handleServiceClick = (device: Device) => {
+        setServiceRequestDevice(device);
+        setIsServiceRequestOpen(true);
     };
 
     // Sorting and filtering devicesArray
@@ -107,14 +110,6 @@ const DevicesPage = () => {
             }
         }
     }, [searchValue, userData, sortBy]);
-
-    const [serviceRequestDevice, setServiceRequestDevice] =
-        useState<Device | null>(null);
-
-    const handleServiceClick = (device: Device) => {
-        setServiceRequestDevice(device);
-        setIsServiceRequestOpen(true);
-    };
 
     // constants
     const ACTIONS: any[] = [
