@@ -24,23 +24,11 @@ const ProfilePage = (props: Props) => {
     const [postCode, setPostCode] = useState('');
     const [companyName, setCompanyName] = useState('');
 
-    const handleProfileUpdate = async () => {
-        const areInputsFilled = () => {
-            if (
-                name &&
-                surname &&
-                email &&
-                phone &&
-                city &&
-                postCode &&
-                companyName
-            )
-                return true;
-            return false;
-        };
+    const [areInputsFilled, setAreInputsFilled] = useState(false);
 
+    const handleProfileUpdate = async () => {
         try {
-            if (user && areInputsFilled()) {
+            if (user && areInputsFilled) {
                 await updateDoc(doc(database, 'users_data', user.uid), {
                     name: name,
                     surname: surname,
@@ -49,7 +37,7 @@ const ProfilePage = (props: Props) => {
                     postCode: postCode,
                     companyName: companyName,
                 });
-            } else console.log('no no');
+            }
         } catch (error) {
             console.error(error);
         }
@@ -65,6 +53,24 @@ const ProfilePage = (props: Props) => {
             setCompanyName(userData.companyName);
         }
     }, [userData]);
+
+    useEffect(() => {
+        const checkIfInputsFilled = () => {
+            if (
+                name &&
+                surname &&
+                email &&
+                phone &&
+                city &&
+                postCode &&
+                companyName
+            )
+                return true;
+            else return false;
+        };
+
+        setAreInputsFilled(checkIfInputsFilled());
+    }, [name, surname, email, phone, city, postCode, companyName]);
 
     return (
         <div className="profile-page">
@@ -136,6 +142,7 @@ const ProfilePage = (props: Props) => {
                                 text={'Update profile'}
                                 backgroundColor="blue"
                                 action={handleProfileUpdate}
+                                disabled={!areInputsFilled}
                             />
                         </div>
                     </div>
