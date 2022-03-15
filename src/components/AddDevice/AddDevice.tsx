@@ -259,7 +259,7 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
             )}
 
             {filteredDevices.length !== 0 && (
-                <>
+                <div className="add-device__bottom">
                     <DevicesTable
                         devices={paginatedDevices}
                         actionButtons={ACTIONS}
@@ -270,7 +270,7 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
                         setCurrentPage={setCurrentPage}
                         totalPages={totalPages}
                     />
-                </>
+                </div>
             )}
         </div>
     );
