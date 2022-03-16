@@ -1,0 +1,44 @@
+@use 'scss/index' as *;
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    position: relative;
+    font-size: 0.9rem;
+
+    &__input {
+        cursor: pointer;
+        height: 0;
+        width: 0;
+
+        &::before {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            font: var(--fa-font-solid);
+            content: '';
+            color: $blue;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 25px;
+            height: 25px;
+            text-align: center;
+            transition: 0.5s;
+            background: $blue-dark-accent;
+            border-radius: 8px;
+        }
+
+        &:checked::before {
+            content: '\f00c';
+        }
+    }
+
+    &__text {
+        cursor: pointer;
+    }
+}

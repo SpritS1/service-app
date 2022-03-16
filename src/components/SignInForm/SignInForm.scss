@@ -3,10 +3,16 @@
 .sign-in-form {
     display: flex;
     flex-direction: column;
-    text-align: center;
+    gap: 2rem;
+    background: $blue-dark;
+    padding: 2rem;
+    border-radius: $border-radius;
+    min-width: 350px;
 
     &__title {
-        margin-bottom: 1rem;
+        text-align: center;
+        font-weight: normal;
+        font-size: 2rem;
     }
 
     &__group {
@@ -15,21 +21,13 @@
         width: 100%;
 
         &--inputs {
-            gap: 0.5rem;
+            gap: 1rem;
         }
     }
 
-    &__forgot-password {
-        font-size: 0.9rem;
-        margin: 0.5rem 0 1rem 0;
-        color: $blue;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
     &__sign-up {
-        margin-bottom: 2rem;
+        text-align: center;
+        font-size: 0.9rem;
 
         &-link {
             color: $blue;
@@ -41,10 +39,12 @@
     }
 
     &__forgot-password {
-        text-align: left;
-    }
+        text-align: center;
+        font-size: 0.9rem;
+        color: $blue;
 
-    &__sign-up {
-        margin-top: 2rem;
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }

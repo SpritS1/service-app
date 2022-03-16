@@ -7,6 +7,9 @@ import useAuth from 'hooks/useAuth';
 import ValidationError from 'components/ValidationError/ValidationError';
 import Popup from 'components/Popup/Popup';
 import usePopup from 'hooks/usePopup';
+import InputBasic from 'components/InputBasic/InputBasic';
+import Logo from 'components/Logo/Logo';
+import Checkbox from 'components/Checkbox/Checkbox';
 
 const SignInForm = () => {
     const [email, setEmail] = useState<string>('');
@@ -57,47 +60,55 @@ const SignInForm = () => {
             <form
                 className="sign-in-form__group sign-in-form__group--inputs"
                 onKeyDown={(e) => handleKeyPress(e)}
+                autoComplete="off"
             >
-                <InputBorderless
+                <InputBasic
                     placeholder="Email"
                     type="text"
                     value={email}
                     setState={setEmail}
                     error={errorField === 'email' ? errorMessage : null}
                     autofocus
+                    autoComplete="off"
+                    hasLabel={false}
                 />
                 {errorField === 'email' && errorMessage && (
                     <ValidationError message={errorMessage} />
                 )}
-                <InputBorderless
+                <InputBasic
                     placeholder="Password"
                     type="password"
                     value={password}
                     setState={setPassword}
                     error={errorField === 'password' ? errorMessage : null}
+                    autoComplete="off"
+                    hasLabel={false}
                 />
                 {errorField === 'password' && errorMessage && (
                     <ValidationError message={errorMessage} />
                 )}
+                <Checkbox text="Remember me" />
             </form>
-            <Link
-                to="/forgot-password"
-                className="sign-in-form__forgot-password"
-            >
-                Forgot password?
-            </Link>
+
             <Button
-                text="Login"
-                backgroundColor="white"
+                text="SIGN IN"
+                backgroundColor="blue"
                 action={handleSignIn}
                 disabled={!isFormFilled}
             />
             <span className="sign-in-form__sign-up">
                 No account yet? &nbsp;
                 <Link to="/auth/signup" className="sign-in-form__sign-up-link">
-                    Sign Up
+                    Sign up!
                 </Link>
             </span>
+            <Link
+                to="/forgot-password"
+                className="sign-in-form__forgot-password"
+            >
+                Forgot password?
+            </Link>
+
             <Popup
                 content={popup.popupContent}
                 duration={3000}

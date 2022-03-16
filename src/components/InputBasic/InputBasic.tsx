@@ -12,6 +12,7 @@ interface Props {
     error?: string | null;
     autoComplete?: string;
     disabled?: boolean;
+    hasLabel?: boolean;
 }
 
 const InputBasic = ({
@@ -21,6 +22,7 @@ const InputBasic = ({
     type,
     disabled = false,
     required,
+    hasLabel = true,
 }: Props) => {
     const handleChange = (
         setState: (e: string) => void,
@@ -31,9 +33,11 @@ const InputBasic = ({
 
     return (
         <div className="input-basic">
-            <label htmlFor={placeholder} className="input-basic__label">
-                {placeholder}
-            </label>
+            {hasLabel && (
+                <label htmlFor={placeholder} className="input-basic__label">
+                    {placeholder}
+                </label>
+            )}
             <input
                 id={placeholder}
                 type={type}

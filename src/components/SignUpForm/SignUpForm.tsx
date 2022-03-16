@@ -5,6 +5,8 @@ import Button from '../Button/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuth from 'hooks/useAuth';
 import ValidationError from 'components/ValidationError/ValidationError';
+import InputBasic from 'components/InputBasic/InputBasic';
+import Checkbox from 'components/Checkbox/Checkbox';
 
 const SignUpForm = () => {
     const [email, setEmail] = useState('');
@@ -63,11 +65,12 @@ const SignUpForm = () => {
     return (
         <div className="sign-up-form">
             <h1 className="sign-up-form__title">Sign Up</h1>
-            <div
+            <form
                 className="sign-up-form__group sign-up-form__group--inputs"
                 onKeyDown={(e) => handleKeyPress(e)}
+                autoComplete="off"
             >
-                <InputBorderless
+                <InputBasic
                     placeholder="Email"
                     type="text"
                     value={email}
@@ -75,22 +78,24 @@ const SignUpForm = () => {
                     error={errorField === 'email' ? errorMessage : null}
                     autofocus
                     autoComplete="off"
+                    hasLabel={false}
                 />
                 {errorField === 'email' && errorMessage && (
                     <ValidationError message={errorMessage} />
                 )}
-                <InputBorderless
+                <InputBasic
                     placeholder="Password"
                     type="password"
                     value={password}
                     error={errorField === 'password' ? errorMessage : null}
                     setState={setPassword}
                     autoComplete="off"
+                    hasLabel={false}
                 />
                 {errorField === 'password' && errorMessage && (
                     <ValidationError message={errorMessage} />
                 )}
-                <InputBorderless
+                <InputBasic
                     placeholder="Confirm password"
                     type="password"
                     value={confirmedPassword}
@@ -99,21 +104,33 @@ const SignUpForm = () => {
                     }
                     setState={setConfirmedPassword}
                     autoComplete="off"
+                    hasLabel={false}
                 />
                 {errorField === 'confirmPassword' && errorMessage && (
                     <ValidationError message={errorMessage} />
                 )}
-            </div>
+
+                <div className="sign-up-form__privacy-consent">
+                    <Checkbox text="I agree to the" />
+                    <Link
+                        to="/privacy-policy"
+                        className="sign-up-form__privacy-policy-link"
+                    >
+                        Privacy policy
+                    </Link>
+                </div>
+            </form>
+
             <Button
                 text="Sign Up"
-                backgroundColor="white"
+                backgroundColor="blue"
                 action={() => handleSignUp()}
                 disabled={!isFormFilled}
             />
             <span className="sign-up-form__login">
                 Already have an account? &nbsp;
                 <Link to="/auth/login" className="sign-up-form__login-link">
-                    Login
+                    Sign in!
                 </Link>
             </span>
         </div>

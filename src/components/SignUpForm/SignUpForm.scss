@@ -3,26 +3,42 @@
 .sign-up-form {
     display: flex;
     flex-direction: column;
-    text-align: center;
+    gap: 2rem;
+    background: $blue-dark;
+    padding: 2rem;
+    border-radius: $border-radius;
+    min-width: 350px;
 
     &__title {
-        margin-bottom: 1rem;
+        text-align: center;
+        font-weight: normal;
+        font-size: 2rem;
     }
 
     &__group {
         display: flex;
         flex-direction: column;
-        width: 200px;
-        margin-bottom: 2rem;
+        width: 100%;
 
         &--inputs {
-            gap: 0.5rem;
+            gap: 1rem;
         }
     }
 
+    &__privacy-consent {
+        display: flex;
+        gap: 0.25rem;
+        font-size: 0.9rem;
+    }
+
+    &__privacy-policy-link {
+        color: $blue;
+    }
+
     &__login {
-        font-size: 0.9em;
-        margin-top: 2rem;
+        text-align: center;
+        font-size: 0.9rem;
+
         &-link {
             color: $blue;
         }
