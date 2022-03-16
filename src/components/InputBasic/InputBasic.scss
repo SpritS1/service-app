@@ -25,18 +25,15 @@
             color: rgba($white, 0.5);
         }
 
-        // &:focus,
-        // &:hover {
-        //     background: $blue-dark-accent;
-        // }
+        &:focus::placeholder {
+            color: $white;
+        }
 
         &:focus {
-            // border: rgba($white, 0.75) 1px solid;
             border: $blue 1px solid;
         }
 
         &--read-only {
-            // background: rgba($blue-dark, 1);
             cursor: default;
         }
     }
