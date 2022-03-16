@@ -22,7 +22,7 @@ const Pagination = ({
     return (
         <div className="pagination">
             <div className="pagination__page-info">
-                Page {currentPage} from {totalPages}
+                Page {currentPage} of {totalPages}
             </div>
             <ul className="pagination__navigation">
                 <div
