@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './DevicesPage.scss';
-import DeviceTable from 'components/DevicesTable/DevicesTable';
+import DevicesTable from 'components/DevicesTable/DevicesTable';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
 import SortBy from 'components/SortBy/SortBy';
 import SearchBar from 'components/SearchBar/SearchBar';
@@ -184,7 +184,7 @@ const DevicesPage = () => {
                 {isFetching && <Loader />}
                 {!isFetching && !fetchError && paginatedElements.length !== 0 && (
                     <>
-                        <DeviceTable
+                        <DevicesTable
                             devices={paginatedElements}
                             actionButtons={ACTIONS}
                         />

@@ -1,0 +1,48 @@
+@use 'scss/index' as *;
+
+.service-requests-table {
+    overflow-x: auto;
+
+    &__table {
+        border-collapse: separate;
+        border-spacing: 0 1rem;
+        color: $white;
+        width: 100%;
+    }
+
+    &__th {
+        text-align: center;
+        font-weight: normal;
+        padding: 0 1rem;
+        white-space: nowrap;
+    }
+
+    &__tbody {
+        overflow: auto;
+    }
+
+    &__tr {
+        background-color: $blue-dark-accent;
+    }
+
+    &__td {
+        text-align: center;
+        font-weight: normal;
+        padding: 1rem;
+        white-space: nowrap;
+
+        &:first-child {
+            border-radius: 16px 0 0 16px;
+        }
+
+        &:last-child {
+            border-radius: 0 16px 16px 0;
+        }
+    }
+    &__actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+    }
+}
