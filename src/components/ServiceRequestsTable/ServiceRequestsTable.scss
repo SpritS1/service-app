@@ -38,6 +38,18 @@
         &:last-child {
             border-radius: 0 16px 16px 0;
         }
+
+        &--status-in-progress {
+            color: $yellow;
+        }
+
+        &--status-finished {
+            color: $green;
+        }
+
+        &--status-canceled {
+            color: $red;
+        }
     }
     &__actions {
         display: flex;

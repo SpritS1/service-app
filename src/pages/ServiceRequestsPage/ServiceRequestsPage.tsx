@@ -5,15 +5,39 @@ import ServiceRequestsTable from 'components/ServiceRequestsTable/ServiceRequest
 import { database } from 'firebase.js';
 import {
     collection,
+    deleteDoc,
+    doc,
     DocumentData,
     onSnapshot,
     query,
+    Timestamp,
+    updateDoc,
     where,
 } from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
 import Pagination from 'components/Pagination/Pagination';
 import usePagination from 'hooks/usePagination';
 import Loader from 'components/Loader/Loader';
+import Modal from 'components/Modal/Modal';
+import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
+
+interface Device {
+    model: string;
+    category: string;
+    serialNumber: string;
+    manufacturer: string;
+    id: string;
+}
+
+interface Request {
+    id: string;
+    category: string;
+    createdAt: Timestamp;
+    device: Device;
+    problemDescription: string;
+    status: 'Canceled' | 'In progress' | 'Finished';
+    userId: string;
+}
 
 interface Props {}
 
@@ -21,6 +45,7 @@ const ServiceRequestsPage = (props: Props) => {
     const [serviceRequests, setServiceRequests] = useState<DocumentData[]>([]);
     const [isFetching, setIsFetching] = useState(true);
     const [fetchError, setFetchError] = useState<any>(null);
+    const [actionRequest, setActionRequest] = useState<Request | null>(null);
 
     const { user } = useAuth();
 
@@ -60,6 +85,28 @@ const ServiceRequestsPage = (props: Props) => {
         }
     }, [user]);
 
+    const removeRequest = async (request: Request) => {
+        if (user) {
+            try {
+                await deleteDoc(doc(database, 'serviceRequests', request.id));
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    };
+
+    const cancelRequest = async (request: Request) => {
+        if (user) {
+            try {
+                await updateDoc(doc(database, 'serviceRequests', request.id), {
+                    status: 'Canceled',
+                });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    };
+
     const ACTIONS: any[] = [
         {
             iconName: 'fas fa-pen',
@@ -69,6 +116,12 @@ const ServiceRequestsPage = (props: Props) => {
         {
             iconName: 'far fa-trash-alt',
             color: 'red',
+            callback: (request: Request) => setActionRequest(request),
+        },
+        {
+            iconName: 'fas fa-ban',
+            color: 'red',
+            callback: (request: Request) => setActionRequest(request),
         },
     ];
 
@@ -109,6 +162,34 @@ const ServiceRequestsPage = (props: Props) => {
                     </>
                 )}
             </div>
+
+            {actionRequest && actionRequest.status !== 'Canceled' && (
+                <Modal
+                    isOpen={actionRequest !== null}
+                    onClose={() => setActionRequest(null)}
+                >
+                    <ConfirmModal
+                        title="Cancel service request"
+                        text="Are you sure to cancel this service?"
+                        callback={() => cancelRequest(actionRequest)}
+                        closeModal={() => setActionRequest(null)}
+                    />
+                </Modal>
+            )}
+
+            {actionRequest && actionRequest.status === 'Canceled' && (
+                <Modal
+                    isOpen={actionRequest !== null}
+                    onClose={() => setActionRequest(null)}
+                >
+                    <ConfirmModal
+                        title="Delete service request"
+                        text="Are you sure to delete this service permanently?"
+                        callback={() => removeRequest(actionRequest)}
+                        closeModal={() => setActionRequest(null)}
+                    />
+                </Modal>
+            )}
         </div>
     );
 };

@@ -45,11 +45,25 @@ const ServiceRequestsTable = ({ serviceRequests, actions }: Props) => {
                                     <td className="service-requests-table__td">
                                         {category}
                                     </td>
-                                    <td className="service-requests-table__td">
+                                    <td
+                                        className={`service-requests-table__td ${
+                                            (status === 'In progress' &&
+                                                'service-requests-table__td--status-in-progress') ||
+                                            (status === 'Finished' &&
+                                                'service-requests-table__td--status-finished') ||
+                                            (status === 'Canceled' &&
+                                                'service-requests-table__td--status-canceled')
+                                        }`}
+                                    >
                                         {status}
                                     </td>
                                     <td className="service-requests-table__td">
-                                        {createdAt.toDate().toDateString()}
+                                        {createdAt
+                                            .toDate()
+                                            .toDateString()
+                                            .split(' ')
+                                            .slice(1)
+                                            .join(' ')}
                                     </td>
                                     <td className="service-requests-table__td">
                                         {device.model}
@@ -65,6 +79,20 @@ const ServiceRequestsTable = ({ serviceRequests, actions }: Props) => {
                                                     color,
                                                     callback,
                                                 }) => {
+                                                    if (
+                                                        status === 'Canceled' &&
+                                                        iconName ===
+                                                            'fas fa-ban'
+                                                    )
+                                                        return null;
+
+                                                    if (
+                                                        status !== 'Canceled' &&
+                                                        iconName ===
+                                                            'far fa-trash-alt'
+                                                    )
+                                                        return null;
+
                                                     return (
                                                         <IconButton
                                                             iconName={iconName}
