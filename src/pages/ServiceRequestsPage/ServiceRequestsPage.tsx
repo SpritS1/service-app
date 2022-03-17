@@ -13,13 +13,14 @@ import {
 import useAuth from 'hooks/useAuth';
 import Pagination from 'components/Pagination/Pagination';
 import usePagination from 'hooks/usePagination';
+import Loader from 'components/Loader/Loader';
 
 interface Props {}
 
 const ServiceRequestsPage = (props: Props) => {
     const [serviceRequests, setServiceRequests] = useState<DocumentData[]>([]);
     const [isFetching, setIsFetching] = useState(true);
-    const [error, setError] = useState<any>(null);
+    const [fetchError, setFetchError] = useState<any>(null);
 
     const { user } = useAuth();
 
@@ -55,7 +56,7 @@ const ServiceRequestsPage = (props: Props) => {
                     },
                 );
         } catch (error) {
-            setError(error);
+            setFetchError(error);
         }
     }, [user]);
 
@@ -75,7 +76,8 @@ const ServiceRequestsPage = (props: Props) => {
         <div className="service-requests-page">
             <HeaderDesktop title="Your Service Requests" />
             <div className="service-requests-page__main">
-                {serviceRequests && (
+                {isFetching && <Loader />}
+                {!isFetching && !fetchError && paginatedElements.length !== 0 && (
                     <>
                         <ServiceRequestsTable
                             serviceRequests={paginatedElements}
@@ -87,6 +89,23 @@ const ServiceRequestsPage = (props: Props) => {
                             setCurrentPage={setCurrentPage}
                             totalPages={totalPages}
                         />
+                    </>
+                )}
+                {!isFetching && !fetchError && paginatedElements.length === 0 && (
+                    <div className="service-requests-page__fetch-info-container">
+                        <h3 className="service-requests-page__fetch-info">
+                            {'You have no service requests'}
+                        </h3>
+                    </div>
+                )}
+                {!isFetching && fetchError && (
+                    <>
+                        <h3 className="service-requests-page__fetch-info">
+                            Failed to fetch devices
+                        </h3>
+                        <p className="service-requests-page__fetch-error">
+                            {fetchError}
+                        </p>
                     </>
                 )}
             </div>

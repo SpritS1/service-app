@@ -8,4 +8,13 @@
         padding: 1rem 1.5rem;
         min-height: calc(100vh - 70px);
     }
+
+    &__fetch-info {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        top: 50%;
+        font-size: 1.5rem;
+        color: $white;
+    }
 }

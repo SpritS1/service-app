@@ -46,7 +46,7 @@ const ServiceRequets = ({ setIsServiceRequestOpen, device, popup }: Props) => {
             device: device,
             category: selectedCategory,
             problemDescription: problemDescription,
-            status: 'in-progress',
+            status: 'In progress',
             createdAt: serverTimestamp(),
         };
 
