@@ -11,17 +11,25 @@ import {
     where,
 } from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
+import Pagination from 'components/Pagination/Pagination';
+import usePagination from 'hooks/usePagination';
 
 interface Props {}
 
 const ServiceRequestsPage = (props: Props) => {
-    const [serviceRequests, setServiceRequests] = useState<
-        DocumentData[] | null
-    >(null);
+    const [serviceRequests, setServiceRequests] = useState<DocumentData[]>([]);
     const [isFetching, setIsFetching] = useState(true);
     const [error, setError] = useState<any>(null);
 
     const { user } = useAuth();
+
+    const {
+        setPaginationLimit,
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        paginatedElements,
+    } = usePagination(serviceRequests, 10);
 
     useEffect(() => {
         try {
@@ -41,7 +49,7 @@ const ServiceRequestsPage = (props: Props) => {
 
                         if (serviceRequests)
                             setServiceRequests(serviceRequests);
-                        if (!serviceRequests) setServiceRequests(null);
+                        if (!serviceRequests) setServiceRequests([]);
 
                         setIsFetching(false);
                     },
@@ -68,10 +76,18 @@ const ServiceRequestsPage = (props: Props) => {
             <HeaderDesktop title="Your Service Requests" />
             <div className="service-requests-page__main">
                 {serviceRequests && (
-                    <ServiceRequestsTable
-                        serviceRequests={serviceRequests}
-                        actions={ACTIONS}
-                    />
+                    <>
+                        <ServiceRequestsTable
+                            serviceRequests={paginatedElements}
+                            actions={ACTIONS}
+                        />
+                        <Pagination
+                            setPaginationLimit={setPaginationLimit}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                            totalPages={totalPages}
+                        />
+                    </>
                 )}
             </div>
         </div>
