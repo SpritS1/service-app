@@ -80,14 +80,18 @@ const ServiceRequestsTable = ({ serviceRequests, actions }: Props) => {
                                                     callback,
                                                 }) => {
                                                     if (
-                                                        status === 'Canceled' &&
+                                                        (status ===
+                                                            'Finished' ||
+                                                            status ===
+                                                                'Canceled') &&
                                                         iconName ===
                                                             'fas fa-ban'
                                                     )
                                                         return null;
 
                                                     if (
-                                                        status !== 'Canceled' &&
+                                                        status ===
+                                                            'In progress' &&
                                                         iconName ===
                                                             'far fa-trash-alt'
                                                     )

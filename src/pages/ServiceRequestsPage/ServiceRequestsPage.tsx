@@ -60,7 +60,7 @@ const ServiceRequestsPage = (props: Props) => {
     useEffect(() => {
         try {
             setIsFetching(true);
-            if (user)
+            if (user) {
                 onSnapshot(
                     query(
                         collection(database, 'serviceRequests'),
@@ -80,6 +80,7 @@ const ServiceRequestsPage = (props: Props) => {
                         setIsFetching(false);
                     },
                 );
+            }
         } catch (error) {
             setFetchError(error);
         }
@@ -108,10 +109,10 @@ const ServiceRequestsPage = (props: Props) => {
     };
 
     const ACTIONS: any[] = [
-        {
-            iconName: 'fas fa-pen',
-            color: 'yellow',
-        },
+        // {
+        //     iconName: 'fas fa-pen',
+        //     color: 'yellow',
+        // },
         { iconName: 'fas fa-info-circle', color: 'blue' },
         {
             iconName: 'far fa-trash-alt',
@@ -163,7 +164,7 @@ const ServiceRequestsPage = (props: Props) => {
                 )}
             </div>
 
-            {actionRequest && actionRequest.status !== 'Canceled' && (
+            {actionRequest && actionRequest.status === 'In progress' && (
                 <Modal
                     isOpen={actionRequest !== null}
                     onClose={() => setActionRequest(null)}
@@ -177,19 +178,21 @@ const ServiceRequestsPage = (props: Props) => {
                 </Modal>
             )}
 
-            {actionRequest && actionRequest.status === 'Canceled' && (
-                <Modal
-                    isOpen={actionRequest !== null}
-                    onClose={() => setActionRequest(null)}
-                >
-                    <ConfirmModal
-                        title="Delete service request"
-                        text="Are you sure to delete this service permanently?"
-                        callback={() => removeRequest(actionRequest)}
-                        closeModal={() => setActionRequest(null)}
-                    />
-                </Modal>
-            )}
+            {actionRequest &&
+                (actionRequest.status === 'Finished' ||
+                    actionRequest.status === 'Canceled') && (
+                    <Modal
+                        isOpen={actionRequest !== null}
+                        onClose={() => setActionRequest(null)}
+                    >
+                        <ConfirmModal
+                            title="Delete service request"
+                            text="Are you sure to delete this service permanently?"
+                            callback={() => removeRequest(actionRequest)}
+                            closeModal={() => setActionRequest(null)}
+                        />
+                    </Modal>
+                )}
         </div>
     );
 };

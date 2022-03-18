@@ -4,7 +4,7 @@ import './InputBasic.scss';
 interface Props {
     placeholder: string;
     value: string | number;
-    setState: any;
+    setState: (...value: any[]) => void;
     type: React.HTMLInputTypeAttribute;
     required?: boolean;
     icon?: string;

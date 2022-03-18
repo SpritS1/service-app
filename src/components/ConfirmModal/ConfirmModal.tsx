@@ -1,5 +1,5 @@
 import Button from 'components/Button/Button';
-import React from 'react';
+import React, { useEffect } from 'react';
 import './ConfirmModal.scss';
 
 type Props = {
@@ -10,6 +10,25 @@ type Props = {
 };
 
 const ConfirmModal = ({ callback, title, text, closeModal }: Props) => {
+    useEffect(() => {
+        const handleKeyPress = (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                callback();
+                closeModal();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                closeModal();
+            }
+        };
+
+        document.addEventListener('keydown', (e) => handleKeyPress(e));
+
+        return document.removeEventListener('keydown', (e) =>
+            handleKeyPress(e),
+        );
+    }, [callback, closeModal]);
+
     return (
         <div className="confirm-modal">
             <h4 className="confirm-modal__title">{title}</h4>

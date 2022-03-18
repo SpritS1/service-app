@@ -15,7 +15,7 @@ import Pagination from 'components/Pagination/Pagination';
 import usePagination from 'hooks/usePagination';
 import SubHeader from 'components/SubHeader/SubHeader';
 import { UserDataContext } from 'contexts/UserDataContext';
-import ServiceRequets from 'components/ServiceRequest/ServiceRequest';
+import AddServiceRequets from 'components/AddServiceRequest/AddServiceRequest';
 import ModalWindow from 'components/ModalWindow/ModalWindow';
 import Popup from 'components/Popup/Popup';
 import usePopup from 'hooks/usePopup';
@@ -243,7 +243,7 @@ const DevicesPage = () => {
                                         setIsServiceRequestOpen(false)
                                     }
                                 >
-                                    <ServiceRequets
+                                    <AddServiceRequets
                                         device={serviceRequestDevice}
                                         setIsServiceRequestOpen={() =>
                                             setIsServiceRequestOpen(false)

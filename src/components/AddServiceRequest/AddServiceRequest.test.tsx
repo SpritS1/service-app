@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import ServiceRequest from './ServiceRequest';
+import ServiceRequest from './AddServiceRequest';
 import AuthContextProvider from 'contexts/AuthContext';
 
 describe('ServiceRequest tests', () => {
