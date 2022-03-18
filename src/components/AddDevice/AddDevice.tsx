@@ -18,6 +18,7 @@ import Loader from 'components/Loader/Loader';
 import Button from 'components/Button/Button';
 import usePagination from 'hooks/usePagination';
 import Pagination from 'components/Pagination/Pagination';
+import useKeyPress from 'hooks/useKeyPress';
 
 interface Device {
     model: string;
@@ -59,6 +60,8 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
         totalPages,
         paginatedElements: paginatedDevices,
     } = usePagination(filteredDevices);
+
+    useKeyPress({ onEscape: () => setIsAddDeviceOpen(false) });
 
     useEffect(() => {
         const manufQuery = query(

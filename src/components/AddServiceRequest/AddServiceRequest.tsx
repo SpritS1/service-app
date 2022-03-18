@@ -4,6 +4,7 @@ import SelectButton from 'components/SelectButton/SelectButton';
 import { database } from 'firebase.js';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
+import useKeyPress from 'hooks/useKeyPress';
 import React, { useEffect, useState } from 'react';
 import './AddServiceRequest.scss';
 
@@ -29,6 +30,12 @@ const ServiceRequets = ({ setIsServiceRequestOpen, device, popup }: Props) => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
     const { user } = useAuth();
+
+    useKeyPress({
+        onEscape: () => {
+            setIsServiceRequestOpen(false);
+        },
+    });
 
     useEffect(() => {
         if (selectedCategory) setIsButtonDisabled(false);
