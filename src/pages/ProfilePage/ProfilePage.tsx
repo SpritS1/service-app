@@ -1,4 +1,5 @@
 import Button from 'components/Button/Button';
+import ChangePassword from 'components/ChangePassword/ChangePassword';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
 import InputBasic from 'components/InputBasic/InputBasic';
 import Loader from 'components/Loader/Loader';
@@ -156,7 +157,7 @@ const ProfilePage = (props: Props) => {
                             type={'text'}
                         />
 
-                        <div className="profile-page__buttons-container">
+                        <div className="profile-page__button-container">
                             <Button
                                 text={'Update profile'}
                                 backgroundColor="blue"
@@ -165,8 +166,11 @@ const ProfilePage = (props: Props) => {
                             />
                         </div>
                     </div>
+
+                    <ChangePassword />
                 </div>
             )}
+
             <Popup
                 content={popupContent}
                 duration={5000}
