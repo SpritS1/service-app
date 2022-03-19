@@ -6,13 +6,14 @@
     bottom: 2rem;
     z-index: $z-index-popup;
     min-width: 100px;
+    max-width: 300px;
+    width: fit-content;
     padding: 1.5rem;
     border-radius: $border-radius;
     animation: showPopup 1s forwards;
     display: flex;
     align-items: center;
     gap: 1rem;
-    white-space: nowrap;
 
     &--default {
         background: $blue;

@@ -41,7 +41,7 @@ const InputBasic = ({
             <input
                 id={placeholder}
                 type={type}
-                placeholder={placeholder}
+                placeholder={hasLabel ? '' : placeholder}
                 value={value}
                 onChange={(e) => handleChange(setState, e)}
                 disabled={disabled}

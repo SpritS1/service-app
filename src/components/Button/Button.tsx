@@ -4,7 +4,7 @@ import './Button.scss';
 type Props = {
     text: string;
     backgroundColor?: 'white' | 'blue';
-    action?: () => void;
+    action?: (...value: any[]) => void;
     disabled?: boolean;
 };
 
