@@ -9,6 +9,7 @@ import ProfilePage from 'pages/ProfilePage/ProfilePage';
 import UserDataContextProvider from 'contexts/UserDataContext';
 import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
 import ServiceRequestsPage from 'pages/ServiceRequestsPage/ServiceRequestsPage';
+import ContactPage from 'pages/ContactPage/ContactPage';
 
 const App = () => {
     return (
@@ -40,6 +41,16 @@ const App = () => {
                             <Route
                                 path="/auth/*"
                                 element={<AuthorizationPage />}
+                            />
+                            <Route
+                                path="/contact"
+                                element={
+                                    <Layout>
+                                        <RequireAuth>
+                                            <ContactPage />
+                                        </RequireAuth>
+                                    </Layout>
+                                }
                             />
                             <Route
                                 path="/profile"

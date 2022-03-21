@@ -1,6 +1,7 @@
 import Button from 'components/Button/Button';
 import InputBasic from 'components/InputBasic/InputBasic';
 import SelectButton from 'components/SelectButton/SelectButton';
+import TextAreaInput from 'components/TextAreaInput/TextAreaInput';
 import { database } from 'firebase.js';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
@@ -109,16 +110,11 @@ const ServiceRequets = ({ setIsServiceRequestOpen, device, popup }: Props) => {
                 setSelectedOption={setSelectedCategory}
             />
 
-            <div className="add-service-request__input-container">
-                <label htmlFor="" className="add-service-request__label">
-                    Describe problem
-                </label>
-                <textarea
-                    className="add-service-request__textarea"
-                    value={problemDescription}
-                    onChange={(e) => setProblemDescription(e.target.value)}
-                ></textarea>
-            </div>
+            <TextAreaInput
+                label="Describe problem"
+                value={problemDescription}
+                onChange={setProblemDescription}
+            />
 
             <Button
                 text="Send request"

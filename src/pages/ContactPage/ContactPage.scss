@@ -1,0 +1,21 @@
+@use 'scss/index' as *;
+
+.contact-page {
+    &__main {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        min-height: calc(100vh - 70px);
+        padding: 1rem;
+    }
+}
+
+@media screen and (min-width: $breakpoint-desktop) {
+    .contact-page {
+        &__main {
+            grid-template-columns: 1fr 1fr;
+            padding: 1.5rem;
+        }
+    }
+}

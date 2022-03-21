@@ -1,0 +1,19 @@
+@use 'scss/index' as *;
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    border-radius: $border-radius;
+    color: $white;
+    background: $blue-dark;
+    height: fit-content;
+
+    &__title {
+        font-weight: normal;
+        font-size: 1.25rem;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
+}
