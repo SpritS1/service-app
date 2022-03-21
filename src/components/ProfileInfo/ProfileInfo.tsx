@@ -4,6 +4,7 @@ import Popup from 'components/Popup/Popup';
 import UserImage from 'components/UserImage/UserImage';
 import { UserDataContext } from 'contexts/UserDataContext';
 import { database } from 'firebase.js';
+import { updateProfile } from 'firebase/auth';
 import { doc, DocumentData, updateDoc } from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
 import usePopup from 'hooks/usePopup';
@@ -24,6 +25,9 @@ const ProfileInfo = ({ userData }: Props) => {
     const [city, setCity] = useState('');
     const [postCode, setPostCode] = useState('');
     const [companyName, setCompanyName] = useState('');
+    const [photoUrl, setPhotoUrl] = useState<string | null>(
+        user?.photoURL || null,
+    );
 
     const [areInputsFilled, setAreInputsFilled] = useState(false);
 
@@ -40,6 +44,7 @@ const ProfileInfo = ({ userData }: Props) => {
     const handleProfileUpdate = async () => {
         try {
             resetPopup();
+
             if (user && areInputsFilled) {
                 await updateDoc(doc(database, 'users_data', user.uid), {
                     name: name,
@@ -49,6 +54,11 @@ const ProfileInfo = ({ userData }: Props) => {
                     postCode: postCode,
                     companyName: companyName,
                 });
+
+                if (photoUrl)
+                    await updateProfile(user, {
+                        photoURL: photoUrl,
+                    });
             }
 
             setPopupType('default');
@@ -95,7 +105,11 @@ const ProfileInfo = ({ userData }: Props) => {
             <div className="profile-info__top">
                 <h3 className="profile-info__title">USER DETAILS</h3>
                 <div className="profile-info__image-container">
-                    <UserImage isEditable={true} />
+                    <UserImage
+                        isEditable={true}
+                        photoUrl={photoUrl}
+                        setPhotoUrl={setPhotoUrl}
+                    />
                 </div>
             </div>
 

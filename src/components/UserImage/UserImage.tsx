@@ -3,16 +3,19 @@ import './UserImage.scss';
 
 type Props = {
     isEditable?: boolean;
+    photoUrl: string | null;
+    setPhotoUrl?: (photo: string) => void;
 };
 
-const UserImage = ({ isEditable = false }: Props) => {
+const UserImage = ({ isEditable = false, photoUrl, setPhotoUrl }: Props) => {
     return (
         <div className="user-image">
-            <img
-                src={require('assets/random-man.jpg')}
-                alt="user"
-                className="user-image__image"
-            />
+            {photoUrl ? (
+                <img src={photoUrl} alt="user" className="user-image__image" />
+            ) : (
+                <i className="user-image__no-photo-icon far fa-user"></i>
+            )}
+
             {isEditable && (
                 <>
                     <label htmlFor="file-upload" className="user-image__label">
@@ -21,6 +24,15 @@ const UserImage = ({ isEditable = false }: Props) => {
                         </div>
                     </label>
                     <input
+                        onChange={(e) => {
+                            if (e.currentTarget.files) {
+                                const url = URL.createObjectURL(
+                                    e.currentTarget.files[0],
+                                );
+
+                                setPhotoUrl!(url);
+                            }
+                        }}
                         type="file"
                         className="user-image__image-input"
                         id="file-upload"
