@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    height: 100%;
 
     &__label {
         font-size: 0.9rem;
@@ -19,6 +20,7 @@
         padding: 0.75rem 1rem;
         color: inherit;
         min-height: 150px;
+        height: 100%;
         background: $blue-dark-accent;
         transition: $transition-default;
         font-family: 'Roboto', sans-serif;
