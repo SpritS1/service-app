@@ -19,14 +19,6 @@ const ContactInfo = (props: Props) => {
                 <i className="contact-info__icon fas fa-phone" />
                 617-543-5912
             </div>
-            <iframe
-                title="location-map"
-                className="contact-info__map"
-                id="gmap_canvas"
-                src="https://maps.google.com/maps?q=400-410%20N%20Crest%20Dr%20Los%20Angeles&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                frameBorder="0"
-                scrolling="no"
-            ></iframe>
         </div>
     );
 };

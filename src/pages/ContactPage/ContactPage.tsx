@@ -12,6 +12,14 @@ const ContactPage = (props: Props) => {
             <HeaderDesktop title={'Contact'} />
             <main className="contact-page__main">
                 <ContactInfo />
+                <iframe
+                    title="location-map"
+                    className="contact-page__map"
+                    id="gmap_canvas"
+                    src="https://maps.google.com/maps?q=400-410%20N%20Crest%20Dr%20Los%20Angeles&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    frameBorder="0"
+                    scrolling="no"
+                ></iframe>
                 <ContactForm />
             </main>
         </div>
