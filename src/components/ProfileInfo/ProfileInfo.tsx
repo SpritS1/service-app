@@ -1,14 +1,13 @@
 import Button from 'components/Button/Button';
 import InputBasic from 'components/InputBasic/InputBasic';
 import Popup from 'components/Popup/Popup';
-import UserImage from 'components/UserImage/UserImage';
-import { UserDataContext } from 'contexts/UserDataContext';
+import ProfileImageInput from 'components/ProfileImageInput/ProfileImageInput';
 import { database } from 'firebase.js';
 import { updateProfile } from 'firebase/auth';
 import { doc, DocumentData, updateDoc } from 'firebase/firestore';
 import useAuth from 'hooks/useAuth';
 import usePopup from 'hooks/usePopup';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ProfileInfo.scss';
 
 interface Props {
@@ -105,8 +104,7 @@ const ProfileInfo = ({ userData }: Props) => {
             <div className="profile-info__top">
                 <h3 className="profile-info__title">USER DETAILS</h3>
                 <div className="profile-info__image-container">
-                    <UserImage
-                        isEditable={true}
+                    <ProfileImageInput
                         photoUrl={photoUrl}
                         setPhotoUrl={setPhotoUrl}
                     />

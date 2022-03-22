@@ -1,0 +1,32 @@
+@use 'scss/index' as *;
+
+.user-image {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    border-radius: $border-radius;
+    overflow: hidden;
+    background-color: $white;
+
+    &__no-photo-icon {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 6rem;
+        color: $blue;
+        height: inherit;
+        width: inherit;
+        border-radius: inherit;
+    }
+
+    &__image {
+        height: inherit;
+        width: inherit;
+        border-radius: inherit;
+    }
+}

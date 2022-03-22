@@ -1,7 +1,7 @@
 import './Account.scss';
 import { Link } from 'react-router-dom';
-import UserImage from 'components/UserImage/UserImage';
-import { useContext, useEffect } from 'react';
+import ProfileImage from 'components/ProfileImage/ProfileImage';
+import { useContext } from 'react';
 import { UserDataContext } from 'contexts/UserDataContext';
 import useAuth from 'hooks/useAuth';
 
@@ -13,13 +13,13 @@ const Account = (props: Props) => {
 
     return (
         <div className="account">
-            {user?.photoURL ? (
-                <Link to="/profile" className="account__image-container">
-                    <UserImage photoUrl={user.photoURL} />
-                </Link>
-            ) : (
-                <i className="account__profile-icon far fa-user"></i>
-            )}
+            <Link to="/profile" className="account__image-container">
+                {user?.photoURL ? (
+                    <ProfileImage photoUrl={user.photoURL} />
+                ) : (
+                    <i className="account__profile-icon far fa-user"></i>
+                )}
+            </Link>
 
             {userData && (
                 <span className="account__user-name">

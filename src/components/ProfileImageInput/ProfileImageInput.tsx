@@ -1,0 +1,46 @@
+import React from 'react';
+import './ProfileImageInput.scss';
+
+type Props = {
+    photoUrl: string | null;
+    setPhotoUrl?: (photo: string) => void;
+};
+
+const ProfileImageInput = ({ photoUrl, setPhotoUrl }: Props) => {
+    return (
+        <div className="profile-image-input">
+            {photoUrl ? (
+                <img
+                    src={photoUrl}
+                    alt="user"
+                    className="profile-image-input__image"
+                />
+            ) : (
+                <i className="profile-image-input__no-photo-icon far fa-user"></i>
+            )}
+
+            <label htmlFor="file-upload" className="profile-image-input__label">
+                <div className="profile-image-input__image-input-container">
+                    <i className="profile-image-input__edit-icon far fa-edit"></i>
+                </div>
+            </label>
+
+            <input
+                onChange={(e) => {
+                    if (e.currentTarget.files) {
+                        const url = URL.createObjectURL(
+                            e.currentTarget.files[0],
+                        );
+
+                        setPhotoUrl!(url);
+                    }
+                }}
+                type="file"
+                className="profile-image-input__image-input"
+                id="file-upload"
+            />
+        </div>
+    );
+};
+
+export default ProfileImageInput;
