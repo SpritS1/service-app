@@ -2,9 +2,10 @@ import Button from 'components/Button/Button';
 import InputBasic from 'components/InputBasic/InputBasic';
 import Popup from 'components/Popup/Popup';
 import ProfileImageInput from 'components/ProfileImageInput/ProfileImageInput';
-import { database } from 'firebase.js';
+import { database, storage } from 'firebase.js';
 import { updateProfile } from 'firebase/auth';
 import { doc, DocumentData, updateDoc } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import useAuth from 'hooks/useAuth';
 import usePopup from 'hooks/usePopup';
 import React, { useEffect, useState } from 'react';
@@ -27,6 +28,7 @@ const ProfileInfo = ({ userData }: Props) => {
     const [photoUrl, setPhotoUrl] = useState<string | null>(
         user?.photoURL || null,
     );
+    const [photoFile, setPhotoFile] = useState<File | null>(null);
 
     const [areInputsFilled, setAreInputsFilled] = useState(false);
 
@@ -54,16 +56,27 @@ const ProfileInfo = ({ userData }: Props) => {
                     companyName: companyName,
                 });
 
-                if (photoUrl)
+                if (photoUrl && photoFile) {
+                    const storageRef = ref(
+                        storage,
+                        `images/${user.uid}-profile-image`,
+                    );
+                    console.log(photoFile);
+                    await uploadBytes(storageRef, photoFile);
+
+                    const imageStorageUrl = await getDownloadURL(storageRef);
+
                     await updateProfile(user, {
-                        photoURL: photoUrl,
+                        photoURL: imageStorageUrl,
                     });
+                }
             }
 
             setPopupType('default');
             setPopupContent('Profile updated');
             setIsPopupActive(true);
         } catch (error) {
+            console.log(error);
             setPopupType('error');
             setPopupContent(error as string);
             setIsPopupActive(true);
@@ -107,6 +120,8 @@ const ProfileInfo = ({ userData }: Props) => {
                     <ProfileImageInput
                         photoUrl={photoUrl}
                         setPhotoUrl={setPhotoUrl}
+                        photoFile={photoFile}
+                        setPhotoFile={setPhotoFile}
                     />
                 </div>
             </div>

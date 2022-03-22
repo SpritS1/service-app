@@ -4,9 +4,16 @@ import './ProfileImageInput.scss';
 type Props = {
     photoUrl: string | null;
     setPhotoUrl?: (photo: string) => void;
+    photoFile: File | null;
+    setPhotoFile: (value: File) => void;
 };
 
-const ProfileImageInput = ({ photoUrl, setPhotoUrl }: Props) => {
+const ProfileImageInput = ({
+    photoUrl,
+    setPhotoUrl,
+    photoFile,
+    setPhotoFile,
+}: Props) => {
     return (
         <div className="profile-image-input">
             {photoUrl ? (
@@ -28,10 +35,10 @@ const ProfileImageInput = ({ photoUrl, setPhotoUrl }: Props) => {
             <input
                 onChange={(e) => {
                     if (e.currentTarget.files) {
-                        const url = URL.createObjectURL(
-                            e.currentTarget.files[0],
-                        );
+                        const file = e.currentTarget.files[0];
+                        const url = URL.createObjectURL(file);
 
+                        setPhotoFile(file);
                         setPhotoUrl!(url);
                     }
                 }}
