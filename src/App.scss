@@ -15,12 +15,10 @@ html {
 }
 
 .app {
-    // background: $main-gradient;
     min-height: 100vh;
 }
 
 @media screen and (min-width: $breakpoint-mobile) {
-    // Scrollbar
     *::-webkit-scrollbar {
         -webkit-appearance: none;
     }

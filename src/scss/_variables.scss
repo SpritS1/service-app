@@ -10,6 +10,8 @@ $red-error: #cc0000;
 $green: #00b900;
 $yellow: #ffc311;
 
+$background-color: hsl(213, 35%, 12%);
+
 // gradients
 
 $main-gradient: linear-gradient(
@@ -17,8 +19,6 @@ $main-gradient: linear-gradient(
     hsl(215, 23%, 10%) 0%,
     hsl(216, 36%, 24%) 100%
 );
-
-$background-color: hsl(213, 35%, 12%);
 
 // Breakpoints
 
