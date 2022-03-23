@@ -15,7 +15,11 @@ const ProfileImageInput = ({
     setPhotoFile,
 }: Props) => {
     return (
-        <div className="profile-image-input">
+        <div
+            className={`profile-image-input ${
+                photoUrl ? '' : 'profile-image-input--no-photo'
+            }`}
+        >
             {photoUrl ? (
                 <img
                     src={photoUrl}

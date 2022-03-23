@@ -10,7 +10,10 @@
     width: 100%;
     border-radius: $border-radius;
     overflow: hidden;
-    background-color: $white;
+
+    &--no-photo {
+        background-color: $white;
+    }
 
     &__no-photo-icon {
         position: absolute;

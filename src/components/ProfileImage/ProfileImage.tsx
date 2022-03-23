@@ -7,11 +7,19 @@ type Props = {
 
 const ProfileImage = ({ photoUrl }: Props) => {
     return (
-        <div className="user-image">
+        <div
+            className={`profile-image ${
+                photoUrl ? '' : 'profile-image--no-photo'
+            }`}
+        >
             {photoUrl ? (
-                <img src={photoUrl} alt="user" className="user-image__image" />
+                <img
+                    src={photoUrl}
+                    alt="user"
+                    className="profile-image__image"
+                />
             ) : (
-                <i className="user-image__no-photo-icon far fa-user" />
+                <i className="profile-image__no-photo-icon far fa-user" />
             )}
         </div>
     );
