@@ -32,3 +32,17 @@ Application for managing customer's devices and service requests. It allows the 
 * Jest, React Testing Library
 
 ##  Other
+
+![image](https://user-images.githubusercontent.com/77857948/159890199-ebbb194f-1e9a-4af7-80fb-cc44eb15afcc.png)
+
+![image](https://user-images.githubusercontent.com/77857948/159890646-6023bb58-7f89-43e8-b3c2-3ead6d049358.png)
+
+![image](https://user-images.githubusercontent.com/77857948/159890686-31a68c5d-8696-430b-a7d6-ef8abc215c83.png)
+
+![image](https://user-images.githubusercontent.com/77857948/159890486-ed05c056-9278-422f-ab9d-615a9a889547.png)
+
+![image](https://user-images.githubusercontent.com/77857948/159890800-77cf9d9e-d987-4f40-bf07-bfa5e9e6c7df.png)
+
+![image](https://user-images.githubusercontent.com/77857948/159890833-2e35619d-2b12-4fc1-9b03-2a9a6499501d.png)
+
+
