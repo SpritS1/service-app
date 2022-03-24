@@ -3,7 +3,7 @@
 
 ## Project status - In progress
 
-<!-- ## [Live](https://sprits1.github.io/covid-data-app/) -->
+## [Live](https://service-app-1428b.web.app/)
 
 ## About project 
 
