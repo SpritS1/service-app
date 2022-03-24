@@ -44,10 +44,11 @@
 
 @media screen and (min-width: $breakpoint-tablet) {
     .modal-window {
-        height: 80vh;
+        height: fit-content;
+        max-height: 80vh;
         width: 900px;
         border-radius: $border-radius;
-        padding: 1rem 1.5rem;
+        padding: 1rem 1.5rem 2rem 1.5rem;
 
         &__header {
             justify-content: center;
