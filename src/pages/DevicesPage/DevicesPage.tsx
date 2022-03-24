@@ -53,8 +53,6 @@ const DevicesPage = () => {
         paginatedElements,
     } = usePagination(filteredDevices, 10);
 
-    // let actionDevice: Device | null = null;
-
     const removeDevice = () => {
         console.log(actionDevice);
         if (user) {
