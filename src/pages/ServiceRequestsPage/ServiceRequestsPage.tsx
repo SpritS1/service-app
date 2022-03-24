@@ -20,6 +20,8 @@ import usePagination from 'hooks/usePagination';
 import Loader from 'components/Loader/Loader';
 import Modal from 'components/Modal/Modal';
 import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
+import ModalWindow from 'components/ModalWindow/ModalWindow';
+import ServiceRequestInfo from 'components/ServiceRequestInfo/ServiceRequestInfo';
 
 interface Device {
     model: string;
@@ -46,6 +48,9 @@ const ServiceRequestsPage = (props: Props) => {
     const [isFetching, setIsFetching] = useState(true);
     const [fetchError, setFetchError] = useState<any>(null);
     const [actionRequest, setActionRequest] = useState<Request | null>(null);
+
+    const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+    const [isRequestInfoOpen, setIsRequestInfoOpen] = useState(false);
 
     const { user } = useAuth();
 
@@ -109,20 +114,29 @@ const ServiceRequestsPage = (props: Props) => {
     };
 
     const ACTIONS: any[] = [
-        // {
-        //     iconName: 'fas fa-pen',
-        //     color: 'yellow',
-        // },
-        { iconName: 'fas fa-info-circle', color: 'blue' },
+        {
+            iconName: 'fas fa-info-circle',
+            color: 'blue',
+            callback: (request: Request) => {
+                setActionRequest(request);
+                setIsRequestInfoOpen(true);
+            },
+        },
         {
             iconName: 'far fa-trash-alt',
             color: 'red',
-            callback: (request: Request) => setActionRequest(request),
+            callback: (request: Request) => {
+                setActionRequest(request);
+                setIsDeleteConfirmOpen(true);
+            },
         },
         {
             iconName: 'fas fa-ban',
             color: 'red',
-            callback: (request: Request) => setActionRequest(request),
+            callback: (request: Request) => {
+                setActionRequest(request);
+                setIsDeleteConfirmOpen(true);
+            },
         },
     ];
 
@@ -164,16 +178,36 @@ const ServiceRequestsPage = (props: Props) => {
                 )}
             </div>
 
+            {actionRequest && setIsRequestInfoOpen && (
+                <Modal
+                    isOpen={isRequestInfoOpen}
+                    onClose={() => setIsRequestInfoOpen(false)}
+                >
+                    <ModalWindow
+                        title={'Service request'}
+                        onClose={() => setIsRequestInfoOpen(false)}
+                    >
+                        <ServiceRequestInfo request={actionRequest} />
+                    </ModalWindow>
+                </Modal>
+            )}
+
             {actionRequest && actionRequest.status === 'In progress' && (
                 <Modal
-                    isOpen={actionRequest !== null}
-                    onClose={() => setActionRequest(null)}
+                    isOpen={isDeleteConfirmOpen}
+                    onClose={() => {
+                        setActionRequest(null);
+                        setIsDeleteConfirmOpen(false);
+                    }}
                 >
                     <ConfirmModal
                         title="Cancel service request"
                         text="Are you sure to cancel this service?"
                         callback={() => cancelRequest(actionRequest)}
-                        closeModal={() => setActionRequest(null)}
+                        closeModal={() => {
+                            setActionRequest(null);
+                            setIsDeleteConfirmOpen(false);
+                        }}
                     />
                 </Modal>
             )}
@@ -182,14 +216,20 @@ const ServiceRequestsPage = (props: Props) => {
                 (actionRequest.status === 'Finished' ||
                     actionRequest.status === 'Canceled') && (
                     <Modal
-                        isOpen={actionRequest !== null}
-                        onClose={() => setActionRequest(null)}
+                        isOpen={isDeleteConfirmOpen}
+                        onClose={() => {
+                            setActionRequest(null);
+                            setIsDeleteConfirmOpen(false);
+                        }}
                     >
                         <ConfirmModal
                             title="Delete service request"
                             text="Are you sure to delete this service permanently?"
                             callback={() => removeRequest(actionRequest)}
-                            closeModal={() => setActionRequest(null)}
+                            closeModal={() => {
+                                setActionRequest(null);
+                                setIsDeleteConfirmOpen(false);
+                            }}
                         />
                     </Modal>
                 )}

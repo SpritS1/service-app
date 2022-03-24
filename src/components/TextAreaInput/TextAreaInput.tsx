@@ -6,10 +6,11 @@ type Props = { value: string; label: string; onChange: any };
 const TextAreaInput = ({ value, onChange, label }: Props) => {
     return (
         <div className="text-area-input">
-            <label htmlFor="" className="text-area-input__label">
+            <label htmlFor="textarea" className="text-area-input__label">
                 {label}
             </label>
             <textarea
+                id={'textarea'}
                 className="text-area-input__textarea"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}

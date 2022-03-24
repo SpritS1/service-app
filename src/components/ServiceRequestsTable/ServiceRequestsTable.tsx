@@ -36,7 +36,14 @@ const ServiceRequestsTable = ({ serviceRequests, actions }: Props) => {
                 </thead>
                 <tbody className="service-requests-table__tbody">
                     {serviceRequests.map(
-                        ({ category, status, createdAt, device, id }) => {
+                        ({
+                            category,
+                            status,
+                            createdAt,
+                            problemDescription,
+                            device,
+                            id,
+                        }) => {
                             return (
                                 <tr
                                     className="service-requests-table__tr"
@@ -106,6 +113,7 @@ const ServiceRequestsTable = ({ serviceRequests, actions }: Props) => {
                                                                     category,
                                                                     status,
                                                                     createdAt,
+                                                                    problemDescription,
                                                                     device,
                                                                     id,
                                                                 })

@@ -1,0 +1,46 @@
+@use 'scss/index' as *;
+
+.service-request-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0 1rem;
+    overflow: auto;
+
+    &__section-title {
+        grid-column: 1/-1;
+        font-size: 1.25rem;
+    }
+
+    &__request-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+    }
+
+    &__problem-description-container {
+        grid-column: 1 / 4;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    &__problem-description {
+        min-height: 150px;
+        background-color: $blue-dark-accent;
+        border: none;
+        font-family: inherit;
+        color: inherit;
+        font-size: 1rem;
+        outline: none;
+        resize: none;
+        padding: 1rem;
+        border-radius: $border-radius;
+    }
+
+    &__device-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+}
