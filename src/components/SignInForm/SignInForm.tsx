@@ -64,7 +64,7 @@ const SignInForm = () => {
             >
                 <InputBasic
                     placeholder="Email"
-                    type="text"
+                    type="email"
                     value={email}
                     setState={setEmail}
                     error={errorField === 'email' ? errorMessage : null}
