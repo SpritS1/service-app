@@ -21,21 +21,21 @@ const App = () => {
                             <Route
                                 index
                                 element={
-                                    <Layout>
-                                        <RequireAuth>
+                                    <RequireAuth>
+                                        <Layout>
                                             <DevicesPage />
-                                        </RequireAuth>
-                                    </Layout>
+                                        </Layout>
+                                    </RequireAuth>
                                 }
                             />
                             <Route
                                 path="/service-requests"
                                 element={
-                                    <Layout>
-                                        <RequireAuth>
+                                    <RequireAuth>
+                                        <Layout>
                                             <ServiceRequestsPage />
-                                        </RequireAuth>
-                                    </Layout>
+                                        </Layout>
+                                    </RequireAuth>
                                 }
                             />
                             <Route
@@ -45,21 +45,21 @@ const App = () => {
                             <Route
                                 path="/contact"
                                 element={
-                                    <Layout>
-                                        <RequireAuth>
+                                    <RequireAuth>
+                                        <Layout>
                                             <ContactPage />
-                                        </RequireAuth>
-                                    </Layout>
+                                        </Layout>
+                                    </RequireAuth>
                                 }
                             />
                             <Route
                                 path="/profile"
                                 element={
-                                    <Layout>
-                                        <RequireAuth>
+                                    <RequireAuth>
+                                        <Layout>
                                             <ProfilePage />
-                                        </RequireAuth>
-                                    </Layout>
+                                        </Layout>
+                                    </RequireAuth>
                                 }
                             />
                             <Route path="*" element={<NotFoundPage />} />
