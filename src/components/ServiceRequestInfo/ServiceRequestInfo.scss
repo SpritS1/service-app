@@ -8,39 +8,61 @@
     overflow: auto;
 
     &__section-title {
-        grid-column: 1/-1;
         font-size: 1.25rem;
     }
 
     &__request-info {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr;
         gap: 1rem;
     }
 
     &__problem-description-container {
-        grid-column: 1 / 4;
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
     }
 
+    &__problem-description-label {
+        font-size: 0.9rem;
+    }
+
     &__problem-description {
         min-height: 150px;
+        max-height: 200px;
+        overflow: auto;
         background-color: $blue-dark-accent;
         border: none;
         font-family: inherit;
         color: inherit;
         font-size: 1rem;
-        outline: none;
-        resize: none;
         padding: 1rem;
         border-radius: $border-radius;
     }
 
     &__device-info {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         gap: 1rem;
+    }
+}
+
+@media screen and (min-width: $breakpoint-desktop) {
+    .service-request-info {
+        &__section-title {
+            grid-column: 1 / -1;
+        }
+
+        &__request-info {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        &__problem-description-container {
+            grid-column: 1 / 4;
+        }
+
+        &__device-info {
+            grid-template-columns: 1fr 1fr;
+        }
     }
 }

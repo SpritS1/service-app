@@ -64,12 +64,9 @@ const ServiceRequestInfo = ({ request }: Props) => {
                         <label className="service-request-info__problem-description-label">
                             Problem description
                         </label>
-                        <textarea
-                            readOnly
-                            disabled
-                            value={request.problemDescription}
-                            className="service-request-info__problem-description"
-                        />
+                        <div className="service-request-info__problem-description">
+                            {request.problemDescription}
+                        </div>
                     </div>
                 )}
             </div>
