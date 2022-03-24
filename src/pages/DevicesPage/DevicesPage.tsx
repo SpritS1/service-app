@@ -123,7 +123,15 @@ const DevicesPage = () => {
             color: 'yellow',
             callback: handleServiceClick,
         },
-        { iconName: 'fas fa-info-circle', color: 'blue' },
+        {
+            iconName: 'fas fa-info-circle',
+            color: 'blue',
+            callback: () =>
+                window.open(
+                    'https://www.felder-group.com/pl-pl/produkty/centra-obrobcze-cnc-c1953/cnc-wiertarsko-kolkujace-d-jet-p583668',
+                    '_blank',
+                ),
+        },
         {
             iconName: 'far fa-trash-alt',
             color: 'red',
