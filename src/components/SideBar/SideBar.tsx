@@ -33,6 +33,10 @@ const SideBar = ({ isActive, setIsActive }: Props) => {
         };
     }, [setIsActive, isActive]);
 
+    useEffect(() => {
+        setIsActive(false);
+    }, [location]);
+
     return (
         <div ref={sidebarRef} className={`sidebar ${isActive && 'active'}`}>
             <div className="sidebar__logo-container">
