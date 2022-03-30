@@ -6,7 +6,7 @@
 ## [Live](https://service-app-1428b.web.app/)
 
 ### Temporary demo account:
-* Login: a@a.com
+* Login: demo@demo.com
 * Password: 123456
 
 ## About project 
