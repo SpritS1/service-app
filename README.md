@@ -5,6 +5,10 @@
 
 ## [Live](https://service-app-1428b.web.app/)
 
+### Temporary demo account:
+login: a@a.com,
+password: 123456
+
 ## About project 
 
 Application for managing customer's devices and service requests. It allows the user to create an account, manage owned devices, send service requests, contact the company in the "Contact" section and manage account details. In the future I plan to add page displaying information about each device and further develop this project.
