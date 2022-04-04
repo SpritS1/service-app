@@ -54,7 +54,6 @@ const DevicesPage = () => {
     } = usePagination(filteredDevices, 10);
 
     const removeDevice = () => {
-        console.log(actionDevice);
         if (user) {
             updateDoc(doc(database, 'users_data', user.uid), {
                 devices: arrayRemove(actionDevice),
