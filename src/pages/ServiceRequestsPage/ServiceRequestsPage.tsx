@@ -9,6 +9,7 @@ import {
     doc,
     DocumentData,
     onSnapshot,
+    orderBy,
     query,
     Timestamp,
     updateDoc,
@@ -70,6 +71,7 @@ const ServiceRequestsPage = (props: Props) => {
                     query(
                         collection(database, 'serviceRequests'),
                         where('userId', '==', user.uid),
+                        orderBy('createdAt', 'desc'),
                     ),
                     (snap) => {
                         const serviceRequests: any[] = [];
@@ -88,6 +90,7 @@ const ServiceRequestsPage = (props: Props) => {
             }
         } catch (error) {
             setFetchError(error);
+            setIsFetching(false);
         }
     }, [user]);
 
