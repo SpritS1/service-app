@@ -9,14 +9,6 @@ import useKeyPress from 'hooks/useKeyPress';
 import React, { useEffect, useState } from 'react';
 import './AddServiceRequest.scss';
 
-interface Device {
-    model: string;
-    category: string;
-    serialNumber: string;
-    manufacturer: string;
-    id: string;
-}
-
 interface Props {
     setIsServiceRequestOpen: (value: boolean) => void;
     device: Device;

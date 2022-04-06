@@ -10,13 +10,6 @@ interface Props {
     }[];
 }
 
-interface Device {
-    model: string;
-    category: string;
-    serialNumber: string;
-    manufacturer: string;
-    id: string;
-}
 const DevicesTable = ({ devices, actionButtons }: Props) => {
     return (
         <div className="devices-table">

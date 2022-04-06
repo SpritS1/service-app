@@ -3,14 +3,6 @@ import { Timestamp } from 'firebase/firestore';
 import React from 'react';
 import './ServiceRequestInfo.scss';
 
-interface Device {
-    model: string;
-    category: string;
-    serialNumber: string;
-    manufacturer: string;
-    id: string;
-}
-
 interface Request {
     id: string;
     category: string;

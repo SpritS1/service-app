@@ -20,14 +20,6 @@ import usePagination from 'hooks/usePagination';
 import Pagination from 'components/Pagination/Pagination';
 import useKeyPress from 'hooks/useKeyPress';
 
-interface Device {
-    model: string;
-    category: string;
-    serialNumber: string;
-    manufacturer: string;
-    id: string;
-}
-
 interface Props {
     setIsAddDeviceOpen: (arg: boolean) => void;
     userDevices: Device[];
