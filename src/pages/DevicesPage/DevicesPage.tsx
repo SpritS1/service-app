@@ -149,6 +149,7 @@ const DevicesPage = () => {
                     <SearchBar
                         searchValue={searchValue}
                         setSearchValue={setSearchValue}
+                        placeholder="Find device..."
                     />
                     <Button
                         text="ADD DEVICE"
@@ -169,6 +170,7 @@ const DevicesPage = () => {
                 <SearchBar
                     searchValue={searchValue}
                     setSearchValue={setSearchValue}
+                    placeholder="Find device..."
                 />
                 <SortBy
                     sortBy={sortBy}
