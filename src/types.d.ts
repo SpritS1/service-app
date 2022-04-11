@@ -5,3 +5,13 @@ interface Device {
     manufacturer: string;
     id: string;
 }
+
+interface Request {
+    id: string;
+    category: string;
+    createdAt: Timestamp;
+    device: Device;
+    problemDescription: string;
+    status: 'Canceled' | 'In progress' | 'Finished';
+    userId: string;
+}

@@ -21,14 +21,6 @@ import Popup from 'components/Popup/Popup';
 import usePopup from 'hooks/usePopup';
 import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
 
-type Device = {
-    model: string;
-    category: string;
-    serialNumber: string;
-    manufacturer: string;
-    id: string;
-};
-
 const DevicesPage = () => {
     const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
     const [searchValue, setSearchValue] = useState<string>('');

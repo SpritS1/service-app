@@ -24,24 +24,6 @@ import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
 import ModalWindow from 'components/ModalWindow/ModalWindow';
 import ServiceRequestInfo from 'components/ServiceRequestInfo/ServiceRequestInfo';
 
-interface Device {
-    model: string;
-    category: string;
-    serialNumber: string;
-    manufacturer: string;
-    id: string;
-}
-
-interface Request {
-    id: string;
-    category: string;
-    createdAt: Timestamp;
-    device: Device;
-    problemDescription: string;
-    status: 'Canceled' | 'In progress' | 'Finished';
-    userId: string;
-}
-
 interface Props {}
 
 const ServiceRequestsPage = (props: Props) => {
