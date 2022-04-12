@@ -70,13 +70,12 @@ const ServiceRequestsPage = (props: Props) => {
                         if (serviceRequests)
                             setServiceRequests(serviceRequests);
                         if (!serviceRequests) setServiceRequests([]);
-
-                        setIsFetching(false);
                     },
                 );
             }
         } catch (error) {
             setFetchError(error);
+        } finally {
             setIsFetching(false);
         }
     }, [user]);
