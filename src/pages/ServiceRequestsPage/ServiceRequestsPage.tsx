@@ -11,7 +11,6 @@ import {
     onSnapshot,
     orderBy,
     query,
-    Timestamp,
     updateDoc,
     where,
 } from 'firebase/firestore';
@@ -23,35 +22,23 @@ import Modal from 'components/Modal/Modal';
 import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
 import ModalWindow from 'components/ModalWindow/ModalWindow';
 import ServiceRequestInfo from 'components/ServiceRequestInfo/ServiceRequestInfo';
-
-interface Device {
-    model: string;
-    category: string;
-    serialNumber: string;
-    manufacturer: string;
-    id: string;
-}
-
-interface Request {
-    id: string;
-    category: string;
-    createdAt: Timestamp;
-    device: Device;
-    problemDescription: string;
-    status: 'Canceled' | 'In progress' | 'Finished';
-    userId: string;
-}
+import SubHeader from 'components/SubHeader/SubHeader';
+import SearchBar from 'components/SearchBar/SearchBar';
 
 interface Props {}
 
 const ServiceRequestsPage = (props: Props) => {
-    const [serviceRequests, setServiceRequests] = useState<DocumentData[]>([]);
+    const [serviceRequests, setServiceRequests] = useState<Request[]>([]);
+    const [filteredRequests, setFilteredRequests] = useState<Request[]>([]);
+
     const [isFetching, setIsFetching] = useState(true);
     const [fetchError, setFetchError] = useState<any>(null);
     const [actionRequest, setActionRequest] = useState<Request | null>(null);
 
     const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
     const [isRequestInfoOpen, setIsRequestInfoOpen] = useState(false);
+
+    const [searchValue, setSearchValue] = useState('');
 
     const { user } = useAuth();
 
@@ -61,7 +48,7 @@ const ServiceRequestsPage = (props: Props) => {
         setCurrentPage,
         totalPages,
         paginatedElements,
-    } = usePagination(serviceRequests, 10);
+    } = usePagination(filteredRequests, 10);
 
     useEffect(() => {
         try {
@@ -83,16 +70,39 @@ const ServiceRequestsPage = (props: Props) => {
                         if (serviceRequests)
                             setServiceRequests(serviceRequests);
                         if (!serviceRequests) setServiceRequests([]);
-
-                        setIsFetching(false);
                     },
                 );
             }
         } catch (error) {
             setFetchError(error);
+        } finally {
             setIsFetching(false);
         }
     }, [user]);
+
+    useEffect(() => {
+        const filterRequests = (requests: Request[], searchValue: string) => {
+            const filteredRequests = requests.filter(({ category, device }) => {
+                const regex = new RegExp(`^${searchValue}`, 'i');
+
+                if (
+                    searchValue.length !== 0 &&
+                    !(
+                        regex.test(device.model) ||
+                        regex.test(device.serialNumber) ||
+                        regex.test(category)
+                    )
+                )
+                    return false;
+
+                return true;
+            });
+
+            setFilteredRequests(filteredRequests);
+        };
+
+        filterRequests(serviceRequests, searchValue);
+    }, [serviceRequests, searchValue]);
 
     const removeRequest = async (request: Request) => {
         if (user) {
@@ -145,8 +155,26 @@ const ServiceRequestsPage = (props: Props) => {
 
     return (
         <div className="service-requests-page">
-            <HeaderDesktop title="Your Service Requests" />
-            <div className="service-requests-page__main">
+            <HeaderDesktop title="Your Service Requests">
+                <SearchBar
+                    searchValue={searchValue}
+                    setSearchValue={setSearchValue}
+                    placeholder={'Find request...'}
+                />
+            </HeaderDesktop>
+            <SubHeader>
+                <h4 className="service-requests-page__title">
+                    Your service requests
+                </h4>
+            </SubHeader>
+            <SubHeader>
+                <SearchBar
+                    searchValue={searchValue}
+                    setSearchValue={setSearchValue}
+                    placeholder={'Find request...'}
+                />
+            </SubHeader>
+            <main className="service-requests-page__main">
                 {isFetching && <Loader />}
                 {!isFetching && !fetchError && paginatedElements.length !== 0 && (
                     <>
@@ -179,7 +207,7 @@ const ServiceRequestsPage = (props: Props) => {
                         </p>
                     </>
                 )}
-            </div>
+            </main>
 
             {actionRequest && setIsRequestInfoOpen && (
                 <Modal
