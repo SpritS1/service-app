@@ -205,6 +205,7 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
                 <SearchBar
                     searchValue={searchValue}
                     setSearchValue={setSearchValue}
+                    placeholder="Find device..."
                 />
                 <div className="add-device__filters">
                     <SelectButton
