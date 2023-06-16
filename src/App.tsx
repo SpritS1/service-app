@@ -10,6 +10,7 @@ import UserDataContextProvider from 'contexts/UserDataContext';
 import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
 import ServiceRequestsPage from 'pages/ServiceRequestsPage/ServiceRequestsPage';
 import ContactPage from 'pages/ContactPage/ContactPage';
+import React from 'react';
 
 const App = () => {
     return (

@@ -1,3 +1,4 @@
+import React from 'react';
 import './DevicesTable.scss';
 import IconButton from 'components/IconButton/IconButton';
 

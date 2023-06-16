@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import SignUpForm from './SignUpForm';
@@ -28,8 +29,9 @@ describe('Sign up Button', () => {
 
         const emailInput = screen.getByPlaceholderText('Email');
         const passwordInput = screen.getByPlaceholderText('Password');
-        const confirmPasswordInput =
-            screen.getByPlaceholderText('Confirm password');
+        const confirmPasswordInput = screen.getByPlaceholderText(
+            'Confirm password',
+        );
         const buttonElement = screen.getByRole('button');
 
         fireEvent.change(emailInput, { target: { value: 'mail@gmail.com' } });
@@ -44,8 +46,9 @@ describe('Sign up Button', () => {
 
         const emailInput = screen.getByPlaceholderText('Email');
         const passwordInput = screen.getByPlaceholderText('Password');
-        const confirmPasswordInput =
-            screen.getByPlaceholderText('Confirm password');
+        const confirmPasswordInput = screen.getByPlaceholderText(
+            'Confirm password',
+        );
         const buttonElement = screen.getByRole('button');
 
         fireEvent.change(emailInput, { target: { value: 'mail@gmail.com' } });

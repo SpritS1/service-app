@@ -1,3 +1,4 @@
+import React from 'react';
 import { createContext, ReactNode, useState, useCallback } from 'react';
 import {
     createUserWithEmailAndPassword,
@@ -28,8 +29,9 @@ export const AuthContext = createContext<IAuthContextType>(null!);
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [isUserStatusChecked, setIsUserStatusChecked] =
-        useState<boolean>(false);
+    const [isUserStatusChecked, setIsUserStatusChecked] = useState<boolean>(
+        false,
+    );
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [errorField, setErrorField] = useState<
         'email' | 'password' | 'confirmPassword' | 'popup' | null

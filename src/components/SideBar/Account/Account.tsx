@@ -1,3 +1,4 @@
+import React from 'react';
 import './Account.scss';
 import { Link } from 'react-router-dom';
 import ProfileImage from 'components/ProfileImage/ProfileImage';

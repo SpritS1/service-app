@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import './AddDevice.scss';
 import SearchBar from 'components/SearchBar/SearchBar';
