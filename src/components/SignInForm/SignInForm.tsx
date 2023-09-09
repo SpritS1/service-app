@@ -3,24 +3,21 @@ import './SignInForm.scss';
 import InputBorderless from 'components/InputBorderless/InputBorderless';
 import Button from '../Button/Button';
 import { Link, useNavigate } from 'react-router-dom';
-import useAuth from 'hooks/useAuth';
 import ValidationError from 'components/ValidationError/ValidationError';
 import Popup from 'components/Popup/Popup';
 import usePopup from 'hooks/usePopup';
 import InputBasic from 'components/InputBasic/InputBasic';
-import Logo from 'components/Logo/Logo';
 import Checkbox from 'components/Checkbox/Checkbox';
+import { useAuth } from 'contexts/NewAuthContext';
 
 const SignInForm = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [isFormFilled, setIsFormFilled] = useState<boolean>(
-        email && password ? true : false,
-    );
+    const [isFormFilled, setIsFormFilled] = useState<boolean>(email && password ? true : false);
 
     const navigate = useNavigate();
 
-    const { signIn, errorMessage, errorField, cleanError } = useAuth();
+    const { login } = useAuth();
 
     const popup = usePopup();
 
@@ -29,19 +26,14 @@ const SignInForm = () => {
         else setIsFormFilled(false);
     }, [email, password]);
 
-    // remove errors when change page
-    useEffect(() => {
-        cleanError();
-    }, [cleanError]);
-
-    const handleSignIn = () => {
+    const handleLogin = async () => {
         popup.resetPopup();
 
-        signIn(email, password, () => navigate('/'));
+        const result: boolean = await login(email, password);
 
-        if (errorMessage && errorField === 'popup') {
-            popup.setPopupContent(errorMessage);
-            popup.setPopupType('error');
+        if (result) navigate('/');
+        else {
+            popup.setPopupContent('Invalid credentials');
             popup.setIsPopupActive(true);
         }
     };
@@ -50,7 +42,7 @@ const SignInForm = () => {
         if (isFormFilled && e.key === 'Enter') {
             e.preventDefault();
 
-            handleSignIn();
+            handleLogin();
         }
     };
 
@@ -67,45 +59,32 @@ const SignInForm = () => {
                     type="email"
                     value={email}
                     setState={setEmail}
-                    error={errorField === 'email' ? errorMessage : null}
                     autofocus
                     autoComplete="off"
                     hasLabel={false}
                 />
-                {errorField === 'email' && errorMessage && (
-                    <ValidationError message={errorMessage} />
-                )}
+                {/* {errorField === 'email' && errorMessage && <ValidationError message={errorMessage} />} */}
                 <InputBasic
                     placeholder="Password"
                     type="password"
                     value={password}
                     setState={setPassword}
-                    error={errorField === 'password' ? errorMessage : null}
+                    // error={errorField === 'password' ? errorMessage : null}
                     autoComplete="off"
                     hasLabel={false}
                 />
-                {errorField === 'password' && errorMessage && (
-                    <ValidationError message={errorMessage} />
-                )}
+                {/* {errorField === 'password' && errorMessage && <ValidationError message={errorMessage} />} */}
                 <Checkbox text="Remember me" />
             </form>
 
-            <Button
-                text="SIGN IN"
-                backgroundColor="blue"
-                action={handleSignIn}
-                disabled={!isFormFilled}
-            />
+            <Button text="SIGN IN" backgroundColor="blue" action={handleLogin} disabled={!isFormFilled} />
             <span className="sign-in-form__sign-up">
                 No account yet? &nbsp;
                 <Link to="/auth/signup" className="sign-in-form__sign-up-link">
                     Sign up!
                 </Link>
             </span>
-            <Link
-                to="/forgot-password"
-                className="sign-in-form__forgot-password"
-            >
+            <Link to="/forgot-password" className="sign-in-form__forgot-password">
                 Forgot password?
             </Link>
 

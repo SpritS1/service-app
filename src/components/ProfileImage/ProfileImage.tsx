@@ -2,22 +2,14 @@ import React from 'react';
 import './ProfileImage.scss';
 
 type Props = {
-    photoUrl: string | null;
+    src: string | null;
 };
 
-const ProfileImage = ({ photoUrl }: Props) => {
+const ProfileImage = ({ src }: Props) => {
     return (
-        <div
-            className={`profile-image ${
-                photoUrl ? '' : 'profile-image--no-photo'
-            }`}
-        >
-            {photoUrl ? (
-                <img
-                    src={photoUrl}
-                    alt="user"
-                    className="profile-image__image"
-                />
+        <div className={`profile-image ${src ? '' : 'profile-image--no-photo'}`}>
+            {src ? (
+                <img src={src} alt="user" className="profile-image__image" />
             ) : (
                 <i className="profile-image__no-photo-icon far fa-user" />
             )}

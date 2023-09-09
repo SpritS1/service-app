@@ -6,7 +6,6 @@ import { collection, getDocs, doc, arrayUnion, updateDoc, query, orderBy } from 
 import { database } from 'firebase.js';
 import DevicesTable from 'components/DevicesTable/DevicesTable';
 import SelectButton from 'components/SelectButton/SelectButton';
-import useAuth from 'hooks/useAuth';
 import Loader from 'components/Loader/Loader';
 import Button from 'components/Button/Button';
 import usePagination from 'hooks/usePagination';

@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ServiceRequest from './AddServiceRequest';
-import AuthContextProvider from 'contexts/AuthContext';
+import AuthContextProvider from 'contexts/NewAuthContext';
 
 describe('ServiceRequest tests', () => {
     test('should have disabled button by default', async () => {
@@ -16,12 +16,7 @@ describe('ServiceRequest tests', () => {
 
         render(
             <AuthContextProvider>
-                <ServiceRequest
-                    setIsServiceRequestOpen={jest.fn()}
-                    device={device}
-                    popup={''}
-                />
-                ,
+                <ServiceRequest setIsServiceRequestOpen={jest.fn()} device={device} popup={''} />,
             </AuthContextProvider>,
         );
 
@@ -40,12 +35,7 @@ describe('ServiceRequest tests', () => {
         };
         render(
             <AuthContextProvider>
-                <ServiceRequest
-                    setIsServiceRequestOpen={jest.fn()}
-                    device={device}
-                    popup={''}
-                />
-                ,
+                <ServiceRequest setIsServiceRequestOpen={jest.fn()} device={device} popup={''} />,
             </AuthContextProvider>,
         );
 

@@ -9,12 +9,10 @@ import Modal from 'components/Modal/Modal';
 import AddDevice from 'components/AddDevice/AddDevice';
 import { database } from 'firebase.js';
 import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
-import useAuth from 'hooks/useAuth';
 import Loader from 'components/Loader/Loader';
 import Pagination from 'components/Pagination/Pagination';
 import usePagination from 'hooks/usePagination';
 import SubHeader from 'components/SubHeader/SubHeader';
-import { UserDataContext } from 'contexts/UserDataContext';
 import AddServiceRequets from 'components/AddServiceRequest/AddServiceRequest';
 import ModalWindow from 'components/ModalWindow/ModalWindow';
 import Popup from 'components/Popup/Popup';
@@ -24,33 +22,26 @@ import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
 const DevicesPage = () => {
     const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
     const [searchValue, setSearchValue] = useState<string>('');
-    const [sortBy, setSortBy] = useState<
-        'Model' | 'Category' | 'SerialNumber' | 'Manufacturer'
-    >('Model');
+    const [sortBy, setSortBy] = useState<'Model' | 'Category' | 'SerialNumber' | 'Manufacturer'>('Model');
     const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false);
     const [isServiceRequestOpen, setIsServiceRequestOpen] = useState(false);
-    const [serviceRequestDevice, setServiceRequestDevice] =
-        useState<Device | null>(null);
+    const [serviceRequestDevice, setServiceRequestDevice] = useState<Device | null>(null);
     const [fetchError, setFetchError] = useState<any>(null);
     const [actionDevice, setActionDevice] = useState<Device | null>(null);
 
-    const { userData, isFetching, error } = useContext(UserDataContext);
-    const { user } = useAuth();
+    // const { user } = useAuth();
     const popup = usePopup();
-    const {
-        setPaginationLimit,
-        currentPage,
-        setCurrentPage,
-        totalPages,
-        paginatedElements,
-    } = usePagination(filteredDevices, 10);
+    const { setPaginationLimit, currentPage, setCurrentPage, totalPages, paginatedElements } = usePagination(
+        filteredDevices,
+        10,
+    );
 
     const removeDevice = () => {
-        if (user) {
-            updateDoc(doc(database, 'users_data', user.uid), {
-                devices: arrayRemove(actionDevice),
-            }).catch((error) => console.error(error));
-        }
+        // if (user) {
+        //     updateDoc(doc(database, 'users_data', user.uid), {
+        //         devices: arrayRemove(actionDevice),
+        //     }).catch((error) => console.error(error));
+        // }
     };
 
     const handleServiceClick = (device: Device) => {
@@ -59,51 +50,41 @@ const DevicesPage = () => {
     };
 
     // Sorting and filtering devicesArray
-    useEffect(() => {
-        const filterDevices = (devices: Device[], searchValue: string) => {
-            const filteredDevices = devices.filter(
-                ({ model, serialNumber }) => {
-                    const regex = new RegExp(`^${searchValue}`, 'i');
+    // useEffect(() => {
+    //     const filterDevices = (devices: Device[], searchValue: string) => {
+    //         const filteredDevices = devices.filter(({ model, serialNumber }) => {
+    //             const regex = new RegExp(`^${searchValue}`, 'i');
 
-                    if (
-                        searchValue.length !== 0 &&
-                        !(regex.test(model) || regex.test(serialNumber))
-                    )
-                        return false;
+    //             if (searchValue.length !== 0 && !(regex.test(model) || regex.test(serialNumber))) return false;
 
-                    return true;
-                },
-            );
+    //             return true;
+    //         });
 
-            return filteredDevices;
-        };
+    //         return filteredDevices;
+    //     };
 
-        const sortDevices = (array: Device[]) => {
-            const sortedArray = [...array].sort((a: any, b: any) => {
-                if (a[sortBy.toLowerCase()] > b[sortBy.toLowerCase()]) return 1;
-                if (a[sortBy.toLowerCase()] < b[sortBy.toLowerCase()])
-                    return -1;
+    //     const sortDevices = (array: Device[]) => {
+    //         const sortedArray = [...array].sort((a: any, b: any) => {
+    //             if (a[sortBy.toLowerCase()] > b[sortBy.toLowerCase()]) return 1;
+    //             if (a[sortBy.toLowerCase()] < b[sortBy.toLowerCase()]) return -1;
 
-                return 0;
-            });
+    //             return 0;
+    //         });
 
-            return sortedArray;
-        };
+    //         return sortedArray;
+    //     };
 
-        if (userData) {
-            if (searchValue.length === 0) {
-                const sortedDevices = sortDevices(userData.devices);
-                setFilteredDevices(sortedDevices);
-            } else if (searchValue.length !== 0) {
-                const filteredDevices = filterDevices(
-                    userData.devices,
-                    searchValue,
-                );
-                const sortedDevices = sortDevices(filteredDevices);
-                setFilteredDevices(sortedDevices);
-            }
-        }
-    }, [searchValue, userData, sortBy]);
+    //     if (userData) {
+    //         if (searchValue.length === 0) {
+    //             const sortedDevices = sortDevices(userData.devices);
+    //             setFilteredDevices(sortedDevices);
+    //         } else if (searchValue.length !== 0) {
+    //             const filteredDevices = filterDevices(userData.devices, searchValue);
+    //             const sortedDevices = sortDevices(filteredDevices);
+    //             setFilteredDevices(sortedDevices);
+    //         }
+    //     }
+    // }, [searchValue, userData, sortBy]);
 
     // constants
     const ACTIONS: any[] = [
@@ -130,63 +111,31 @@ const DevicesPage = () => {
         },
     ];
 
-    const SORTING_OPTIONS = [
-        'Model',
-        'Category',
-        'SerialNumber',
-        'Manufacturer',
-    ];
+    const SORTING_OPTIONS = ['Model', 'Category', 'SerialNumber', 'Manufacturer'];
 
     return (
         <div className="devices-page">
             <HeaderDesktop title="Your Devices">
                 <>
-                    <SortBy
-                        sortBy={sortBy}
-                        setSortBy={setSortBy}
-                        sortingOptions={SORTING_OPTIONS}
-                    />
-                    <SearchBar
-                        searchValue={searchValue}
-                        setSearchValue={setSearchValue}
-                        placeholder="Find device..."
-                    />
-                    <Button
-                        text="ADD DEVICE"
-                        backgroundColor="blue"
-                        action={() => setIsAddDeviceOpen(true)}
-                    />
+                    <SortBy sortBy={sortBy} setSortBy={setSortBy} sortingOptions={SORTING_OPTIONS} />
+                    <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} placeholder="Find device..." />
+                    <Button text="ADD DEVICE" backgroundColor="blue" action={() => setIsAddDeviceOpen(true)} />
                 </>
             </HeaderDesktop>
             <SubHeader>
                 <h4 className="devices-page__page-title">Your devices</h4>
-                <Button
-                    text="ADD DEVICE"
-                    backgroundColor="blue"
-                    action={() => setIsAddDeviceOpen(true)}
-                />
+                <Button text="ADD DEVICE" backgroundColor="blue" action={() => setIsAddDeviceOpen(true)} />
             </SubHeader>
             <SubHeader>
-                <SearchBar
-                    searchValue={searchValue}
-                    setSearchValue={setSearchValue}
-                    placeholder="Find device..."
-                />
-                <SortBy
-                    sortBy={sortBy}
-                    setSortBy={setSortBy}
-                    sortingOptions={SORTING_OPTIONS}
-                />
+                <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} placeholder="Find device..." />
+                <SortBy sortBy={sortBy} setSortBy={setSortBy} sortingOptions={SORTING_OPTIONS} />
             </SubHeader>
 
             <div className="devices-page__main">
-                {isFetching && <Loader />}
+                {/* {isFetching && <Loader />}
                 {!isFetching && !fetchError && paginatedElements.length !== 0 && (
                     <>
-                        <DevicesTable
-                            devices={paginatedElements}
-                            actionButtons={ACTIONS}
-                        />
+                        <DevicesTable devices={paginatedElements} actionButtons={ACTIONS} />
                         <Pagination
                             setPaginationLimit={setPaginationLimit}
                             currentPage={currentPage}
@@ -198,69 +147,41 @@ const DevicesPage = () => {
                 {!isFetching && !fetchError && filteredDevices.length === 0 && (
                     <div className="devices-page__fetch-info-container">
                         <h3 className="devices-page__fetch-info">
-                            {searchValue.length === 0
-                                ? "You don't have any devices"
-                                : 'No devices found'}
+                            {searchValue.length === 0 ? "You don't have any devices" : 'No devices found'}
                         </h3>
                     </div>
                 )}
                 {!isFetching && fetchError && (
                     <>
-                        <h3 className="devices-page__fetch-info">
-                            Failed to fetch devices
-                        </h3>
-                        <p className="devices-page__fetch-error">
-                            {fetchError}
-                        </p>
+                        <h3 className="devices-page__fetch-info">Failed to fetch devices</h3>
+                        <p className="devices-page__fetch-error">{fetchError}</p>
                     </>
                 )}
 
                 {userData && (
                     <>
-                        <Modal
-                            isOpen={isAddDeviceOpen}
-                            onClose={() => setIsAddDeviceOpen(false)}
-                        >
-                            <ModalWindow
-                                title="Add new device"
-                                onClose={() => setIsAddDeviceOpen(false)}
-                            >
-                                <AddDevice
-                                    setIsAddDeviceOpen={setIsAddDeviceOpen}
-                                    userDevices={userData.devices}
-                                />
+                        <Modal isOpen={isAddDeviceOpen} onClose={() => setIsAddDeviceOpen(false)}>
+                            <ModalWindow title="Add new device" onClose={() => setIsAddDeviceOpen(false)}>
+                                <AddDevice setIsAddDeviceOpen={setIsAddDeviceOpen} userDevices={userData.devices} />
                             </ModalWindow>
                         </Modal>
                         {serviceRequestDevice && (
-                            <Modal
-                                isOpen={isServiceRequestOpen}
-                                onClose={() => setIsServiceRequestOpen(false)}
-                            >
-                                <ModalWindow
-                                    title="New service request"
-                                    onClose={() =>
-                                        setIsServiceRequestOpen(false)
-                                    }
-                                >
+                            <Modal isOpen={isServiceRequestOpen} onClose={() => setIsServiceRequestOpen(false)}>
+                                <ModalWindow title="New service request" onClose={() => setIsServiceRequestOpen(false)}>
                                     <AddServiceRequets
                                         device={serviceRequestDevice}
-                                        setIsServiceRequestOpen={() =>
-                                            setIsServiceRequestOpen(false)
-                                        }
+                                        setIsServiceRequestOpen={() => setIsServiceRequestOpen(false)}
                                         popup={popup}
                                     />
                                 </ModalWindow>
                             </Modal>
                         )}
                     </>
-                )}
+                )} */}
             </div>
 
             {actionDevice && (
-                <Modal
-                    isOpen={actionDevice !== null}
-                    onClose={() => setActionDevice(null)}
-                >
+                <Modal isOpen={actionDevice !== null} onClose={() => setActionDevice(null)}>
                     <ConfirmModal
                         title="Device delete"
                         text="Are you sure to delete this device?"

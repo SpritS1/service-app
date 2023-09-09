@@ -2,8 +2,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Account from './Account/Account';
 import Logo from 'components/Logo/Logo';
 import './SideBar.scss';
-import useAuth from 'hooks/useAuth';
 import React, { useEffect, useRef } from 'react';
+import { useAuth } from 'contexts/NewAuthContext';
 
 interface Props {
     isActive: boolean;
@@ -19,12 +19,7 @@ const SideBar = ({ isActive, setIsActive }: Props) => {
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
-            if (
-                isActive &&
-                sidebarRef.current &&
-                !sidebarRef.current.contains(e.target as Node)
-            )
-                setIsActive(false);
+            if (isActive && sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) setIsActive(false);
         };
         window.addEventListener('click', handleClickOutside);
 
@@ -44,48 +39,26 @@ const SideBar = ({ isActive, setIsActive }: Props) => {
             </div>
             <Account />
             <nav className="sidebar__nav">
-                <Link
-                    to="/"
-                    className={`sidebar__nav-link ${
-                        location.pathname === '/' ? 'active' : ''
-                    }`}
-                >
+                <Link to="/" className={`sidebar__nav-link ${location.pathname === '/' ? 'active' : ''}`}>
                     <i className="sidebar__nav-icon fa-solid fa-microchip"></i>
                     Devices
                 </Link>
                 <Link
                     to="/service-requests"
-                    className={`sidebar__nav-link ${
-                        location.pathname === '/service-requests'
-                            ? 'active'
-                            : ''
-                    }`}
+                    className={`sidebar__nav-link ${location.pathname === '/service-requests' ? 'active' : ''}`}
                 >
                     <i className="sidebar__nav-icon fa-solid fa-wrench"></i>
                     Service requests
                 </Link>
-                <Link
-                    to="/contact"
-                    className={`sidebar__nav-link ${
-                        location.pathname === '/contact' ? 'active' : ''
-                    }`}
-                >
+                <Link to="/contact" className={`sidebar__nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>
                     <i className="sidebar__nav-icon fa-solid fa-address-book"></i>
                     Contact
                 </Link>
-                <Link
-                    to="/profile"
-                    className={`sidebar__nav-link ${
-                        location.pathname === '/profile' ? 'active' : ''
-                    }`}
-                >
+                <Link to="/profile" className={`sidebar__nav-link ${location.pathname === '/profile' ? 'active' : ''}`}>
                     <i className="sidebar__nav-icon fa-solid fa-user"></i>
                     Profile
                 </Link>
-                <div
-                    className="sidebar__nav-link"
-                    onClick={() => logout(() => navigate('/auth/login'))}
-                >
+                <div className="sidebar__nav-link" onClick={logout}>
                     <i className="sidebar__nav-icon fas fa-power-off" />
                     Logout
                 </div>

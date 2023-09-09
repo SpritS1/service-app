@@ -1,15 +1,15 @@
+import { useAuth } from 'contexts/NewAuthContext';
 import React from 'react';
-import useAuth from 'hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 
 const RequireAuth = ({ children }: { children: JSX.Element }) => {
-    const { user, isUserStatusChecked } = useAuth();
+    const { user, isAuthenticated } = useAuth();
 
-    if (isUserStatusChecked) {
-        if (user) return children;
-        return <Navigate to="/auth/login" />;
+    if (isAuthenticated) {
+        return children;
     }
-    return null;
+
+    return <Navigate to="/auth/login" />;
 };
 
 export default RequireAuth;

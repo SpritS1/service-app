@@ -1,188 +1,121 @@
 import Button from 'components/Button/Button';
-import InputBasic from 'components/InputBasic/InputBasic';
 import Popup from 'components/Popup/Popup';
 import ProfileImageInput from 'components/ProfileImageInput/ProfileImageInput';
-import { database, storage } from 'firebase.js';
-import { updateProfile } from 'firebase/auth';
-import { doc, DocumentData, updateDoc } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import useAuth from 'hooks/useAuth';
 import usePopup from 'hooks/usePopup';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './ProfileInfo.scss';
+import { User } from 'models/User';
+import { ErrorMessage, Field, FieldProps, Form, Formik, FormikErrors, FormikHelpers } from 'formik';
+import * as Yup from 'yup';
+import FormikInput from 'components/FormikInput/FormikInput';
+import { useAuth } from 'contexts/NewAuthContext';
+import { ApiResponse } from 'models/Api';
 
 interface Props {
-    userData: DocumentData | null;
+    userData: User | null;
+}
+
+interface ProfileInfoFormValues {
+    firstName: string;
+    lastName: string;
+    email: string | null;
+    phone: string;
+    city: string;
+    postCode: string;
+    companyName: string;
+    photoUrl: string | null;
+    photoFile: File | null;
 }
 
 const ProfileInfo = ({ userData }: Props) => {
-    const { user } = useAuth();
+    const { setUser } = useAuth();
 
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
-    const [email, setEmail] = useState(user!.email);
-    const [phone, setPhone] = useState('');
-    const [city, setCity] = useState('');
-    const [postCode, setPostCode] = useState('');
-    const [companyName, setCompanyName] = useState('');
-    const [photoUrl, setPhotoUrl] = useState<string | null>(
-        user?.photoURL || null,
-    );
-    const [photoFile, setPhotoFile] = useState<File | null>(null);
+    const initialValues: ProfileInfoFormValues = {
+        firstName: userData?.firstName || '',
+        lastName: userData?.lastName || '',
+        email: userData?.email || '',
+        phone: userData?.phone || '',
+        city: userData?.city || '',
+        postCode: userData?.postCode || '',
+        companyName: userData?.companyName || '',
+        photoUrl: userData?.photoUrl || null,
+        photoFile: null,
+    };
 
-    const [areInputsFilled, setAreInputsFilled] = useState(false);
+    const validationSchema = Yup.object().shape({
+        firstName: Yup.string().required('Name is required'),
+        lastName: Yup.string().required('Surname is required'),
+        email: Yup.string().email('Invalid email').required('Email is required'),
+        phone: Yup.string().required('Phone is required'),
+        city: Yup.string().required('City is required'),
+        postCode: Yup.string().required('Post Code is required'),
+        companyName: Yup.string().required('Company name is required'),
+    });
 
-    const {
-        popupContent,
-        setPopupContent,
-        popupType,
-        setPopupType,
-        isPopupActive,
-        setIsPopupActive,
-        resetPopup,
-    } = usePopup();
+    const { popupContent, setPopupContent, popupType, setPopupType, isPopupActive, setIsPopupActive, resetPopup } =
+        usePopup();
 
-    const handleProfileUpdate = async () => {
+    const handleSubmit = async (
+        values: ProfileInfoFormValues,
+        { setSubmitting }: FormikHelpers<ProfileInfoFormValues>,
+    ) => {
+        setSubmitting(true);
+
         try {
-            resetPopup();
-
-            if (user && areInputsFilled) {
-                await updateDoc(doc(database, 'users_data', user.uid), {
-                    name: name,
-                    surname: surname,
-                    phone: phone,
-                    city: city,
-                    postCode: postCode,
-                    companyName: companyName,
-                });
-
-                if (photoUrl && photoFile) {
-                    const storageRef = ref(
-                        storage,
-                        `images/${user.uid}-profile-image`,
-                    );
-                    console.log(photoFile);
-                    await uploadBytes(storageRef, photoFile);
-
-                    const imageStorageUrl = await getDownloadURL(storageRef);
-
-                    await updateProfile(user, {
-                        photoURL: imageStorageUrl,
-                    });
-                }
+            const response = await fetch('http://localhost:8000/profile', {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+                credentials: 'include',
+                method: 'PUT',
+            });
+            const data: ApiResponse<User> = await response.json();
+            if (data.success && data.data) {
+                setUser(data.data);
+                setPopupContent('Profile updated successfully');
+                setPopupType('default');
+                setIsPopupActive(true);
             }
-
-            setPopupType('default');
-            setPopupContent('Profile updated');
-            setIsPopupActive(true);
         } catch (error) {
             console.log(error);
-            setPopupType('error');
-            setPopupContent(error as string);
-            setIsPopupActive(true);
         }
     };
 
-    useEffect(() => {
-        if (userData) {
-            setName(userData.name);
-            setSurname(userData.surname);
-            setPhone(userData.phone);
-            setCity(userData.city);
-            setPostCode(userData.postCode);
-            setCompanyName(userData.companyName);
-        }
-    }, [userData]);
-
-    useEffect(() => {
-        const checkIfInputsFilled = () => {
-            if (
-                name &&
-                surname &&
-                email &&
-                phone &&
-                city &&
-                postCode &&
-                companyName
-            )
-                return true;
-            else return false;
-        };
-
-        setAreInputsFilled(checkIfInputsFilled());
-    }, [name, surname, email, phone, city, postCode, companyName]);
-
     return (
         <div className="profile-info">
-            <div className="profile-info__top">
-                <h3 className="profile-info__title">USER DETAILS</h3>
-                <div className="profile-info__image-container">
-                    <ProfileImageInput
-                        photoUrl={photoUrl}
-                        setPhotoUrl={setPhotoUrl}
-                        photoFile={photoFile}
-                        setPhotoFile={setPhotoFile}
-                    />
-                </div>
-            </div>
+            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+                {({ isSubmitting, setFieldValue }) => (
+                    <Form>
+                        <div className="profile-info__top">
+                            <h3 className="profile-info__title">USER DETAILS</h3>
+                            <div className="profile-info__image-container">
+                                <ProfileImageInput
+                                    photoUrl={initialValues.photoUrl}
+                                    setFieldValue={setFieldValue}
+                                    fieldName="photoFile"
+                                />
+                            </div>
+                        </div>
+                        <Field name="firstName" type="text" placeholder="Name" component={FormikInput} />
+                        <Field name="lastName" type="text" placeholder="Surname" component={FormikInput} />
+                        <Field name="email" type="email" placeholder="Email" component={FormikInput} />
+                        <Field name="phone" type="tel" placeholder="Phone" component={FormikInput} />
+                        <Field name="city" type="text" placeholder="City" component={FormikInput} />
+                        <Field name="postCode" type="text" placeholder="Post Code" component={FormikInput} />
+                        <Field name="companyName" type="text" placeholder="Company Name" component={FormikInput} />
 
-            <InputBasic
-                placeholder="Name"
-                value={name}
-                setState={setName}
-                type={'text'}
-                required
-            />
-            <InputBasic
-                placeholder="Surname"
-                value={surname}
-                setState={setSurname}
-                type={'text'}
-                required
-            />
-            <InputBasic
-                placeholder="Email"
-                value={email as string}
-                setState={setEmail}
-                type={'email'}
-                disabled={true}
-            />
-            <InputBasic
-                placeholder="Phone"
-                value={phone}
-                setState={setPhone}
-                type={'tel'}
-                required
-            />
-            <InputBasic
-                placeholder="City"
-                value={city}
-                setState={setCity}
-                type={'text'}
-                required
-            />
-            <InputBasic
-                placeholder="Post Code"
-                value={postCode}
-                setState={setPostCode}
-                type={'text'}
-                required
-            />
-            <InputBasic
-                placeholder="Company name"
-                value={companyName}
-                setState={setCompanyName}
-                type={'text'}
-            />
-
-            <div className="profile-info__button-container">
-                <Button
-                    text={'Update profile'}
-                    backgroundColor="blue"
-                    action={handleProfileUpdate}
-                    disabled={!areInputsFilled}
-                />
-            </div>
+                        <div className="profile-info__button-container">
+                            <Button
+                                text="Update profile"
+                                backgroundColor="blue"
+                                type="submit"
+                                disabled={isSubmitting}
+                            />
+                        </div>
+                    </Form>
+                )}
+            </Formik>
 
             <Popup
                 content={popupContent}

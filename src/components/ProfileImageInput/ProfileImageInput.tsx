@@ -3,29 +3,15 @@ import './ProfileImageInput.scss';
 
 type Props = {
     photoUrl: string | null;
-    setPhotoUrl?: (photo: string) => void;
-    photoFile: File | null;
-    setPhotoFile: (value: File) => void;
+    setFieldValue: (field: string, value: any) => void; // Formik's setFieldValue
+    fieldName: string; // Field name in the Formik form
 };
 
-const ProfileImageInput = ({
-    photoUrl,
-    setPhotoUrl,
-    photoFile,
-    setPhotoFile,
-}: Props) => {
+const ProfileImageInput = ({ photoUrl, setFieldValue, fieldName }: Props) => {
     return (
-        <div
-            className={`profile-image-input ${
-                photoUrl ? '' : 'profile-image-input--no-photo'
-            }`}
-        >
+        <div className={`profile-image-input ${photoUrl ? '' : 'profile-image-input--no-photo'}`}>
             {photoUrl ? (
-                <img
-                    src={photoUrl}
-                    alt="user"
-                    className="profile-image-input__image"
-                />
+                <img src={photoUrl} alt="user" className="profile-image-input__image" />
             ) : (
                 <i className="profile-image-input__no-photo-icon far fa-user"></i>
             )}
@@ -42,8 +28,7 @@ const ProfileImageInput = ({
                         const file = e.currentTarget.files[0];
                         const url = URL.createObjectURL(file);
 
-                        setPhotoFile(file);
-                        setPhotoUrl!(url);
+                        setFieldValue(fieldName, file); // Update Formik state
                     }
                 }}
                 type="file"

@@ -15,19 +15,8 @@ interface Props {
     hasLabel?: boolean;
 }
 
-const InputBasic = ({
-    placeholder,
-    value,
-    setState,
-    type,
-    disabled = false,
-    required,
-    hasLabel = true,
-}: Props) => {
-    const handleChange = (
-        setState: (e: string) => void,
-        e: React.FormEvent<HTMLInputElement>,
-    ) => {
+const InputBasic = ({ placeholder, value, setState, type, disabled = false, required, hasLabel = true }: Props) => {
+    const handleChange = (setState: (e: string) => void, e: React.FormEvent<HTMLInputElement>) => {
         setState(e.currentTarget.value);
     };
 
@@ -45,15 +34,9 @@ const InputBasic = ({
                 value={value}
                 onChange={(e) => handleChange(setState, e)}
                 disabled={disabled}
-                className={`input-basic__input ${
-                    disabled ? 'input-basic__input--read-only' : ''
-                }`}
+                className={`input-basic__input ${disabled ? 'input-basic__input--read-only' : ''}`}
             />
-            {required && !value && (
-                <div className="input-basic__required-warning">
-                    Field required
-                </div>
-            )}
+            {required && !value && <div className="input-basic__required-warning">Field required</div>}
         </div>
     );
 };

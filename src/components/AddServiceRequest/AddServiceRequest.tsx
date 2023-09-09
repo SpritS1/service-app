@@ -4,7 +4,6 @@ import SelectButton from 'components/SelectButton/SelectButton';
 import TextAreaInput from 'components/TextAreaInput/TextAreaInput';
 import { database } from 'firebase.js';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import useAuth from 'hooks/useAuth';
 import useKeyPress from 'hooks/useKeyPress';
 import React, { useEffect, useState } from 'react';
 import './AddServiceRequest.scss';
@@ -16,13 +15,12 @@ interface Props {
 }
 
 const ServiceRequets = ({ setIsServiceRequestOpen, device, popup }: Props) => {
-    const [selectedCategory, setSelectedCategory] = useState<string | null>(
-        null,
-    );
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [problemDescription, setProblemDescription] = useState('');
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-    const { user } = useAuth();
+    // const { user } = useAuth();
+    const user: any = null;
 
     useKeyPress({
         onEscape: () => {
@@ -34,12 +32,7 @@ const ServiceRequets = ({ setIsServiceRequestOpen, device, popup }: Props) => {
         if (selectedCategory) setIsButtonDisabled(false);
     }, [selectedCategory]);
 
-    const SERVICE_CATEGORIES: string[] = [
-        'Damaged device',
-        'Software update',
-        'Inspection and maintenance',
-        'Other',
-    ];
+    const SERVICE_CATEGORIES: string[] = ['Damaged device', 'Software update', 'Inspection and maintenance', 'Other'];
 
     const handleSendRequest = async () => {
         const serviceRequest = {
@@ -52,10 +45,7 @@ const ServiceRequets = ({ setIsServiceRequestOpen, device, popup }: Props) => {
         };
 
         try {
-            await addDoc(
-                collection(database, 'serviceRequests'),
-                serviceRequest,
-            );
+            await addDoc(collection(database, 'serviceRequests'), serviceRequest);
 
             setIsServiceRequestOpen(false);
 
@@ -79,13 +69,7 @@ const ServiceRequets = ({ setIsServiceRequestOpen, device, popup }: Props) => {
                 setState={() => null}
             />
 
-            <InputBasic
-                type="text"
-                placeholder="Model"
-                disabled
-                value={device.model}
-                setState={() => null}
-            />
+            <InputBasic type="text" placeholder="Model" disabled value={device.model} setState={() => null} />
 
             <InputBasic
                 type="text"
@@ -102,18 +86,9 @@ const ServiceRequets = ({ setIsServiceRequestOpen, device, popup }: Props) => {
                 setSelectedOption={setSelectedCategory}
             />
 
-            <TextAreaInput
-                label="Describe problem"
-                value={problemDescription}
-                onChange={setProblemDescription}
-            />
+            <TextAreaInput label="Describe problem" value={problemDescription} onChange={setProblemDescription} />
 
-            <Button
-                text="Send request"
-                action={handleSendRequest}
-                disabled={isButtonDisabled}
-                backgroundColor="blue"
-            />
+            <Button text="Send request" action={handleSendRequest} disabled={isButtonDisabled} backgroundColor="blue" />
         </div>
     );
 };

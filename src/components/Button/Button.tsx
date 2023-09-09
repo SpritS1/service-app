@@ -5,20 +5,15 @@ type Props = {
     text: string;
     backgroundColor?: 'white' | 'blue';
     action?: (...value: any[]) => void;
+    type?: 'button' | 'submit' | 'reset';
     disabled?: boolean;
 };
 
-const Button = ({
-    text,
-    backgroundColor = 'white',
-    action,
-    disabled = false,
-}: Props) => {
+const Button = ({ text, backgroundColor = 'white', action, type = 'button', disabled = false }: Props) => {
     return (
         <button
-            className={`button button--${backgroundColor} ${
-                disabled ? 'button--locked' : ''
-            }`}
+            type={type}
+            className={`button button--${backgroundColor} ${disabled ? 'button--locked' : ''}`}
             onClick={action}
             disabled={disabled}
         >
