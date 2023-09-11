@@ -9,7 +9,7 @@ interface IAuthContextType {
     user: User | null;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
     login: (email: string, password: string) => Promise<boolean>;
-    register: (email: string, password: string) => Promise<void>;
+    register: (email: string, password: string) => Promise<boolean>;
     logout: () => Promise<void>;
     isAuthenticated: boolean;
 }
@@ -23,6 +23,10 @@ const NewAuthContextProvider = ({ children }: { children: ReactNode }) => {
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
+        console.log(`User: ${user ? JSON.stringify(user) : 'null'}`);
+    }, [user]);
+
+    useEffect(() => {
         const checkIfAuthenticated = async () => {
             try {
                 const response = await fetch('http://localhost:8000/profile', {
@@ -30,11 +34,13 @@ const NewAuthContextProvider = ({ children }: { children: ReactNode }) => {
                 });
                 const data: ApiResponse<User> = await response.json();
                 setIsAuthenticated(data.success);
-
                 if (data.success && data.data) {
                     setUser(data?.data);
+                    console.log('User is authenticated');
+                    navigate('/');
                     return;
                 }
+                console.log('User is NOT authenticated');
                 navigate('/auth/login');
             } catch (error) {
                 console.error('Error checking authentication:', error);
@@ -58,6 +64,28 @@ const NewAuthContextProvider = ({ children }: { children: ReactNode }) => {
             body: JSON.stringify({ email, password }),
         });
 
+        const data: ApiResponse<User> = await response.json();
+
+        if (data.success) {
+            setIsAuthenticated(true);
+            if (data.data) setUser(data.data);
+            return true;
+        }
+
+        if (data.error) console.error(data.error);
+
+        return false;
+    };
+
+    const register = async (email: string, password: string) => {
+        const response = await fetch('http://localhost:8000/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include', // 'include' will send cookies with the request
+            body: JSON.stringify({ email, password }),
+        });
         const data: ApiResponse = await response.json();
 
         if (data.success) {
@@ -72,20 +100,23 @@ const NewAuthContextProvider = ({ children }: { children: ReactNode }) => {
         return false;
     };
 
-    const register = async (email: string, password: string) => {
-        const response = await fetch('http://localhost:8000/auth/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include', // 'include' will send cookies with the request
-            body: JSON.stringify({ email, password }),
-        });
-        console.log(response);
-    };
-
     const logout = async () => {
-        setIsAuthenticated(false);
+        const response = await fetch('http://localhost:8000/auth/logout', {
+            credentials: 'include',
+        });
+
+        const data: ApiResponse = await response.json();
+        console.log(`Logout response: ${JSON.stringify(data)}`);
+
+        if (data.success) {
+            setIsAuthenticated(false);
+            setUser(null);
+            return;
+        }
+
+        if (data.error) {
+            console.error(data.error);
+        }
     };
 
     const value = {

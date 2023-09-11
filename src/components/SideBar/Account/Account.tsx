@@ -8,7 +8,6 @@ interface Props {}
 
 const Account = (props: Props) => {
     const { user } = useAuth();
-    console.log(user);
     return (
         <div className="account">
             <Link to="/profile" className="account__image-container">

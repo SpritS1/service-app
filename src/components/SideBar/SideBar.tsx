@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Account from './Account/Account';
 import Logo from 'components/Logo/Logo';
 import './SideBar.scss';
@@ -11,7 +11,6 @@ interface Props {
 }
 
 const SideBar = ({ isActive, setIsActive }: Props) => {
-    const navigate = useNavigate();
     const { logout } = useAuth();
     const location = useLocation();
 

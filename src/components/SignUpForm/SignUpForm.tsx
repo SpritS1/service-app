@@ -16,7 +16,7 @@ const SignUpForm = () => {
     const [isFormFilled, setIsFormFilled] = useState<boolean>(email && password && confirmedPassword ? true : false);
 
     const navigate = useNavigate();
-    const { register, isAuthenticated } = useAuth();
+    const { register } = useAuth();
 
     // check if form has been filled
     useEffect(() => {
@@ -24,10 +24,10 @@ const SignUpForm = () => {
         else setIsFormFilled(false);
     }, [email, password, confirmedPassword]);
 
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
         if (password === confirmedPassword) {
-            register(email, password);
-            if (isAuthenticated) navigate('/auth/login');
+            const isSuccessful = await register(email, password);
+            if (isSuccessful) navigate('/auth/login');
         }
     };
     const handleKeyPress = (e: React.KeyboardEvent) => {

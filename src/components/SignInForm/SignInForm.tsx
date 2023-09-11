@@ -30,7 +30,7 @@ const SignInForm = () => {
         popup.resetPopup();
 
         const result: boolean = await login(email, password);
-
+        console.log(`Login result: ${result}`);
         if (result) navigate('/');
         else {
             popup.setPopupContent('Invalid credentials');
