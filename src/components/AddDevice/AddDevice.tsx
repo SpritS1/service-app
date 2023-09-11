@@ -1,27 +1,26 @@
 import React from 'react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import './AddDevice.scss';
 import SearchBar from 'components/SearchBar/SearchBar';
-import { collection, getDocs, doc, arrayUnion, updateDoc, query, orderBy } from 'firebase/firestore';
-import { database } from 'firebase.js';
 import DevicesTable from 'components/DevicesTable/DevicesTable';
 import SelectButton from 'components/SelectButton/SelectButton';
 import Loader from 'components/Loader/Loader';
 import Button from 'components/Button/Button';
-import usePagination from 'hooks/usePagination';
-import Pagination from 'components/Pagination/Pagination';
+
 import useKeyPress from 'hooks/useKeyPress';
 import useFetch from 'hooks/useFetch';
+import { ApiResponse } from 'models/Api';
 
 interface Props {
     setIsAddDeviceOpen: (arg: boolean) => void;
     userDevices: Device[];
+    setUserDevices: (arg: Device[]) => void;
 }
 
-const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
+const AddDevice = ({ setIsAddDeviceOpen, userDevices, setUserDevices }: Props) => {
     //new code
     const { data: devices, loading, error, refetch } = useFetch<Device[]>('http://localhost:8000/devices');
-
+    const [notAddedDevices, setNotAddedDevices] = useState<Device[]>([]);
     // Set to filter the devices array
     const [filterCategoryValue, setFilterCategoryValue] = useState<string | null>(null);
     const [filterManufacturerValue, setFilterManufacturerValue] = useState<string | null>(null);
@@ -30,18 +29,48 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
     const [categories, setCategories] = useState<string[]>([]);
     const [manufacturers, setManufacturers] = useState<string[]>([]);
 
-    // const {
-    //     setPaginationLimit,
-    //     currentPage,
-    //     setCurrentPage,
-    //     totalPages,
-    //     paginatedElements: paginatedDevices,
-    // } = usePagination(filteredDevices);
-
     useKeyPress({ onEscape: () => setIsAddDeviceOpen(false) });
 
+    useEffect(() => {
+        if (!devices) return;
+        console.log('Devices:', devices);
+        console.log('User Devices:', userDevices);
+
+        const filteredDevices = devices.filter(
+            (device) => !userDevices.some((userDevice) => userDevice._id === device._id),
+        );
+
+        setNotAddedDevices(filteredDevices);
+    }, [devices, userDevices]);
+
+    const handleAddDevice = async (device: Device) => {
+        try {
+            const body = {
+                deviceId: device._id,
+            };
+            const response = await fetch('http://localhost:8000/profile/devices', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            });
+            const result: ApiResponse = await response.json();
+
+            if (result.success) {
+                setUserDevices([...userDevices, device]);
+                console.log('Device added successfully:', result);
+            } else {
+                console.log('Failed to add device:', result);
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    };
+
     const ACTIONS: any[] = [
-        { iconName: 'fas fa-circle-plus', color: 'green', callback: () => null },
+        { iconName: 'fas fa-circle-plus', color: 'green', callback: handleAddDevice },
         { iconName: 'fas fa-info-circle', color: 'blue', callback: () => null },
     ];
 
@@ -70,7 +99,7 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
             <div className="add-device__bottom">
                 {loading && <Loader />}
                 {!loading && !error && devices && devices.length > 0 && (
-                    <DevicesTable devices={devices} actionButtons={ACTIONS} />
+                    <DevicesTable devices={notAddedDevices} actionButtons={ACTIONS} />
                 )}
                 {!loading && error && (
                     <>
@@ -85,18 +114,6 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices }: Props) => {
                     </>
                 )}
             </div>
-
-            {/* {devices?.length !== 0 && (
-                <div className="add-device__bottom">
-                    <DevicesTable devices={devices} actionButtons={ACTIONS} />
-                    <Pagination
-                        setPaginationLimit={setPaginationLimit}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                        totalPages={totalPages}
-                    /> 
-                </div>
-            )} */}
         </div>
     );
 };

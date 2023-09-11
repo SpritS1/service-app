@@ -16,7 +16,7 @@ const useFetch = <T,>(url: string): State<T> => {
         setLoading(true);
 
         try {
-            const response = await fetch(url);
+            const response = await fetch(url, { credentials: 'include' });
             const data = await response.json();
 
             setData(data);

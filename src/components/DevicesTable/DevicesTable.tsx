@@ -25,60 +25,38 @@ const DevicesTable = ({ devices, actionButtons }: Props) => {
                     </tr>
                 </thead>
                 <tbody className="devices-table__tbody">
-                    {devices.map(
-                        ({
-                            model,
-                            category,
-                            serialNumber,
-                            manufacturer,
-                            id,
-                        }: Device) => {
-                            return (
-                                <tr className="devices-table__tr" key={id}>
-                                    <td className="devices-table__td">
-                                        {model}
-                                    </td>
-                                    <td className="devices-table__td">
-                                        {category}
-                                    </td>
-                                    <td className="devices-table__td">
-                                        {serialNumber}
-                                    </td>
-                                    <td className="devices-table__td">
-                                        {manufacturer}
-                                    </td>
-                                    <td className="devices-table__td">
-                                        <div className="devices-table__actions">
-                                            {actionButtons.map(
-                                                ({
-                                                    iconName,
-                                                    color,
-                                                    callback,
-                                                }) => {
-                                                    return (
-                                                        <IconButton
-                                                            iconName={iconName}
-                                                            color={color}
-                                                            onClick={() =>
-                                                                callback({
-                                                                    model,
-                                                                    category,
-                                                                    serialNumber,
-                                                                    manufacturer,
-                                                                    id,
-                                                                })
-                                                            }
-                                                            key={`${iconName}-${id}`}
-                                                        />
-                                                    );
-                                                },
-                                            )}
-                                        </div>
-                                    </td>
-                                </tr>
-                            );
-                        },
-                    )}
+                    {devices.map(({ model, category, serialNumber, manufacturer, _id }: Device) => {
+                        return (
+                            <tr className="devices-table__tr" key={_id}>
+                                <td className="devices-table__td">{model}</td>
+                                <td className="devices-table__td">{category}</td>
+                                <td className="devices-table__td">{serialNumber}</td>
+                                <td className="devices-table__td">{manufacturer}</td>
+                                <td className="devices-table__td">
+                                    <div className="devices-table__actions">
+                                        {actionButtons.map(({ iconName, color, callback }) => {
+                                            return (
+                                                <IconButton
+                                                    iconName={iconName}
+                                                    color={color}
+                                                    onClick={() =>
+                                                        callback({
+                                                            model,
+                                                            category,
+                                                            serialNumber,
+                                                            manufacturer,
+                                                            _id,
+                                                        })
+                                                    }
+                                                    key={`${iconName}-${_id}`}
+                                                />
+                                            );
+                                        })}
+                                    </div>
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
         </div>

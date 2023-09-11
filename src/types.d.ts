@@ -3,7 +3,7 @@ interface Device {
     category: string;
     serialNumber: string;
     manufacturer: string;
-    id: string;
+    _id: string;
 }
 
 interface Request {

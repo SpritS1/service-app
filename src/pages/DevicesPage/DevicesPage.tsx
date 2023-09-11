@@ -18,6 +18,7 @@ import ModalWindow from 'components/ModalWindow/ModalWindow';
 import Popup from 'components/Popup/Popup';
 import usePopup from 'hooks/usePopup';
 import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
+import { ApiResponse } from 'models/Api';
 
 const DevicesPage = () => {
     const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
@@ -29,19 +30,56 @@ const DevicesPage = () => {
     const [fetchError, setFetchError] = useState<any>(null);
     const [actionDevice, setActionDevice] = useState<Device | null>(null);
 
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [userDevices, setUserDevices] = useState<Device[]>([]);
+
     // const { user } = useAuth();
     const popup = usePopup();
-    const { setPaginationLimit, currentPage, setCurrentPage, totalPages, paginatedElements } = usePagination(
-        filteredDevices,
-        10,
-    );
+    // const { setPaginationLimit, currentPage, setCurrentPage, totalPages, paginatedElements } = usePagination(
+    //     filteredDevices,
+    //     10,
+    // );
 
-    const removeDevice = () => {
-        // if (user) {
-        //     updateDoc(doc(database, 'users_data', user.uid), {
-        //         devices: arrayRemove(actionDevice),
-        //     }).catch((error) => console.error(error));
-        // }
+    const getDevices = async () => {
+        const res = await fetch('http://localhost:8000/profile/devices', { credentials: 'include' });
+        const data: ApiResponse<Device[]> = await res.json();
+        if (data.success && data.data) {
+            setUserDevices(data.data);
+            console.log(data.data);
+        }
+    };
+
+    useEffect(() => {
+        getDevices();
+        setIsLoading(false);
+    }, []);
+
+    const removeDevice = async () => {
+        try {
+            if (actionDevice === null) return;
+
+            const body = {
+                deviceId: actionDevice._id,
+            };
+            const response = await fetch('http://localhost:8000/profile/devices', {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            });
+            const result: ApiResponse = await response.json();
+
+            if (result.success) {
+                setUserDevices(userDevices.filter((item) => item._id !== actionDevice._id));
+                console.log('Device removed successfully:', result);
+            } else {
+                console.log('Failed to remove device:', result);
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
     };
 
     const handleServiceClick = (device: Device) => {
@@ -132,52 +170,44 @@ const DevicesPage = () => {
             </SubHeader>
 
             <div className="devices-page__main">
-                {/* {isFetching && <Loader />}
-                {!isFetching && !fetchError && paginatedElements.length !== 0 && (
-                    <>
-                        <DevicesTable devices={paginatedElements} actionButtons={ACTIONS} />
-                        <Pagination
-                            setPaginationLimit={setPaginationLimit}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                            totalPages={totalPages}
-                        />
-                    </>
-                )}
-                {!isFetching && !fetchError && filteredDevices.length === 0 && (
+                {isLoading && <Loader />}
+                {!isLoading && <DevicesTable devices={userDevices} actionButtons={ACTIONS} />}
+                {!isLoading && !fetchError && userDevices.length === 0 && (
                     <div className="devices-page__fetch-info-container">
                         <h3 className="devices-page__fetch-info">
                             {searchValue.length === 0 ? "You don't have any devices" : 'No devices found'}
                         </h3>
                     </div>
                 )}
-                {!isFetching && fetchError && (
+                {!isLoading && fetchError && (
                     <>
                         <h3 className="devices-page__fetch-info">Failed to fetch devices</h3>
                         <p className="devices-page__fetch-error">{fetchError}</p>
                     </>
                 )}
 
-                {userData && (
-                    <>
-                        <Modal isOpen={isAddDeviceOpen} onClose={() => setIsAddDeviceOpen(false)}>
-                            <ModalWindow title="Add new device" onClose={() => setIsAddDeviceOpen(false)}>
-                                <AddDevice setIsAddDeviceOpen={setIsAddDeviceOpen} userDevices={userData.devices} />
+                <>
+                    <Modal isOpen={isAddDeviceOpen} onClose={() => setIsAddDeviceOpen(false)}>
+                        <ModalWindow title="Add new device" onClose={() => setIsAddDeviceOpen(false)}>
+                            <AddDevice
+                                setIsAddDeviceOpen={setIsAddDeviceOpen}
+                                userDevices={userDevices}
+                                setUserDevices={setUserDevices}
+                            />
+                        </ModalWindow>
+                    </Modal>
+                    {serviceRequestDevice && (
+                        <Modal isOpen={isServiceRequestOpen} onClose={() => setIsServiceRequestOpen(false)}>
+                            <ModalWindow title="New service request" onClose={() => setIsServiceRequestOpen(false)}>
+                                <AddServiceRequets
+                                    device={serviceRequestDevice}
+                                    setIsServiceRequestOpen={() => setIsServiceRequestOpen(false)}
+                                    popup={popup}
+                                />
                             </ModalWindow>
                         </Modal>
-                        {serviceRequestDevice && (
-                            <Modal isOpen={isServiceRequestOpen} onClose={() => setIsServiceRequestOpen(false)}>
-                                <ModalWindow title="New service request" onClose={() => setIsServiceRequestOpen(false)}>
-                                    <AddServiceRequets
-                                        device={serviceRequestDevice}
-                                        setIsServiceRequestOpen={() => setIsServiceRequestOpen(false)}
-                                        popup={popup}
-                                    />
-                                </ModalWindow>
-                            </Modal>
-                        )}
-                    </>
-                )} */}
+                    )}
+                </>
             </div>
 
             {actionDevice && (

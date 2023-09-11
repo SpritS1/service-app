@@ -11,7 +11,7 @@ describe('ServiceRequest tests', () => {
             category: 'Category',
             serialNumber: 'serialNumber',
             manufacturer: 'Manufacturer',
-            id: '1',
+            _id: '1',
         };
 
         render(
@@ -31,7 +31,7 @@ describe('ServiceRequest tests', () => {
             category: 'Category',
             serialNumber: 'serialNumber',
             manufacturer: 'Manufacturer',
-            id: '1',
+            _id: '1',
         };
         render(
             <AuthContextProvider>
