@@ -11,77 +11,37 @@ import ModalWindow from 'components/ModalWindow/ModalWindow';
 import ServiceRequestInfo from 'components/ServiceRequestInfo/ServiceRequestInfo';
 import SubHeader from 'components/SubHeader/SubHeader';
 import SearchBar from 'components/SearchBar/SearchBar';
+import { ApiResponse } from 'models/Api';
+import IServiceRequest from 'models/ServiceRequest';
 
 interface Props {}
 
 const ServiceRequestsPage = (props: Props) => {
-    const [serviceRequests, setServiceRequests] = useState<Request[]>([]);
-    const [filteredRequests, setFilteredRequests] = useState<Request[]>([]);
+    const getServiceRequests = async () => {
+        const res = await fetch('http://localhost:8000/service-request', { credentials: 'include' });
+        const data: ApiResponse<IServiceRequest[]> = await res.json();
+        console.log(data);
+        if (data.success && data.data) {
+            setServiceRequests(data.data);
+        }
+    };
+
+    useEffect(() => {
+        getServiceRequests();
+        setIsFetching(false);
+    }, []);
+    const [serviceRequests, setServiceRequests] = useState<IServiceRequest[]>([]);
 
     const [isFetching, setIsFetching] = useState(true);
     const [fetchError, setFetchError] = useState<any>(null);
-    const [actionRequest, setActionRequest] = useState<Request | null>(null);
+    const [actionRequest, setActionRequest] = useState<IServiceRequest | null>(null);
 
     const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
     const [isRequestInfoOpen, setIsRequestInfoOpen] = useState(false);
 
     const [searchValue, setSearchValue] = useState('');
 
-    const { setPaginationLimit, currentPage, setCurrentPage, totalPages, paginatedElements } = usePagination(
-        filteredRequests,
-        10,
-    );
-
-    // useEffect(() => {
-    //     try {
-    //         setIsFetching(true);
-    //         if (user) {
-    //             onSnapshot(
-    //                 query(
-    //                     collection(database, 'serviceRequests'),
-    //                     where('userId', '==', user.uid),
-    //                     orderBy('createdAt', 'desc'),
-    //                 ),
-    //                 (snap) => {
-    //                     const serviceRequests: any[] = [];
-
-    //                     for (const doc of snap.docs) {
-    //                         serviceRequests.push({ ...doc.data(), id: doc.id });
-    //                     }
-
-    //                     if (serviceRequests) setServiceRequests(serviceRequests);
-    //                     if (!serviceRequests) setServiceRequests([]);
-    //                 },
-    //             );
-    //         }
-    //     } catch (error) {
-    //         setFetchError(error);
-    //     } finally {
-    //         setIsFetching(false);
-    //     }
-    // }, [user]);
-
-    useEffect(() => {
-        const filterRequests = (requests: Request[], searchValue: string) => {
-            const filteredRequests = requests.filter(({ category, device }) => {
-                const regex = new RegExp(`^${searchValue}`, 'i');
-
-                if (
-                    searchValue.length !== 0 &&
-                    !(regex.test(device.model) || regex.test(device.serialNumber) || regex.test(category))
-                )
-                    return false;
-
-                return true;
-            });
-
-            setFilteredRequests(filteredRequests);
-        };
-
-        filterRequests(serviceRequests, searchValue);
-    }, [serviceRequests, searchValue]);
-
-    const removeRequest = async (request: Request) => {
+    const removeRequest = async (request: IServiceRequest) => {
         // if (user) {
         //     try {
         //         await deleteDoc(doc(database, 'serviceRequests', request.id));
@@ -91,23 +51,40 @@ const ServiceRequestsPage = (props: Props) => {
         // }
     };
 
-    const cancelRequest = async (request: Request) => {
-        // if (user) {
-        //     try {
-        //         await updateDoc(doc(database, 'serviceRequests', request.id), {
-        //             status: 'Canceled',
-        //         });
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // }
+    const cancelRequest = async (request: IServiceRequest) => {
+        console.log(request);
+        try {
+            const res = await fetch(`http://localhost:8000/service-request/${request._id}/cancel`, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: 'Canceled' }),
+            });
+
+            const data: ApiResponse<IServiceRequest> = await res.json();
+
+            if (data.success && data.data) {
+                const updatedServiceRequests = serviceRequests.map((serviceRequest) => {
+                    if (serviceRequest._id === data.data?._id) {
+                        return data.data;
+                    }
+                    return serviceRequest;
+                });
+                setServiceRequests(updatedServiceRequests);
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const ACTIONS: any[] = [
         {
             iconName: 'fas fa-info-circle',
             color: 'blue',
-            callback: (request: Request) => {
+            callback: (request: IServiceRequest) => {
+                console.log(`Request info: ${JSON.stringify(request)}`);
                 setActionRequest(request);
                 setIsRequestInfoOpen(true);
             },
@@ -115,7 +92,7 @@ const ServiceRequestsPage = (props: Props) => {
         {
             iconName: 'far fa-trash-alt',
             color: 'red',
-            callback: (request: Request) => {
+            callback: (request: IServiceRequest) => {
                 setActionRequest(request);
                 setIsDeleteConfirmOpen(true);
             },
@@ -123,7 +100,7 @@ const ServiceRequestsPage = (props: Props) => {
         {
             iconName: 'fas fa-ban',
             color: 'red',
-            callback: (request: Request) => {
+            callback: (request: IServiceRequest) => {
                 setActionRequest(request);
                 setIsDeleteConfirmOpen(true);
             },
@@ -143,25 +120,17 @@ const ServiceRequestsPage = (props: Props) => {
             </SubHeader>
             <main className="service-requests-page__main">
                 {isFetching && <Loader />}
-                {!isFetching && !fetchError && paginatedElements.length !== 0 && (
-                    <>
-                        <ServiceRequestsTable serviceRequests={paginatedElements} actions={ACTIONS} />
-                        <Pagination
-                            setPaginationLimit={setPaginationLimit}
-                            currentPage={currentPage}
-                            setCurrentPage={setCurrentPage}
-                            totalPages={totalPages}
-                        />
-                    </>
+                {!isFetching && !fetchError && serviceRequests.length !== 0 && (
+                    <ServiceRequestsTable serviceRequests={serviceRequests} actions={ACTIONS} />
                 )}
-                {!isFetching && !fetchError && paginatedElements.length === 0 && (
+                {!isFetching && !fetchError && serviceRequests.length === 0 && (
                     <div className="service-requests-page__fetch-info-container">
                         <h3 className="service-requests-page__fetch-info">{'You have no service requests'}</h3>
                     </div>
                 )}
                 {!isFetching && fetchError && (
                     <>
-                        <h3 className="service-requests-page__fetch-info">Failed to fetch devices</h3>
+                        <h3 className="service-requests-page__fetch-info">Failed to fetch service requests</h3>
                         <p className="service-requests-page__fetch-error">{fetchError}</p>
                     </>
                 )}

@@ -68,6 +68,7 @@ const NewAuthContextProvider = ({ children }: { children: ReactNode }) => {
 
         if (data.success) {
             setIsAuthenticated(true);
+            console.log(`Login response: ${JSON.stringify(data)}`);
             if (data.data) setUser(data.data);
             return true;
         }

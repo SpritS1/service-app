@@ -2,11 +2,10 @@ import Button from 'components/Button/Button';
 import InputBasic from 'components/InputBasic/InputBasic';
 import SelectButton from 'components/SelectButton/SelectButton';
 import TextAreaInput from 'components/TextAreaInput/TextAreaInput';
-import { database } from 'firebase.js';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import useKeyPress from 'hooks/useKeyPress';
 import React, { useEffect, useState } from 'react';
 import './AddServiceRequest.scss';
+import { useAuth } from 'contexts/NewAuthContext';
 
 interface Props {
     setIsServiceRequestOpen: (value: boolean) => void;
@@ -19,8 +18,7 @@ const ServiceRequets = ({ setIsServiceRequestOpen, device, popup }: Props) => {
     const [problemDescription, setProblemDescription] = useState('');
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
-    // const { user } = useAuth();
-    const user: any = null;
+    const { user } = useAuth();
 
     useKeyPress({
         onEscape: () => {
@@ -36,22 +34,36 @@ const ServiceRequets = ({ setIsServiceRequestOpen, device, popup }: Props) => {
 
     const handleSendRequest = async () => {
         const serviceRequest = {
-            userId: user?.uid,
-            device: device,
+            deviceId: device._id,
             category: selectedCategory,
             problemDescription: problemDescription,
             status: 'In progress',
-            createdAt: serverTimestamp(),
         };
 
+        console.log(serviceRequest);
+
         try {
-            await addDoc(collection(database, 'serviceRequests'), serviceRequest);
+            const response = await fetch('http://localhost:8000/service-request', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(serviceRequest),
+            });
 
-            setIsServiceRequestOpen(false);
+            const result = await response.json();
 
-            popup.setPopupContent('Request sent succesfuly');
-            popup.setPopupType('default');
-            popup.setIsPopupActive(true);
+            if (result.success) {
+                setIsServiceRequestOpen(false);
+                popup.setPopupContent('Request sent successfully');
+                popup.setPopupType('default');
+                popup.setIsPopupActive(true);
+            } else {
+                popup.setPopupContent(result.error || 'An error occurred');
+                popup.setPopupType('error');
+                popup.setIsPopupActive(true);
+            }
         } catch (error) {
             popup.setPopupContent(error as string);
             popup.setPopupType('error');
