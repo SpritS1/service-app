@@ -10,6 +10,7 @@ import ServiceRequestsPage from 'pages/ServiceRequestsPage/ServiceRequestsPage';
 import ContactPage from 'pages/ContactPage/ContactPage';
 import React from 'react';
 import NewAuthContextProvider from 'contexts/NewAuthContext';
+import DevicesManagement from 'pages/AdminPages/DevicesManagement/DevicesManagement';
 
 const App = () => {
     return (
@@ -54,6 +55,16 @@ const App = () => {
                                 <RequireAuth>
                                     <Layout>
                                         <ProfilePage />
+                                    </Layout>
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path="/admin/devices"
+                            element={
+                                <RequireAuth>
+                                    <Layout>
+                                        <DevicesManagement />
                                     </Layout>
                                 </RequireAuth>
                             }

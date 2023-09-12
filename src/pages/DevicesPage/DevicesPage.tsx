@@ -21,7 +21,6 @@ import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
 import { ApiResponse } from 'models/Api';
 
 const DevicesPage = () => {
-    const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
     const [searchValue, setSearchValue] = useState<string>('');
     const [sortBy, setSortBy] = useState<'Model' | 'Category' | 'SerialNumber' | 'Manufacturer'>('Model');
     const [isAddDeviceOpen, setIsAddDeviceOpen] = useState(false);
@@ -45,7 +44,6 @@ const DevicesPage = () => {
         const data: ApiResponse<Device[]> = await res.json();
         if (data.success && data.data) {
             setUserDevices(data.data);
-            console.log(data.data);
         }
     };
 
@@ -87,44 +85,6 @@ const DevicesPage = () => {
         setIsServiceRequestOpen(true);
     };
 
-    // Sorting and filtering devicesArray
-    // useEffect(() => {
-    //     const filterDevices = (devices: Device[], searchValue: string) => {
-    //         const filteredDevices = devices.filter(({ model, serialNumber }) => {
-    //             const regex = new RegExp(`^${searchValue}`, 'i');
-
-    //             if (searchValue.length !== 0 && !(regex.test(model) || regex.test(serialNumber))) return false;
-
-    //             return true;
-    //         });
-
-    //         return filteredDevices;
-    //     };
-
-    //     const sortDevices = (array: Device[]) => {
-    //         const sortedArray = [...array].sort((a: any, b: any) => {
-    //             if (a[sortBy.toLowerCase()] > b[sortBy.toLowerCase()]) return 1;
-    //             if (a[sortBy.toLowerCase()] < b[sortBy.toLowerCase()]) return -1;
-
-    //             return 0;
-    //         });
-
-    //         return sortedArray;
-    //     };
-
-    //     if (userData) {
-    //         if (searchValue.length === 0) {
-    //             const sortedDevices = sortDevices(userData.devices);
-    //             setFilteredDevices(sortedDevices);
-    //         } else if (searchValue.length !== 0) {
-    //             const filteredDevices = filterDevices(userData.devices, searchValue);
-    //             const sortedDevices = sortDevices(filteredDevices);
-    //             setFilteredDevices(sortedDevices);
-    //         }
-    //     }
-    // }, [searchValue, userData, sortBy]);
-
-    // constants
     const ACTIONS: any[] = [
         {
             iconName: 'fas fa-wrench',

@@ -19,7 +19,7 @@ interface Props {
 
 const AddDevice = ({ setIsAddDeviceOpen, userDevices, setUserDevices }: Props) => {
     //new code
-    const { data: devices, loading, error, refetch } = useFetch<Device[]>('http://localhost:8000/devices');
+    const { data, loading, error, refetch } = useFetch<ApiResponse<Device[]>>('http://localhost:8000/devices');
     const [notAddedDevices, setNotAddedDevices] = useState<Device[]>([]);
     // Set to filter the devices array
     const [filterCategoryValue, setFilterCategoryValue] = useState<string | null>(null);
@@ -32,16 +32,17 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices, setUserDevices }: Props) =
     useKeyPress({ onEscape: () => setIsAddDeviceOpen(false) });
 
     useEffect(() => {
-        if (!devices) return;
-        console.log('Devices:', devices);
+        console.log(data);
+        if (!data?.data) return;
+        console.log('Devices:', data?.data);
         console.log('User Devices:', userDevices);
 
-        const filteredDevices = devices.filter(
+        const filteredDevices = data?.data.filter(
             (device) => !userDevices.some((userDevice) => userDevice._id === device._id),
         );
 
         setNotAddedDevices(filteredDevices);
-    }, [devices, userDevices]);
+    }, [data, userDevices]);
 
     const handleAddDevice = async (device: Device) => {
         try {
@@ -98,7 +99,7 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices, setUserDevices }: Props) =
 
             <div className="add-device__bottom">
                 {loading && <Loader />}
-                {!loading && !error && devices && devices.length > 0 && (
+                {!loading && !error && data?.data && data?.data.length > 0 && (
                     <DevicesTable devices={notAddedDevices} actionButtons={ACTIONS} />
                 )}
                 {!loading && error && (
@@ -108,7 +109,7 @@ const AddDevice = ({ setIsAddDeviceOpen, userDevices, setUserDevices }: Props) =
                         <Button text={'TRY AGAIN'} backgroundColor="blue" action={() => refetch()} />
                     </>
                 )}
-                {!loading && !error && devices?.length === 0 && (
+                {!loading && !error && data?.data?.length === 0 && (
                     <>
                         <h3 className="add-device__fetch-info">No devices found</h3>
                     </>

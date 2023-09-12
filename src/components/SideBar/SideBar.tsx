@@ -11,7 +11,7 @@ interface Props {
 }
 
 const SideBar = ({ isActive, setIsActive }: Props) => {
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
     const location = useLocation();
 
     const sidebarRef = useRef<HTMLDivElement>(null);
@@ -57,6 +57,28 @@ const SideBar = ({ isActive, setIsActive }: Props) => {
                     <i className="sidebar__nav-icon fa-solid fa-user"></i>
                     Profile
                 </Link>
+
+                {user?.role === 'admin' && (
+                    <>
+                        <Link
+                            to="/admin/devices"
+                            className={`sidebar__nav-link ${location.pathname === '/admin/devices' ? 'active' : ''}`}
+                        >
+                            <i className="sidebar__nav-icon fa-solid fa-microchip"></i>
+                            Devices management
+                        </Link>
+                        <Link
+                            to="/admin/service-requests"
+                            className={`sidebar__nav-link ${
+                                location.pathname === '/admin/service-requests' ? 'active' : ''
+                            }`}
+                        >
+                            <i className="sidebar__nav-icon fa-solid fa-wrench"></i>
+                            Service requests management
+                        </Link>
+                    </>
+                )}
+
                 <div className="sidebar__nav-link" onClick={logout}>
                     <i className="sidebar__nav-icon fas fa-power-off" />
                     Logout

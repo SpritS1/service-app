@@ -8,4 +8,5 @@ export interface User {
     postCode: string;
     companyName: string;
     photoUrl: string | null;
+    role: 'admin' | 'user' | null;
 }
