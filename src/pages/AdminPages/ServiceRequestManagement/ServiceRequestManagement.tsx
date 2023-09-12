@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './ServiceRequestsPage.scss';
 import HeaderDesktop from 'components/HeaderDesktop/HeaderDesktop';
 import ServiceRequestsTable from 'components/ServiceRequestsTable/ServiceRequestsTable';
 import Loader from 'components/Loader/Loader';
@@ -14,11 +13,11 @@ import IServiceRequest from 'models/ServiceRequest';
 
 interface Props {}
 
-const ServiceRequestsPage = (props: Props) => {
+const ServiceRequestManagement = (props: Props) => {
     const getServiceRequests = async () => {
-        const res = await fetch('http://localhost:8000/profile/service-requests', { credentials: 'include' });
+        const res = await fetch('http://localhost:8000/service-request', { credentials: 'include' });
         const data: ApiResponse<IServiceRequest[]> = await res.json();
-        console.log(data);
+
         if (data.success && data.data) {
             setServiceRequests(data.data);
         }
@@ -39,8 +38,26 @@ const ServiceRequestsPage = (props: Props) => {
 
     const [searchValue, setSearchValue] = useState('');
 
+    const removeRequest = async (request: IServiceRequest) => {
+        try {
+            const res = await fetch(`http://localhost:8000/service-request/${request._id}`, {
+                credentials: 'include',
+                method: 'DELETE',
+            });
+
+            const data: ApiResponse = await res.json();
+
+            if (data.success) {
+                setServiceRequests((prevState) =>
+                    prevState.filter((serviceRequest) => serviceRequest._id !== request._id),
+                );
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     const cancelRequest = async (request: IServiceRequest) => {
-        console.log(request);
         try {
             const res = await fetch(`http://localhost:8000/service-request/${request._id}/cancel`, {
                 method: 'PUT',
@@ -72,8 +89,17 @@ const ServiceRequestsPage = (props: Props) => {
             iconName: 'fas fa-info-circle',
             color: 'blue',
             callback: (request: IServiceRequest) => {
+                console.log(`Request info: ${JSON.stringify(request)}`);
                 setActionRequest(request);
                 setIsRequestInfoOpen(true);
+            },
+        },
+        {
+            iconName: 'far fa-trash-alt',
+            color: 'red',
+            callback: (request: IServiceRequest) => {
+                setActionRequest(request);
+                setIsDeleteConfirmOpen(true);
             },
         },
         {
@@ -133,8 +159,28 @@ const ServiceRequestsPage = (props: Props) => {
                 >
                     <ConfirmModal
                         title="Cancel service request"
-                        text="Are you sure to cancel this service?"
+                        text="Are you sure to cancel this service request?"
                         callback={() => cancelRequest(actionRequest)}
+                        closeModal={() => {
+                            setActionRequest(null);
+                            setIsDeleteConfirmOpen(false);
+                        }}
+                    />
+                </Modal>
+            )}
+
+            {actionRequest && (actionRequest.status === 'Finished' || actionRequest.status === 'Canceled') && (
+                <Modal
+                    isOpen={isDeleteConfirmOpen}
+                    onClose={() => {
+                        setActionRequest(null);
+                        setIsDeleteConfirmOpen(false);
+                    }}
+                >
+                    <ConfirmModal
+                        title="Delete service request"
+                        text="Are you sure to delete this service request permanently?"
+                        callback={() => removeRequest(actionRequest)}
                         closeModal={() => {
                             setActionRequest(null);
                             setIsDeleteConfirmOpen(false);
@@ -146,4 +192,4 @@ const ServiceRequestsPage = (props: Props) => {
     );
 };
 
-export default ServiceRequestsPage;
+export default ServiceRequestManagement;
