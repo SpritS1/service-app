@@ -12,6 +12,8 @@ import { useAuth } from 'contexts/NewAuthContext';
 const SignUpForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
     const [isFormFilled, setIsFormFilled] = useState<boolean>(email && password && confirmedPassword ? true : false);
 
@@ -26,7 +28,7 @@ const SignUpForm = () => {
 
     const handleSignUp = async () => {
         if (password === confirmedPassword) {
-            const isSuccessful = await register(email, password);
+            const isSuccessful = await register(email, password, firstname, lastname);
             if (isSuccessful) navigate('/auth/login');
         }
     };
@@ -51,32 +53,46 @@ const SignUpForm = () => {
                     type="email"
                     value={email}
                     setState={setEmail}
-                    // error={errorField === 'email' ? errorMessage : null}
                     autofocus
                     autoComplete="off"
                     hasLabel={false}
                 />
-                {/* {errorField === 'email' && errorMessage && <ValidationError message={errorMessage} />} */}
                 <InputBasic
                     placeholder="Password"
                     type="password"
                     value={password}
-                    // error={errorField === 'password' ? errorMessage : null}
                     setState={setPassword}
                     autoComplete="off"
                     hasLabel={false}
                 />
-                {/* {errorField === 'password' && errorMessage && <ValidationError message={errorMessage} />} */}
                 <InputBasic
                     placeholder="Confirm password"
                     type="password"
                     value={confirmedPassword}
-                    // error={errorField === 'confirmPassword' ? errorMessage : null}
                     setState={setConfirmedPassword}
                     autoComplete="off"
                     hasLabel={false}
                 />
-                {/* {errorField === 'confirmPassword' && errorMessage && <ValidationError message={errorMessage} />} */}
+                <div className="sign-up-form__name-container">
+                    <InputBasic
+                        placeholder="Firstname"
+                        type="text"
+                        value={firstname}
+                        setState={setFirstname}
+                        autofocus
+                        autoComplete="off"
+                        hasLabel={false}
+                    />
+                    <InputBasic
+                        placeholder="Lastname"
+                        type="text"
+                        value={lastname}
+                        setState={setLastname}
+                        autofocus
+                        autoComplete="off"
+                        hasLabel={false}
+                    />
+                </div>
 
                 <div className="sign-up-form__privacy-consent">
                     <Checkbox text="I agree to the" />

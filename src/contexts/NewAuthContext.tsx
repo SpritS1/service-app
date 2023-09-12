@@ -9,7 +9,7 @@ interface IAuthContextType {
     user: User | null;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
     login: (email: string, password: string) => Promise<boolean>;
-    register: (email: string, password: string) => Promise<boolean>;
+    register: (email: string, password: string, firstname: string, lastname: string) => Promise<boolean>;
     logout: () => Promise<void>;
     isAuthenticated: boolean;
 }
@@ -78,14 +78,14 @@ const NewAuthContextProvider = ({ children }: { children: ReactNode }) => {
         return false;
     };
 
-    const register = async (email: string, password: string) => {
+    const register = async (email: string, password: string, firstname: string, lastname: string) => {
         const response = await fetch('http://localhost:8000/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             credentials: 'include', // 'include' will send cookies with the request
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password, firstname, lastname }),
         });
         const data: ApiResponse = await response.json();
 

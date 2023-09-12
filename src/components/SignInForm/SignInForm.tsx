@@ -84,9 +84,9 @@ const SignInForm = () => {
                     Sign up!
                 </Link>
             </span>
-            <Link to="/forgot-password" className="sign-in-form__forgot-password">
+            {/* <Link to="/forgot-password" className="sign-in-form__forgot-password">
                 Forgot password?
-            </Link>
+            </Link> */}
 
             <Popup
                 content={popup.popupContent}
