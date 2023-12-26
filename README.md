@@ -31,6 +31,7 @@ Application for managing customer's devices and service requests. It allows the 
 * React Router v6
 * Sass
 * Jest, React Testing Library
+* MongoDB
 
 ##  Other
 
