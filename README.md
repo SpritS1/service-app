@@ -1,7 +1,7 @@
 <h1 align="center">Service X - Service App</h1>
 
 
-## Project status - In progress
+## Project status - Finished
 
 ## [Live](https://service-app-1428b.web.app/)
 
@@ -11,7 +11,7 @@
 
 ## About project 
 
-Application for managing customer's devices and service requests. It allows the user to create an account, manage owned devices, send service requests, contact the company in the "Contact" section and manage account details. In the future I plan to add page displaying information about each device and further develop this project.
+Application for managing customer's devices and service requests. It allows the user to create an account, manage owned devices, send service requests, contact the company in the "Contact" section and manage account details. Initially developed using Firebase, this project was later revamped to incorporate a custom Express.js backend, fulfilling the specific needs of a university project.
 
 ### Main features: 
 * Filtering and sorting devices
@@ -27,10 +27,7 @@ Application for managing customer's devices and service requests. It allows the 
 
 * React
 * TypeScript
-* Firebase
-  * Firestore database
-  * Authentication
-  * Storage
+* Express.js
 * React Router v6
 * Sass
 * Jest, React Testing Library
